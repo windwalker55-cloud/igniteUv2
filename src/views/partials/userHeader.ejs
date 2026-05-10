@@ -150,66 +150,46 @@
   }
   .user-profile:hover .user-avatar { transform: scale(1.05); box-shadow: 0 0 20px rgba(94,234,212,.5); }
 
-  /* Menu toggle */
-  .menu-toggle { display: none; background: none; border: none; color: var(--text); font-size: 1.5rem; cursor: pointer; padding: .3rem; }
+  /* Menu toggle — ← only changed line: added margin-right */
+  .menu-toggle { display: none; background: none; border: none; color: var(--text); font-size: 1.5rem; cursor: pointer; padding: .3rem; margin-right: .75rem; }
   .menu-toggle:hover { color: var(--mint); }
   .menu-toggle:active, .notification-bell:active, .user-profile:active { transform: scale(.95); }
 
   /* ===== Responsive ===== */
   @media (max-width: 768px) {
-    /* -- container -- */
     .dashboard-header   { padding: 1rem 1.4rem; }
-    /* -- logo image -- */
     .logo               { width: 44px; height: 44px; }
-    /* -- logo text -- */
     .header-title h1    { font-size: 1.35rem; }
     .header-title p     { font-size: .95rem; }
-    /* -- right icons -- */
     .notification-bell  { width: 44px; height: 44px; }
     .notification-bell i{ font-size: 1.15rem; }
     .user-avatar        { width: 44px; height: 44px; font-size: 1.1rem; }
-    /* -- hamburger -- */
     .menu-toggle        { display: block; font-size: 1.7rem; }
-    /* -- gap -- */
     .right-section      { gap: 1.1rem; }
-    /* -- notif panel -- */
     .notif-panel        { width: 300px; }
   }
 
   @media (max-width: 576px) {
-    /* -- container -- */
     .dashboard-header   { padding: .9rem 1.1rem; }
-    /* -- logo image -- */
     .logo               { width: 42px; height: 42px; }
-    /* -- logo text -- */
     .header-title h1    { font-size: 1.2rem; }
     .header-title p     { font-size: .85rem; }
-    /* -- right icons -- */
     .notification-bell  { width: 42px; height: 42px; }
     .notification-bell i{ font-size: 1.1rem; }
     .user-avatar        { width: 42px; height: 42px; font-size: 1rem; }
-    /* -- hamburger -- */
     .menu-toggle        { font-size: 1.6rem; }
-    /* -- gap -- */
     .right-section      { gap: 1rem; }
-    /* -- notif panel -- */
     .notif-panel        { width: calc(100vw - 2rem); right: -1rem; }
   }
 
   @media (max-width: 380px) {
-    /* -- container -- */
     .dashboard-header   { padding: .8rem .9rem; }
-    /* -- logo image -- */
     .logo               { width: 38px; height: 38px; }
-    /* -- logo text -- */
     .header-title h1    { font-size: 1.1rem; }
     .header-title p     { font-size: .8rem; }
-    /* -- right icons -- */
     .notification-bell  { width: 38px; height: 38px; }
     .user-avatar        { width: 38px; height: 38px; font-size: .95rem; }
-    /* -- hamburger -- */
     .menu-toggle        { font-size: 1.5rem; }
-    /* -- gap -- */
     .right-section      { gap: .8rem; }
   }
 </style>
