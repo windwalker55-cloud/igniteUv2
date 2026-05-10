@@ -3,19 +3,17 @@
 
   .profile-dashboard { padding: 0 10px 18px; width: 100%; box-sizing: border-box; }
 
-  /* ── Header card ── */
+  /* Header card */
   .profile-header {
     position: relative;
     background: linear-gradient(160deg, rgba(94,234,212,.09), rgba(2,16,30,.7));
-    border: 1px solid var(--line);
-    border-radius: 16px; padding: 1.3rem 1.4rem;
-    display: flex; align-items: center; gap: 1.3rem;
+    border: 1px solid var(--line); border-radius: 16px;
+    padding: 1.3rem 1.4rem; display: flex; align-items: center; gap: 1.3rem;
     margin-bottom: 1rem; overflow: hidden;
   }
   .profile-header::before {
     content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px;
-    background: linear-gradient(90deg, transparent, var(--mint), transparent);
-    opacity: .45;
+    background: linear-gradient(90deg, transparent, var(--mint), transparent); opacity: .45;
   }
 
   /* Avatar */
@@ -25,8 +23,7 @@
     background: linear-gradient(135deg, var(--mint-deep), var(--mint));
     color: #0d1f1c; font: 700 1.55rem 'Inter', sans-serif;
     display: flex; align-items: center; justify-content: center;
-    border: 2px solid rgba(94,234,212,.4);
-    box-shadow: 0 0 0 4px rgba(94,234,212,.1);
+    border: 2px solid rgba(94,234,212,.4); box-shadow: 0 0 0 4px rgba(94,234,212,.1);
   }
   .edit-avatar {
     font: 500 .62rem 'JetBrains Mono', monospace; letter-spacing: .5px;
@@ -37,12 +34,12 @@
   }
   .edit-avatar:hover { background: rgba(94,234,212,.16); border-color: var(--mint); }
 
-  /* Profile info */
+  /* Info */
   .profile-info { flex: 1; min-width: 0; }
   .profile-info h2 { font: 700 1.2rem 'Inter', sans-serif; color: var(--text); letter-spacing: -.01em; margin-bottom: .2rem; }
   .profile-info > p { font: 400 .75rem 'JetBrains Mono', monospace; color: var(--mint); margin-bottom: .85rem; }
 
-  /* Stats row */
+  /* Stats */
   .profile-stats-new { display: flex; gap: .6rem; flex-wrap: wrap; }
   .stat-card-new {
     background: rgba(94,234,212,.06); border: 1px solid var(--line);
@@ -51,44 +48,32 @@
   .stat-value-new { font: 700 1.1rem 'Inter', sans-serif; color: var(--mint); letter-spacing: -.02em; }
   .stat-label-new { font: 400 .6rem 'JetBrains Mono', monospace; color: var(--muted-2); margin-top: .1rem; white-space: nowrap; }
 
-  /* Logout button top-right */
+  /* Logout button */
   .edit-profile-btn {
     align-self: flex-start; padding: .38rem 1.1rem; border-radius: 999px;
-    border: 1px solid var(--mint);; background: rgba(239,68,68,.08);
+    border: 1px solid var(--mint); background: rgba(239,68,68,.08);
     cursor: pointer; flex-shrink: 0;
     transition: background .2s, border-color .2s;
   }
   .edit-profile-btn:hover { background: rgba(239,68,68,.16); border-color: rgba(239,68,68,.6); }
-  .edit-profile-btn a {
-   color: var(--mint); font: 600 .75rem 'Inter', sans-serif;
-    text-decoration: none; display: block;
-  }
+  .edit-profile-btn a { color: var(--mint); font: 600 .75rem 'Inter', sans-serif; text-decoration: none; display: block; }
 
-  /* ── Sections grid ── */
-  .profile-sections {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: .75rem;
-  }
-
+  /* Sections */
+  .profile-sections { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: .75rem; }
   .profile-section {
     background: rgba(94,234,212,.04); border: 1px solid var(--line);
-    border-radius: 14px; padding: 1rem 1.1rem;
-    position: relative; overflow: hidden;
+    border-radius: 14px; padding: 1rem 1.1rem; position: relative; overflow: hidden;
   }
   .profile-section::before {
     content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px;
-    background: linear-gradient(90deg, transparent, var(--mint), transparent);
-    opacity: .2;
+    background: linear-gradient(90deg, transparent, var(--mint), transparent); opacity: .2;
   }
   .profile-section h3 {
-    font: 600 .72rem 'JetBrains Mono', monospace;
-    color: var(--mint); letter-spacing: 1.2px; text-transform: uppercase;
-    margin-bottom: .65rem;
+    font: 600 .72rem 'JetBrains Mono', monospace; color: var(--mint);
+    letter-spacing: 1.2px; text-transform: uppercase; margin-bottom: .65rem;
   }
 
   .profile-options { display: flex; flex-direction: column; gap: .4rem; }
-
   .profile-option {
     width: 100%; text-align: left; background: rgba(94,234,212,.04);
     border: 1px solid var(--line); border-radius: 10px;
@@ -101,38 +86,31 @@
   .profile-option a { color: inherit; text-decoration: none; display: block; width: 100%; }
   .profile-option span { display: flex; align-items: center; gap: .5rem; }
 
-  /* Danger zone */
+  /* Danger */
   .danger-zone .profile-section { border-color: rgba(239,68,68,.2); }
-  
-  .logout-btn {border-color: rgba(239,68,68,.2); }
+  .logout-btn { border-color: rgba(239,68,68,.2); }
   .logout-btn:hover { background: rgba(239,68,68,.1); border-color: rgba(239,68,68,.4); }
-
-  .delete-btn {border-color: rgba(239,68,68,.15); }
+  .delete-btn { border-color: rgba(239,68,68,.15); }
   .delete-btn:hover { background: rgba(239,68,68,.12); border-color: rgba(239,68,68,.5); }
-
   .danger-zone form { width: 100%; }
   .danger-zone form .profile-option { width: 100%; }
 
-  /* ── Modals ── */
+  /* Modals */
   .modal {
     display: none; position: fixed; inset: 0; z-index: 1000;
     background: rgba(0,0,0,.65); backdrop-filter: blur(4px);
     align-items: center; justify-content: center;
   }
   .modal[style*="block"] { display: flex !important; }
-
   .modal-content {
     background: #0f2320; border: 1px solid var(--line);
     border-radius: 16px; width: 90%; max-width: 440px;
-    box-shadow: 0 24px 60px rgba(0,0,0,.6);
-    position: relative; overflow: hidden;
+    box-shadow: 0 24px 60px rgba(0,0,0,.6); position: relative; overflow: hidden;
   }
   .modal-content::before {
     content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px;
-    background: linear-gradient(90deg, transparent, var(--mint), transparent);
-    opacity: .5;
+    background: linear-gradient(90deg, transparent, var(--mint), transparent); opacity: .5;
   }
-
   .modal-header {
     display: flex; align-items: center; justify-content: space-between;
     padding: 1rem 1.2rem .85rem; border-bottom: 1px solid var(--line);
@@ -148,15 +126,10 @@
   .close:hover { background: rgba(94,234,212,.18); color: var(--text); }
 
   .modal-body { padding: 1rem 1.2rem; display: flex; flex-direction: column; gap: .65rem; }
-
-  .modal-body label {
-    font: 600 .68rem 'JetBrains Mono', monospace; color: var(--mint);
-    letter-spacing: 1px; text-transform: uppercase;
-  }
+  .modal-body label { font: 600 .68rem 'JetBrains Mono', monospace; color: var(--mint); letter-spacing: 1px; text-transform: uppercase; }
   .modal-body input[type="text"],
   .modal-body input[type="password"] {
-    width: 100%; box-sizing: border-box;
-    padding: .55rem .9rem; border-radius: 10px;
+    width: 100%; box-sizing: border-box; padding: .55rem .9rem; border-radius: 10px;
     background: rgba(94,234,212,.05); border: 1px solid var(--line);
     color: var(--text); font: 400 .83rem 'Inter', sans-serif; outline: none;
     transition: border-color .2s, box-shadow .2s;
@@ -164,23 +137,15 @@
   .modal-body input::placeholder { color: var(--muted-2); }
   .modal-body input:focus { border-color: var(--mint); box-shadow: 0 0 0 3px rgba(94,234,212,.12); }
 
-  /* Notification items */
   .notification-item, .admin-notification-item {
-    background: rgba(94,234,212,.04); border: 1px solid var(--line);
-    border-radius: 10px; padding: .7rem .9rem;
+    background: rgba(94,234,212,.04); border: 1px solid var(--line); border-radius: 10px; padding: .7rem .9rem;
   }
-  .notification-item p, .admin-notification-item p {
-    font: 400 .82rem 'Inter', sans-serif; color: var(--text); margin-bottom: .25rem;
-  }
-  .notification-item small, .admin-notification-item small {
-    font: 400 .65rem 'JetBrains Mono', monospace; color: var(--muted-2);
-  }
+  .notification-item p, .admin-notification-item p { font: 400 .82rem 'Inter', sans-serif; color: var(--text); margin-bottom: .25rem; }
+  .notification-item small, .admin-notification-item small { font: 400 .65rem 'JetBrains Mono', monospace; color: var(--muted-2); }
 
-  /* Contact items */
   .contact-item {
     background: rgba(94,234,212,.04); border: 1px solid var(--line);
-    border-radius: 10px; padding: .75rem .9rem;
-    display: flex; flex-direction: column; gap: .35rem;
+    border-radius: 10px; padding: .75rem .9rem; display: flex; flex-direction: column; gap: .35rem;
   }
   .contact-item strong { font: 600 .85rem 'Inter', sans-serif; color: var(--text); }
   .contact-item a { font: 400 .78rem 'JetBrains Mono', monospace; color: var(--mint); text-decoration: none; }
@@ -195,33 +160,44 @@
   }
   .whatsapp-btn:hover { opacity: .85; transform: translateY(-1px); }
 
-  .modal-footer {
-    padding: .85rem 1.2rem 1rem; border-top: 1px solid var(--line);
-    display: flex; gap: .5rem; justify-content: flex-end;
-  }
-  .modal-btn {
-    padding: .45rem 1.2rem; border-radius: 999px; border: none; cursor: pointer;
-    font: 600 .78rem 'Inter', sans-serif; transition: opacity .2s, transform .15s;
-  }
-  .modal-btn.save {
-    background: linear-gradient(135deg, var(--mint-deep), var(--mint));
-    color: #0d1f1c;
-  }
+  .modal-footer { padding: .85rem 1.2rem 1rem; border-top: 1px solid var(--line); display: flex; gap: .5rem; justify-content: flex-end; }
+  .modal-btn { padding: .45rem 1.2rem; border-radius: 999px; border: none; cursor: pointer; font: 600 .78rem 'Inter', sans-serif; transition: opacity .2s, transform .15s; }
+  .modal-btn.save { background: linear-gradient(135deg, var(--mint-deep), var(--mint)); color: #0d1f1c; }
   .modal-btn.save:hover { opacity: .85; transform: translateY(-1px); }
-  .modal-btn.cancel {
-    background: rgba(94,234,212,.07); border: 1px solid var(--line); color: var(--muted);
-  }
+  .modal-btn.cancel { background: rgba(94,234,212,.07); border: 1px solid var(--line); color: var(--muted); }
   .modal-btn.cancel:hover { background: rgba(94,234,212,.14); color: var(--text); }
 
+  /* ===== RESPONSIVE ===== */
   @media (max-width: 768px) {
-    .profile-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
-    .edit-profile-btn { align-self: flex-start; }
-    .profile-stats-new { gap: .45rem; }
-    .stat-card-new { padding: .45rem .7rem; min-width: 60px; }
+    .profile-header       { flex-direction: column; align-items: flex-start; gap: 1rem; }
+    .edit-profile-btn     { align-self: flex-start; }
+    .profile-info h2      { font-size: 1.35rem; }
+    .profile-info > p     { font-size: .88rem; }
+    .avatar               { width: 72px; height: 72px; font-size: 1.75rem; }
+    .edit-avatar          { font-size: .72rem; padding: .22rem .8rem; }
+    .edit-profile-btn a   { font-size: .88rem; }
+    .profile-stats-new    { gap: .5rem; }
+    .stat-card-new        { padding: .55rem .85rem; min-width: 72px; }
+    .stat-value-new       { font-size: 1.2rem; }
+    .stat-label-new       { font-size: .72rem; }
+    .profile-section h3   { font-size: .82rem; }
+    .profile-option       { font-size: .95rem; padding: .75rem 1rem; }
+    .modal-header h3      { font-size: 1.1rem; }
+    .modal-body label     { font-size: .78rem; }
+    .modal-body input[type="text"],
+    .modal-body input[type="password"] { font-size: .95rem; padding: .65rem .9rem; }
+    .notification-item p, .admin-notification-item p { font-size: .95rem; }
+    .notification-item small, .admin-notification-item small { font-size: .72rem; }
+    .contact-item strong  { font-size: .95rem; }
+    .contact-item a       { font-size: .88rem; }
+    .whatsapp-btn         { font-size: .82rem; padding: .4rem 1rem; }
+    .modal-btn            { font-size: .88rem; padding: .5rem 1.4rem; }
   }
   @media (max-width: 480px) {
     .profile-sections { grid-template-columns: 1fr; }
-    .modal-content { width: 95%; }
+    .modal-content    { width: 95%; }
+    .stat-value-new   { font-size: 1.1rem; }
+    .profile-option   { font-size: .92rem; }
   }
 </style>
 
@@ -260,7 +236,6 @@
   <!-- Sections -->
   <div class="profile-sections">
 
-    <!-- Account Settings -->
     <div class="profile-section">
       <h3>Account Settings</h3>
       <div class="profile-options">
@@ -271,7 +246,6 @@
       </div>
     </div>
 
-    <!-- Website Actions -->
     <div class="profile-section">
       <h3>Website Actions</h3>
       <div class="profile-options">
@@ -283,7 +257,6 @@
       </div>
     </div>
 
-    <!-- Support & Legal -->
     <div class="profile-section">
       <h3>Support & Legal</h3>
       <div class="profile-options">
@@ -294,7 +267,6 @@
       </div>
     </div>
 
-    <!-- Account Actions (danger) -->
     <div class="profile-section danger-zone">
       <h3>Account Actions</h3>
       <div class="profile-options">
@@ -308,9 +280,8 @@
   </div>
 </div>
 
-<!-- ── MODALS ── -->
+<!-- MODALS -->
 
-<!-- Edit Profile -->
 <div id="editProfileModal" class="modal">
   <div class="modal-content">
     <div class="modal-header">
@@ -330,7 +301,6 @@
   </div>
 </div>
 
-<!-- Change Password -->
 <div id="changePasswordModal" class="modal">
   <div class="modal-content">
     <div class="modal-header">
@@ -352,7 +322,6 @@
   </div>
 </div>
 
-<!-- Notifications -->
 <div id="notificationsModal" class="modal">
   <div class="modal-content">
     <div class="modal-header">
@@ -367,7 +336,6 @@
   </div>
 </div>
 
-<!-- Admin Notifications -->
 <div id="adminNotificationsModal" class="modal">
   <div class="modal-content">
     <div class="modal-header">
@@ -382,7 +350,6 @@
   </div>
 </div>
 
-<!-- Help & Support -->
 <div id="helpSupportModal" class="modal">
   <div class="modal-content">
     <div class="modal-header">
@@ -421,16 +388,16 @@
   function openModal(id)  { document.getElementById(id).style.display = 'block'; }
   function closeModal(id) { document.getElementById(id).style.display = 'none';  }
 
-  window.openEditProfileModal       = function () { openModal('editProfileModal'); };
-  window.closeEditProfileModal      = function () { closeModal('editProfileModal'); };
-  window.openChangePasswordModal    = function () { openModal('changePasswordModal'); };
-  window.closeChangePasswordModal   = function () { closeModal('changePasswordModal'); };
-  window.openNotificationsModal     = function () { openModal('notificationsModal'); };
-  window.closeNotificationsModal    = function () { closeModal('notificationsModal'); };
+  window.openEditProfileModal         = function () { openModal('editProfileModal'); };
+  window.closeEditProfileModal        = function () { closeModal('editProfileModal'); };
+  window.openChangePasswordModal      = function () { openModal('changePasswordModal'); };
+  window.closeChangePasswordModal     = function () { closeModal('changePasswordModal'); };
+  window.openNotificationsModal       = function () { openModal('notificationsModal'); };
+  window.closeNotificationsModal      = function () { closeModal('notificationsModal'); };
   window.openAdminNotificationsModal  = function () { openModal('adminNotificationsModal'); };
   window.closeAdminNotificationsModal = function () { closeModal('adminNotificationsModal'); };
-  window.openHelpSupportModal       = function () { openModal('helpSupportModal'); };
-  window.closeHelpSupportModal      = function () { closeModal('helpSupportModal'); };
+  window.openHelpSupportModal         = function () { openModal('helpSupportModal'); };
+  window.closeHelpSupportModal        = function () { closeModal('helpSupportModal'); };
 
   window.saveUsername = function () {
     var val = document.getElementById('newUsername').value.trim();
@@ -454,7 +421,6 @@
     return confirm('Are you sure you want to delete your account? This cannot be undone.');
   };
 
-  /* close on backdrop click */
   document.addEventListener('click', function (e) {
     if (e.target.classList.contains('modal')) e.target.style.display = 'none';
   });
