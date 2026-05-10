@@ -87,7 +87,6 @@
   .logout-btn { margin-top: auto; margin-bottom: 0.5rem; }
   .logout-btn:hover { background: rgba(239,68,68,.08) !important; border-left-color: #ef4444 !important; }
 
-  /* sidebar divider */
   .nav-divider { height: 1px; background: var(--line); margin: 0.4rem 1rem 0.8rem; }
 
   /* ===== RESPONSIVE ===== */
@@ -102,13 +101,18 @@
       width: 100%;
       box-shadow: 4px 0 24px rgba(94,234,212,.08);
     }
-    .sidebar.active { transform: translateX(0); }
-    .nav-item { padding: 0.75rem 1.1rem; }
-    .nav-icon, .nav-icon i { font-size: 1.05rem; width: 22px; }
+    .sidebar.active     { transform: translateX(0); }
+    .nav-item           { padding: 0.9rem 1.3rem; gap: 0.85rem; }
+    .nav-item a         { font-size: 1.05rem; }
+    .nav-icon,
+    .nav-icon i         { font-size: 1.15rem; width: 24px; }
+    .section-title      { font-size: 0.78rem; letter-spacing: 1.8px; padding: 0 1.3rem; }
+    .nav-divider        { margin: 0.4rem 1.3rem 0.8rem; }
   }
 
   @media (max-width: 380px) {
-    .sidebar { top: 52px; height: calc(100vh - 52px); }
+    .sidebar    { top: 52px; height: calc(100vh - 52px); }
+    .nav-item a { font-size: 1rem; }
   }
 </style>
 
@@ -180,29 +184,44 @@
 
 <script>
 (function () {
-  // Mark active nav item based on current URL
-  const path = window.location.pathname;
-  const map = { homepage: '/homepage', history: '/history', quickquiz: '/quickquiz',
-    mocktest: '/mocktest', mockexam: '/mockexam', ai: '/ai',
-    leaderboard: '/leaderboard', materials: '/materials', profile: '/profile' };
-  Object.entries(map).forEach(([id, href]) => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    el.classList.toggle('active', path === href || path.startsWith(href + '/'));
-    el.addEventListener('click', () => window.location.href = href);
-  });
-  const logoutr = document.getElementById('logoutr');
-  if (logoutr) logoutr.addEventListener('click', () => window.location.href = '/logout');
+  if (window.__sidebarReady) return;
+  window.__sidebarReady = true;
 
-  // Sidebar toggle (used by header hamburger)
+  var path = window.location.pathname;
+  var map = {
+    homepage:    '/homepage',
+    history:     '/history',
+    quickquiz:   '/quickquiz',
+    mocktest:    '/mocktest',
+    mockexam:    '/mockexam',
+    ai:          '/ai',
+    leaderboard: '/leaderboard',
+    materials:   '/materials',
+    profile:     '/profile'
+  };
+
+  Object.keys(map).forEach(function (id) {
+    var href = map[id];
+    var el = document.getElementById(id);
+    if (!el) return;
+    if (path === href || path.indexOf(href + '/') === 0) {
+      el.classList.add('active');
+    } else {
+      el.classList.remove('active');
+    }
+    el.addEventListener('click', function () { window.location.href = href; });
+  });
+
+  var logoutr = document.getElementById('logoutr');
+  if (logoutr) logoutr.addEventListener('click', function () { window.location.href = '/logout'; });
+
   window.toggleSidebar = function () {
     document.getElementById('sidebar').classList.toggle('active');
   };
 
-  // Close on outside tap (mobile)
   document.addEventListener('click', function (e) {
-    const sidebar = document.getElementById('sidebar');
-    const toggle  = document.querySelector('.menu-toggle');
+    var sidebar = document.getElementById('sidebar');
+    var toggle  = document.querySelector('.menu-toggle');
     if (window.innerWidth <= 768 &&
         sidebar && !sidebar.contains(e.target) &&
         toggle  && !toggle.contains(e.target) &&
@@ -213,7 +232,7 @@
 
   window.addEventListener('resize', function () {
     if (window.innerWidth > 768) {
-      const s = document.getElementById('sidebar');
+      var s = document.getElementById('sidebar');
       if (s) s.classList.remove('active');
     }
   });

@@ -3,7 +3,7 @@
 
   .eyebrow {
     display: inline-flex; align-items: center; gap: .6rem;
-    font: 500 .72rem 'JetBrains Mono', monospace;
+    font: 500 .68rem 'JetBrains Mono', monospace;
     color: var(--mint); letter-spacing: 2.5px; text-transform: uppercase;
     margin-bottom: 1.2rem;
   }
@@ -17,14 +17,14 @@
   @keyframes pulse { 50% { opacity: .35; transform: scale(.85); } }
 
   .login-heading {
-    font-size: clamp(1.9rem, 5vw, 2.6rem);
+    font-size: clamp(1.6rem, 4vw, 2.2rem);
     font-weight: 800; letter-spacing: -.03em; line-height: 1.05;
     color: #fff; margin-bottom: .6rem;
   }
   .login-heading .accent { color: var(--mint); }
 
   .login-sub {
-    color: var(--muted); font-size: .95rem; margin-bottom: 2.2rem; line-height: 1.6;
+    color: var(--muted); font-size: .88rem; margin-bottom: 2.2rem; line-height: 1.6;
   }
 
   .card {
@@ -46,7 +46,7 @@
     flex: 1; display: flex; align-items: center; justify-content: center; gap: .6rem;
     padding: .75rem 1rem; border-radius: 12px;
     background: rgba(94,234,212,.05); border: 1px solid var(--line);
-    color: var(--text); font: 500 .88rem 'Inter', sans-serif;
+    color: var(--text); font: 500 .82rem 'Inter', sans-serif;
     cursor: pointer; transition: background .25s, border-color .25s, transform .25s;
     text-decoration: none;
   }
@@ -55,24 +55,24 @@
   .divider { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.6rem; }
   .divider-line { flex: 1; height: 1px; background: var(--line); }
   .divider-text {
-    font: 500 .7rem 'JetBrains Mono', monospace;
+    font: 500 .65rem 'JetBrains Mono', monospace;
     color: var(--muted-2); letter-spacing: 2px; text-transform: uppercase; white-space: nowrap;
   }
 
   .field { margin-bottom: 1.2rem; }
   .label {
-    display: block; font: 600 .72rem 'JetBrains Mono', monospace;
+    display: block; font: 600 .68rem 'JetBrains Mono', monospace;
     color: var(--muted); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: .5rem;
   }
   .input-wrap { position: relative; }
   .input-icon {
     position: absolute; left: 1rem; top: 50%; transform: translateY(-50%);
-    color: var(--muted-2); font-size: .9rem; pointer-events: none;
+    color: var(--muted-2); font-size: .85rem; pointer-events: none;
   }
   .input {
     width: 100%; padding: .85rem 1rem .85rem 2.8rem;
     background: rgba(94,234,212,.04); border: 1px solid var(--line);
-    border-radius: 12px; color: var(--text); font: 400 .95rem 'Inter', sans-serif;
+    border-radius: 12px; color: var(--text); font: 400 .88rem 'Inter', sans-serif;
     outline: none; transition: border-color .25s, box-shadow .25s, background .25s;
   }
   .input::placeholder { color: var(--muted-2); }
@@ -85,13 +85,13 @@
   .pass-toggle {
     position: absolute; right: 1rem; top: 50%; transform: translateY(-50%);
     color: var(--muted-2); background: none; border: none; cursor: pointer;
-    font-size: .9rem; padding: .25rem; transition: color .2s;
+    font-size: .85rem; padding: .25rem; transition: color .2s;
   }
   .pass-toggle:hover { color: var(--mint); }
 
   .field-footer { display: flex; justify-content: flex-end; margin-top: .4rem; }
   .link {
-    font: 500 .78rem 'Inter', sans-serif; color: var(--mint);
+    font: 500 .72rem 'Inter', sans-serif; color: var(--mint);
     text-decoration: none; opacity: .85; transition: opacity .2s;
   }
   .link:hover { opacity: 1; text-decoration: underline; }
@@ -99,7 +99,7 @@
   /* Flash messages */
   .flash {
     padding: .85rem 1.1rem; border-radius: 12px; margin-bottom: 1.2rem;
-    font-size: .88rem; display: flex; align-items: center; gap: .6rem;
+    font-size: .85rem; display: flex; align-items: center; gap: .6rem;
   }
   .flash-error {
     background: rgba(239,68,68,.1); border: 1px solid rgba(239,68,68,.35); color: #fca5a5;
@@ -111,24 +111,23 @@
   /* Inline field errors */
   .error-message {
     display: flex; align-items: center; gap: .4rem;
-    font-size: .78rem; color: #fca5a5; margin-top: .45rem;
+    font-size: .75rem; color: #fca5a5; margin-top: .45rem;
   }
   .error-message::before {
     content: "\f06a";
     font-family: "Font Awesome 6 Free"; font-weight: 900;
-    font-size: .75rem;
+    font-size: .72rem;
   }
-  /* Red border on the input when its field has an error */
   .field.has-error .input {
     border-color: rgba(239,68,68,.6);
     box-shadow: 0 0 0 3px rgba(239,68,68,.1);
   }
 
   .submit-btn {
-    width: 100%; padding: 1rem 1.6rem; margin-top: .6rem;
+    width: 100%; padding: .95rem 1.6rem; margin-top: .6rem;
     border-radius: 999px; border: none; cursor: pointer;
     background: linear-gradient(135deg, var(--mint-bright), var(--mint-deep));
-    color: #022; font: 700 1rem 'Inter', sans-serif;
+    color: #022; font: 700 .95rem 'Inter', sans-serif;
     box-shadow: 0 8px 30px rgba(94,234,212,.45), inset 0 1px 0 rgba(255,255,255,.4);
     display: flex; align-items: center; justify-content: center; gap: .6rem;
     transition: transform .25s, box-shadow .25s; letter-spacing: -.01em;
@@ -139,15 +138,32 @@
 
   .card-footer {
     text-align: center; margin-top: 1.8rem;
-    font-size: .88rem; color: var(--muted);
+    font-size: .82rem; color: var(--muted);
   }
   .card-footer a { color: var(--mint); text-decoration: none; font-weight: 600; }
   .card-footer a:hover { text-decoration: underline; }
 
+  /* ===== MOBILE — scale UP ===== */
+  @media (max-width: 640px) {
+    .eyebrow        { font-size: .8rem; }
+    .login-heading  { font-size: clamp(2rem, 6vw, 2.8rem); }
+    .login-sub      { font-size: 1rem; }
+    .label          { font-size: .78rem; }
+    .input          { font-size: 1rem; padding: .95rem 1rem .95rem 2.8rem; }
+    .input-password { padding-right: 3rem; }
+    .social-btn     { font-size: .95rem; padding: .88rem 1rem; }
+    .divider-text   { font-size: .72rem; }
+    .submit-btn     { font-size: 1.05rem; padding: 1.05rem 1.6rem; }
+    .card-footer    { font-size: .95rem; }
+    .link           { font-size: .85rem; }
+    .flash          { font-size: .95rem; }
+    .error-message  { font-size: .85rem; }
+  }
+
   @media (max-width: 520px) {
-    .card { padding: 1.8rem 1.4rem; border-radius: 18px; }
-    .social-row { flex-direction: column; }
-    .login-sub { margin-bottom: 1.6rem; }
+    .card           { padding: 1.8rem 1.4rem; border-radius: 18px; }
+    .social-row     { flex-direction: column; }
+    .login-sub      { margin-bottom: 1.6rem; }
   }
 </style>
 
@@ -158,7 +174,6 @@
 
   <div class="card">
 
-    <!-- Top-level flash (general login failure, e.g. wrong credentials) -->
     <% if (typeof success !== 'undefined' && success) { %>
       <div class="flash flash-success">
         <i class="fa-solid fa-circle-check"></i> <%= success %>
@@ -182,7 +197,6 @@
 
     <form id="loginForm" action="/login" method="POST" novalidate>
 
-      <!-- Email field -->
       <div class="field <%= (typeof error !== 'undefined' && error) ? 'has-error' : '' %>">
         <label class="label" for="email">Email Address</label>
         <div class="input-wrap">
@@ -191,13 +205,11 @@
             placeholder="you@example.com" autocomplete="email"
             value="<%= typeof formData !== 'undefined' ? formData.email || '' : '' %>" required>
         </div>
-        <!-- Inline email error -->
         <% if (typeof error !== 'undefined' && error) { %>
           <p class="error-message"><%= error %></p>
         <% } %>
       </div>
 
-      <!-- Password field -->
       <div class="field <%= (typeof passwordError !== 'undefined' && passwordError) ? 'has-error' : '' %>">
         <label class="label" for="password">Password</label>
         <div class="input-wrap">
@@ -209,12 +221,9 @@
             <i class="fa-solid fa-eye" id="passIcon"></i>
           </button>
         </div>
-        <!-- Inline password error -->
-        <% if (typeof password!== 'undefined' && password) { %>
+        <% if (typeof password !== 'undefined' && password) { %>
           <p class="error-message"><%= password %></p>
         <% } %>
-
-        
         <div class="field-footer">
           <a href="/forgot-password" class="link">Forgot password?</a>
         </div>
@@ -232,47 +241,47 @@
 </div>
 
 <script>
-  (function () {
-    const passToggle = document.getElementById('passToggle');
-    const passInput  = document.getElementById('password');
-    const passIcon   = document.getElementById('passIcon');
+(function () {
+  var passToggle = document.getElementById('passToggle');
+  var passInput  = document.getElementById('password');
+  var passIcon   = document.getElementById('passIcon');
 
-    passToggle.addEventListener('click', () => {
-      const hidden = passInput.type === 'password';
-      passInput.type = hidden ? 'text' : 'password';
-      passIcon.className = hidden ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye';
-    });
+  passToggle.addEventListener('click', function () {
+    var hidden = passInput.type === 'password';
+    passInput.type = hidden ? 'text' : 'password';
+    passIcon.className = hidden ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye';
+  });
 
-    const form      = document.getElementById('loginForm');
-    const submitBtn = document.getElementById('submitBtn');
+  var form      = document.getElementById('loginForm');
+  var submitBtn = document.getElementById('submitBtn');
 
-    form.addEventListener('submit', (e) => {
-      const email    = document.getElementById('email').value.trim();
-      const password = document.getElementById('password').value;
+  form.addEventListener('submit', function (e) {
+    var email    = document.getElementById('email').value.trim();
+    var password = document.getElementById('password').value;
 
-      if (!email || !password) {
-        e.preventDefault();
-        shakeCard();
-        return;
-      }
-
-      submitBtn.disabled = true;
-      submitBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Signing in…';
-    });
-
-    function shakeCard() {
-      const card = document.querySelector('.card');
-      const steps = [6, -6, 4, -4, 2, -2, 0];
-      let i = 0;
-      card.style.transition = 'transform .08s ease';
-      (function next() {
-        if (i < steps.length) {
-          card.style.transform = 'translateX(' + steps[i++] + 'px)';
-          setTimeout(next, 60);
-        } else {
-          card.style.transform = '';
-        }
-      })();
+    if (!email || !password) {
+      e.preventDefault();
+      shakeCard();
+      return;
     }
-  })();
+
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Signing in…';
+  });
+
+  function shakeCard() {
+    var card  = document.querySelector('.card');
+    var steps = [6, -6, 4, -4, 2, -2, 0];
+    var i     = 0;
+    card.style.transition = 'transform .08s ease';
+    (function next() {
+      if (i < steps.length) {
+        card.style.transform = 'translateX(' + steps[i++] + 'px)';
+        setTimeout(next, 60);
+      } else {
+        card.style.transform = '';
+      }
+    })();
+  }
+})();
 </script>

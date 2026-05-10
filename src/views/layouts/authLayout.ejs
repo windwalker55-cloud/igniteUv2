@@ -66,7 +66,7 @@
       background: radial-gradient(ellipse at top, transparent 30%, rgba(2,10,20,.85) 90%);
     }
 
-    /* ── Header ── */
+    /* ── Header — exact copy from landing page ── */
     .header {
       position: sticky; top: 0; z-index: 50;
       display: flex; align-items: center; justify-content: space-between;
@@ -76,22 +76,18 @@
       -webkit-backdrop-filter: blur(16px) saturate(140%);
       border-bottom: 1px solid var(--line);
     }
-    .logo-section { display: flex; align-items: center; gap: .75rem; }
-    .logo-img {
-      width: 36px; height: 36px; border-radius: 10px; overflow: hidden;
-      flex-shrink: 0;
-    }
-    .logo-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .logo-title h1 { font-size: 1rem; font-weight: 700; color: white; letter-spacing: -.01em; }
-    .logo-title p { font-size: .7rem; color: rgba(255, 255, 255, 0.9) }
-    .header-actions { display: flex; gap: .6rem; }
+    .logo-section  { display: flex; align-items: center; gap: 0.75rem; }
+    .logo          { width: 36px; height: 36px; border-radius: 10px; overflow: hidden; }
+    .logo img      { width: 100%; height: 100%; object-fit: cover; }
+    .header-title h1 { font-size: 1rem; color: white; font-weight: 700; letter-spacing: -.01em; }
+    .header-title p  { font-size: 0.7rem; color: rgba(255,255,255,0.9); }
 
     .btn {
-      position: relative; padding: .6rem 1.3rem; border-radius: 999px;
-      font: 600 .88rem 'Inter', sans-serif; cursor: pointer;
+      position: relative; padding: .85rem 1.6rem; border-radius: 999px;
+      font: 600 .92rem 'Inter', sans-serif; cursor: pointer;
       border: 1px solid transparent; background: transparent; color: var(--text);
       transition: transform .25s ease, box-shadow .25s, background .25s;
-      display: inline-flex; align-items: center; gap: .5rem;
+      overflow: hidden; display: inline-flex; align-items: center; gap: .5rem;
       text-decoration: none; white-space: nowrap;
     }
     .btn-ghost { border-color: var(--line-strong); color: var(--text); }
@@ -118,92 +114,40 @@
       background: rgba(2,10,20,.6); backdrop-filter: blur(10px);
       display: flex; justify-content: space-between; align-items: center;
       flex-wrap: wrap; gap: 1rem;
-      color: var(--muted); font: 500 .78rem 'JetBrains Mono', monospace;
+      color: var(--muted); font: 500 .82rem 'JetBrains Mono', monospace;
     }
     .footer-links { display: flex; gap: 1.5rem; }
     .footer-links a { color: inherit; text-decoration: none; transition: color .25s; }
     .footer-links a:hover { color: var(--mint); }
 
-    /* ── Responsive ── */
-    @media (max-width: 520px) {
-      .header { padding: 1rem 1.2rem; }
-      .btn-ghost { display: none; }
-      .site-footer { flex-direction: column; text-align: center; }
+    /* ===== RESPONSIVE — exact copy from landing page ===== */
+    @media (max-width: 640px) {
+      .header          { padding: 1rem 1.2rem; }
+      .logo            { width: 44px; height: 44px; }
+      .header-title h1 { font-size: 1.35rem; }
+      .header-title p  { font-size: 0.95rem; }
+      .btn-ghost       { display: none; }
+      .site-footer     { flex-direction: column; text-align: center; font-size: .85rem; }
+      .footer-links    { gap: 1.2rem; justify-content: center; }
     }
 
-    /* Additional responsive breakpoints - Add these to your existing CSS */
+    @media (max-width: 400px) {
+      .header          { padding: .8rem .9rem; }
+      .logo            { width: 38px; height: 38px; }
+      .header-title h1 { font-size: 1.1rem; }
+      .header-title p  { font-size: .75rem; }
+      .auth-container  { padding: 1.5rem 1rem; }
+      .site-footer     { padding: 1rem; font-size: .8rem; }
+      .footer-links    { gap: 1rem; }
+    }
 
-/* Medium screens (tablets, smaller laptops) */
-@media (max-width: 768px) {
-  .header {
-    padding: 1rem 1.5rem;
-  }
-  
-  .logo-img {
-    width: 32px;
-    height: 32px;
-  }
-  
-  .logo-title h1 {
-    font-size: 0.9rem;
-  }
-  
-  .logo-title p {
-    font-size: 0.65rem;
-  }
-  
-  .auth-container {
-    padding: 2rem 1.5rem;
-  }
-}
+    @media (min-width: 1400px) {
+      .auth-container { padding: 4rem 2rem; }
+    }
 
-/* Large screens (desktops) - ensure content doesn't stretch too wide */
-@media (min-width: 1400px) {
-  .auth-container {
-    padding: 4rem 2rem;
-  }
-}
-
-/* Small phones (very narrow screens) */
-@media (max-width: 380px) {
-  .header {
-    padding: 0.8rem 1rem;
-  }
-  
-  .logo-img {
-    width: 28px;
-    height: 28px;
-  }
-  
-  .logo-title h1 {
-    font-size: 0.8rem;
-  }
-  
-  .logo-title p {
-    font-size: 0.55rem;
-  }
-  
-  .auth-container {
-    padding: 1.5rem 1rem;
-  }
-  
-  .site-footer {
-    padding: 1rem 1rem;
-    font-size: 0.7rem;
-  }
-  
-  .footer-links {
-    gap: 1rem;
-  }
-}
-
-/* Landscape mode on phones */
-@media (max-width: 768px) and (orientation: landscape) {
-  .auth-container {
-    padding: 1.5rem;
-    min-height: auto;
-  }
-}
+    @media (max-width: 640px) and (orientation: landscape) {
+      .auth-container { padding: 1.5rem; min-height: auto; }
+    }
   </style>
 </head>
 <body>
@@ -216,10 +160,10 @@
 
   <header class="header">
     <div class="logo-section">
-      <div class="logo-img">
+      <div class="logo">
         <img src="https://www.image2url.com/r2/default/images/1777061825417-959bf371-403b-4859-bbfd-ec4f516a2797.jpeg" alt="IgniteU Logo">
       </div>
-      <div class="logo-title">
+      <div class="header-title">
         <h1>IgniteU</h1>
         <p>Spark Your Success</p>
       </div>

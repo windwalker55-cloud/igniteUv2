@@ -28,14 +28,6 @@
   .welcome-content h2 .username { color: #fff; }
   .welcome-content p { font-size: .82rem; color: var(--muted); margin: 0; font-family: 'JetBrains Mono', monospace; }
   .banner-right { display: flex; align-items: center; gap: 1.1rem; flex-shrink: 0; }
-  .darkmode-icon {
-    width: 34px; height: 34px;
-    background: rgba(94,234,212,.1); border: 1px solid var(--line);
-    border-radius: 50%; display: flex; align-items: center; justify-content: center;
-    cursor: pointer; transition: background .25s, transform .25s, box-shadow .25s; flex-shrink: 0;
-  }
-  .darkmode-icon:hover { background: rgba(94,234,212,.2); border-color: var(--line-strong); box-shadow: 0 0 14px rgba(94,234,212,.25); transform: scale(1.08); }
-  .darkmode-icon i { font-size: .95rem; color: var(--mint); }
   .datetime-section { text-align: right; }
   .date { font: 500 .72rem 'JetBrains Mono', monospace; color: var(--muted); letter-spacing: .5px; }
   .time { font: 700 1.1rem 'Inter', sans-serif; color: var(--text); letter-spacing: -.01em; }
@@ -47,8 +39,6 @@
     .welcome-content p  { font-size: .95rem; }
     .time               { font-size: 1.2rem; }
     .date               { font-size: .82rem; }
-    .darkmode-icon      { width: 40px; height: 40px; }
-    .darkmode-icon i    { font-size: 1.05rem; }
   }
   @media (max-width: 576px) {
     .welcome-card       { padding: 1.1rem 1.2rem; min-height: 95px; gap: .8rem; }
@@ -56,15 +46,11 @@
     .welcome-content p  { font-size: .9rem; }
     .time               { font-size: 1.1rem; }
     .date               { font-size: .78rem; }
-    .darkmode-icon      { width: 38px; height: 38px; }
-    .darkmode-icon i    { font-size: 1rem; }
   }
   @media (max-width: 380px) {
     .welcome-card       { padding: 1rem 1rem; }
     .welcome-content h2 { font-size: 1.1rem; }
     .welcome-content p  { font-size: .85rem; }
-    .darkmode-icon      { width: 34px; height: 34px; }
-    .darkmode-icon i    { font-size: .95rem; }
   }
 </style>
 
@@ -80,9 +66,6 @@
     <p>Ready for your next session?</p>
   </div>
   <div class="banner-right">
-    <div class="darkmode-icon" id="darkModeToggle" title="Toggle dark mode">
-      <i class="fa-regular fa-moon" id="darkModeIcon"></i>
-    </div>
     <div class="datetime-section">
       <div class="date" id="date"></div>
       <div class="time" id="time"></div>
@@ -92,35 +75,20 @@
 
 <script>
 (function () {
-  /* ── greeting ── */
   var greetEl = document.getElementById('good');
   if (greetEl) {
     var h = new Date().getHours();
     greetEl.textContent = h < 12 ? 'Good Morning! ☀️' : h < 18 ? 'Good Afternoon! 🌤️' : 'Good Evening! 🌙';
   }
 
-  /* ── live clock ── */
   function updateClock() {
     var now = new Date();
-    var d = document.getElementById('date'), t = document.getElementById('time');
+    var d = document.getElementById('date');
+    var t = document.getElementById('time');
     if (d) d.textContent = now.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' });
     if (t) t.textContent = now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
   }
   updateClock();
   setInterval(updateClock, 1000);
-
-  /* ── dark mode ── */
-  var toggle   = document.getElementById('darkModeToggle');
-  var modeIcon = document.getElementById('darkModeIcon');
-  function applyDarkMode(on) {
-    document.body.classList.toggle('dark-mode', on);
-    if (modeIcon) modeIcon.className = on ? 'fa-solid fa-sun' : 'fa-regular fa-moon';
-  }
-  applyDarkMode(localStorage.getItem('darkMode') === 'enabled');
-  if (toggle) toggle.addEventListener('click', function () {
-    var on = !document.body.classList.contains('dark-mode');
-    localStorage.setItem('darkMode', on ? 'enabled' : 'disabled');
-    applyDarkMode(on);
-  });
 })();
 </script>

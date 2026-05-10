@@ -111,7 +111,7 @@
     letter-spacing: -.01em;
     display: flex; align-items: center; justify-content: center; gap: .5rem;
   }
-  .subscribe-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 32px rgba(94,234,212,.55); }
+  .subscribe-btn:hover  { transform: translateY(-2px); box-shadow: 0 10px 32px rgba(94,234,212,.55); }
   .subscribe-btn:active { transform: translateY(0); }
 
   /* bottom bar */
@@ -137,17 +137,28 @@
     .footer-newsletter { grid-column: 1 / -1; max-width: 480px; }
   }
   @media (max-width: 768px) {
-    .dashboard-footer { padding: 2.2rem 1.2rem .9rem; }
-    .footer-main { grid-template-columns: 1fr; gap: 1.8rem; }
-    .footer-links { grid-template-columns: repeat(2, 1fr); gap: 1.2rem; }
-    .footer-bottom { flex-direction: column; text-align: center; }
-    .footer-bottom-links { justify-content: center; }
+    .dashboard-footer     { padding: 2.2rem 1.2rem .9rem; }
+    .footer-main          { grid-template-columns: 1fr; gap: 1.8rem; }
+    .footer-links         { grid-template-columns: repeat(2, 1fr); gap: 1.2rem; }
+    .footer-bottom        { flex-direction: column; text-align: center; }
+    .footer-bottom-links  { justify-content: center; }
+    .footer-brand-info h3 { font-size: 1.2rem; }
+    .footer-brand-info p  { font-size: .82rem; }
+    .footer-description   { font-size: 1rem; }
+    .link-group h4        { font-size: .78rem; }
+    .link-group a         { font-size: 1rem; }
+    .footer-newsletter p  { font-size: 1rem; }
+    .newsletter-form input { font-size: 1rem; padding: .9rem 1rem; }
+    .subscribe-btn        { font-size: 1rem; padding: .9rem 1.4rem; }
+    .footer-bottom        { font-size: .88rem; }
+    .footer-bottom-links a { font-size: .88rem; }
+    .social-link          { width: 42px; height: 42px; font-size: 1.05rem; }
   }
   @media (max-width: 480px) {
-    .footer-links { gap: 1rem; }
-    .link-group h4 { font-size: .65rem; }
-    .link-group a  { font-size: .8rem; }
-    .social-link   { width: 34px; height: 34px; font-size: .85rem; }
+    .footer-links  { gap: 1rem; }
+    .link-group h4 { font-size: .75rem; }
+    .link-group a  { font-size: .95rem; }
+    .social-link   { width: 40px; height: 40px; font-size: 1rem; }
   }
 </style>
 
@@ -234,10 +245,15 @@
 </footer>
 
 <script>
-function igSubscribe(e) {
-  e.preventDefault();
-  const input = e.target.querySelector('input[type="email"]');
-  alert('Thank you for subscribing with ' + input.value + '!');
-  e.target.reset();
-}
+(function () {
+  if (window.__footerReady) return;
+  window.__footerReady = true;
+
+  window.igSubscribe = function (e) {
+    e.preventDefault();
+    var input = e.target.querySelector('input[type="email"]');
+    alert('Thank you for subscribing with ' + input.value + '!');
+    e.target.reset();
+  };
+})();
 </script>
