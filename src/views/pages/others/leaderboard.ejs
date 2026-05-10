@@ -15,56 +15,30 @@
   .page-header h2 { font: 700 1.35rem 'Inter', sans-serif; color: var(--text); letter-spacing: -.02em; margin-bottom: .25rem; }
   .page-header p  { font: 400 .8rem 'JetBrains Mono', monospace; color: var(--muted); }
 
-  .leaderboard-controls {
-    display: flex; justify-content: space-between; align-items: center;
-    flex-wrap: wrap; gap: .6rem; margin: 0 10px 1rem;
-  }
-  .tabs, .periods {
-    display: flex; gap: .2rem;
-    background: rgba(94,234,212,.05); border: 1px solid var(--line);
-    padding: .22rem; border-radius: 999px;
-  }
-  .tab, .period {
-    padding: .28rem .9rem; border-radius: 999px;
-    font: 600 0.72rem 'Inter', sans-serif; cursor: pointer; border: none;
-    background: transparent; color: var(--muted);
-    transition: background .2s, color .2s;
-  }
+  .leaderboard-controls { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: .6rem; margin: 0 10px 1rem; }
+  .tabs, .periods { display: flex; gap: .2rem; background: rgba(94,234,212,.05); border: 1px solid var(--line); padding: .22rem; border-radius: 999px; }
+  .tab, .period { padding: .28rem .9rem; border-radius: 999px; font: 600 0.72rem 'Inter', sans-serif; cursor: pointer; border: none; background: transparent; color: var(--muted); transition: background .2s, color .2s; }
   .tab.active, .period.active { background: rgba(94,234,212,.18); color: var(--mint); }
   .tab:hover:not(.active), .period:hover:not(.active) { color: var(--text); }
 
   .leaderboard-container { margin: 0 10px 0; }
+  .leaderboard-list { display: flex; flex-direction: column; border: 1px solid var(--line); border-radius: 16px; background: rgba(10,26,22,.45); padding: .6rem; gap: .45rem; overflow: hidden; }
 
-  .leaderboard-list {
-    display: flex; flex-direction: column;
-    border: 1px solid var(--line); border-radius: 16px;
-    background: rgba(10,26,22,.45);
-    padding: .6rem; gap: .45rem; overflow: hidden;
-  }
-
-  .leaderboard-item {
-    background: rgba(94,234,212,.04); border: 1px solid var(--line);
-    border-radius: 12px; padding: .8rem 1rem;
-    display: flex; align-items: center; gap: .8rem;
-    transition: background .15s, border-color .15s;
-  }
+  .leaderboard-item { background: rgba(94,234,212,.04); border: 1px solid var(--line); border-radius: 12px; padding: .8rem 1rem; display: flex; align-items: center; gap: .8rem; transition: background .15s, border-color .15s; }
   .leaderboard-item:hover { background: rgba(94,234,212,.08); border-color: var(--line-strong); }
   .rank-1 { border-color: rgba(250,204,21,.35); }
   .rank-2 { border-color: rgba(203,213,225,.22); }
   .rank-3 { border-color: rgba(205,127,50,.28); }
 
   .rank-medal { width: 48px; flex-shrink: 0; display: flex; justify-content: center; }
-  .medal {
-    width: 42px; height: 42px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: 700;
-  }
+  .medal { width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: 700; }
   .rank-1 .medal { background: rgba(250,204,21,.15); }
   .rank-2 .medal { background: rgba(203,213,225,.1); }
   .rank-3 .medal { background: rgba(205,127,50,.15); }
   .rank-regular .medal { font: 600 .82rem 'JetBrains Mono', monospace; color: var(--muted-2); background: transparent; }
 
   .student-info { flex: 1; min-width: 0; }
-  .student-name { font: 500 .88rem 'Inter', sans-serif; color: var(--text); margin-bottom: .18rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .student-name     { font: 500 .88rem 'Inter', sans-serif; color: var(--text); margin-bottom: .18rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .student-sessions { font: 400 .68rem 'JetBrains Mono', monospace; color: var(--muted-2); letter-spacing: .4px; }
 
   .student-score { text-align: right; flex-shrink: 0; }
@@ -73,7 +47,6 @@
 
   .lb-empty { padding: 3rem 1rem; text-align: center; color: var(--muted); font: 400 .85rem 'JetBrains Mono', monospace; }
 
-  /* Load More */
   .lb-load-more-wrap { text-align: center; margin: 1rem 10px 18px; }
   .lb-load-more-wrap.hidden { display: none; }
   .lb-load-more-btn {
@@ -87,17 +60,28 @@
   .lb-load-more-btn:active { transform: translateY(0); }
   .lb-load-more-btn i { font-size: .75rem; }
 
+  /* ===== RESPONSIVE ===== */
   @media (max-width: 768px) {
-    .section-nav { justify-content: center; }
+    .section-nav          { justify-content: center; }
+    .nav-link             { font-size: 1rem; padding: .5rem 1.3rem; }
+    .page-header h2       { font-size: 1.45rem; }
+    .page-header p        { font-size: .95rem; }
     .leaderboard-controls { flex-direction: column; align-items: flex-start; }
-    .leaderboard-item { padding: .7rem .85rem; gap: .6rem; }
-    .rank-medal { width: 40px; }
-    .medal { width: 36px; height: 36px; font-size: 1rem; }
-    .score-value { font-size: 1rem; }
+    .leaderboard-item     { padding: .8rem 1rem; gap: .7rem; }
+    .rank-medal           { width: 44px; }
+    .medal                { width: 40px; height: 40px; font-size: 1.1rem; }
+    .student-name         { font-size: 1rem; }
+    .student-sessions     { font-size: .78rem; }
+    .score-value          { font-size: 1.2rem; }
+    .score-label          { font-size: .72rem; }
+    .tab, .period         { font-size: .82rem; padding: .3rem 1rem; }
   }
+
   @media (max-width: 480px) {
-    .nav-link { font-size: .78rem; padding: .4rem .9rem; }
-    .tab, .period { padding: .25rem .7rem; font-size: .68rem; }
+    .nav-link   { font-size: .95rem; padding: .48rem 1rem; }
+    .tab, .period { padding: .28rem .8rem; font-size: .78rem; }
+    .student-name { font-size: .95rem; }
+    .score-value  { font-size: 1.1rem; }
   }
 </style>
 
@@ -147,8 +131,6 @@
   window.__lbReady = true;
 
   var STEP = 10;
-
-  /* ── Data — names live under "all" so the All tab shows them ── */
   var data = {
     all: {
       alltime: [
@@ -184,72 +166,33 @@
   function render() {
     var fullList = (data[state.tab] || data.all)[state.period] || [];
     var visible  = fullList.slice(0, state.shown);
-    var el       = document.getElementById('leaderboardList');
-    var wrap     = document.getElementById('lbLoadWrap');
-    var btn      = document.getElementById('lbLoadBtn');
+    var el   = document.getElementById('leaderboardList');
+    var wrap = document.getElementById('lbLoadWrap');
+    var btn  = document.getElementById('lbLoadBtn');
     if (!el) return;
-
-    if (!fullList.length) {
-      el.innerHTML = '<div class="lb-empty">No data for this filter yet.</div>';
-      wrap.classList.add('hidden');
-      return;
-    }
-
+    if (!fullList.length) { el.innerHTML = '<div class="lb-empty">No data for this filter yet.</div>'; wrap.classList.add('hidden'); return; }
     el.innerHTML = visible.map(function (item) {
       var cls = item.rank <= 3 ? 'rank-' + item.rank : 'rank-regular';
-      return (
-        '<div class="leaderboard-item ' + cls + '">' +
-          '<div class="rank-medal"><div class="medal">' + medal(item.rank) + '</div></div>' +
-          '<div class="student-info">' +
-            '<div class="student-name">' + item.name + '</div>' +
-            '<div class="student-sessions">' + item.sessions + '</div>' +
-          '</div>' +
-          '<div class="student-score">' +
-            '<div class="score-value">' + item.score + '%</div>' +
-            '<div class="score-label">avg ' + item.avg + '%</div>' +
-          '</div>' +
-        '</div>'
-      );
+      return '<div class="leaderboard-item ' + cls + '">' +
+        '<div class="rank-medal"><div class="medal">' + medal(item.rank) + '</div></div>' +
+        '<div class="student-info"><div class="student-name">' + item.name + '</div><div class="student-sessions">' + item.sessions + '</div></div>' +
+        '<div class="student-score"><div class="score-value">' + item.score + '%</div><div class="score-label">avg ' + item.avg + '%</div></div>' +
+        '</div>';
     }).join('');
-
-    /* Load More button */
     if (fullList.length > state.shown) {
       var remaining = Math.min(fullList.length - state.shown, STEP);
       btn.innerHTML = '<i class="fa-solid fa-chevron-down"></i> Load ' + remaining + ' More';
       wrap.classList.remove('hidden');
-    } else {
-      wrap.classList.add('hidden');
-    }
+    } else { wrap.classList.add('hidden'); }
   }
 
-  /* Tab clicks — reset pager */
-  document.querySelectorAll('.tab').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      state.tab   = btn.dataset.tab;
-      state.shown = STEP;
-      document.querySelectorAll('.tab').forEach(function (b) { b.classList.remove('active'); });
-      btn.classList.add('active');
-      render();
-    });
+  document.querySelectorAll('.tab').forEach(function (b) {
+    b.addEventListener('click', function () { state.tab = b.dataset.tab; state.shown = STEP; document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('active');}); b.classList.add('active'); render(); });
   });
-
-  /* Period clicks — reset pager */
-  document.querySelectorAll('.period').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      state.period = btn.dataset.period;
-      state.shown  = STEP;
-      document.querySelectorAll('.period').forEach(function (b) { b.classList.remove('active'); });
-      btn.classList.add('active');
-      render();
-    });
+  document.querySelectorAll('.period').forEach(function (b) {
+    b.addEventListener('click', function () { state.period = b.dataset.period; state.shown = STEP; document.querySelectorAll('.period').forEach(function(x){x.classList.remove('active');}); b.classList.add('active'); render(); });
   });
-
-  /* Load More */
-  document.getElementById('lbLoadBtn').addEventListener('click', function () {
-    state.shown += STEP;
-    render();
-  });
-
+  document.getElementById('lbLoadBtn').addEventListener('click', function () { state.shown += STEP; render(); });
   render();
 })();
 </script>

@@ -1,7 +1,7 @@
 <style>
   /* ===== AI TUTOR — IgniteU Theme ===== */
 
-  .section-nav { display: flex; gap: 0.6rem; margin: 0 10px 1.3rem; flex-wrap: wrap; }
+  .section-nav { display: flex; margin: 0 10px 1.3rem; flex-wrap: wrap; }
   .nav-link {
     padding: 0.45rem 1.1rem; border-radius: 999px;
     font: 600 0.82rem 'Inter', sans-serif; text-decoration: none;
@@ -112,10 +112,29 @@
   .chat-send:hover  { opacity: .85; transform: translateY(-1px); }
   .chat-send:active { opacity: 1; transform: translateY(0); }
 
-  @media (max-width: 768px) { .section-nav { justify-content: center; } }
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 768px) {
+    .section-nav        { justify-content: center; }
+    .nav-link           { font-size: 1rem; padding: .5rem 1.3rem; }
+    .page-header h2     { font-size: 1.45rem; }
+    .page-header p      { font-size: .95rem; }
+    .message-text       { font-size: .95rem; }
+    .message-time       { font-size: .72rem; }
+    .topic-btn          { font-size: .82rem; padding: .3rem .9rem; }
+    .chat-input         { font-size: .95rem; padding: .65rem 1.1rem; }
+    .chat-send          { font-size: .9rem; padding: .65rem 1.4rem; }
+    .chat-input-area    { padding: .85rem; gap: .6rem; }
+    .message-avatar     { width: 34px; height: 34px; font-size: .9rem; }
+  }
+
   @media (max-width: 576px) {
-    .ai-chat-container { height: 60vh; min-height: 320px; border-radius: 12px; }
-    .nav-link { font-size: .78rem; padding: .4rem .9rem; }
+    .ai-chat-container  { height: 60vh; min-height: 340px; border-radius: 12px; }
+    .nav-link           { font-size: .95rem; padding: .48rem 1.1rem; }
+    .page-header h2     { font-size: 1.35rem; }
+    .page-header p      { font-size: .9rem; }
+    .message-text       { font-size: .9rem; }
+    .chat-input         { font-size: .9rem; }
+    .chat-send          { font-size: .85rem; }
   }
 </style>
 
@@ -156,9 +175,7 @@
 </div>
 
 <script>
-/* Wrapped in IIFE — prevents re-declaration errors if EJS includes this more than once */
 (function () {
-  /* bail out if already initialised */
   if (window.__aiTutorReady) return;
   window.__aiTutorReady = true;
 
@@ -188,9 +205,7 @@
     return responses.default;
   }
 
-  function stamp() {
-    return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-  }
+  function stamp() { return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); }
 
   function addMsg(text, isUser) {
     var box = document.getElementById('chatMessages');
@@ -221,10 +236,7 @@
     box.scrollTop = box.scrollHeight;
   }
 
-  function hideTyping() {
-    var el = document.getElementById('aiTyping');
-    if (el) el.remove();
-  }
+  function hideTyping() { var el = document.getElementById('aiTyping'); if (el) el.remove(); }
 
   function send() {
     var inp = document.getElementById('chatInput');
@@ -234,13 +246,9 @@
     addMsg(msg, true);
     inp.value = '';
     showTyping();
-    setTimeout(function () {
-      hideTyping();
-      addMsg(getResponse(msg), false);
-    }, 750);
+    setTimeout(function () { hideTyping(); addMsg(getResponse(msg), false); }, 750);
   }
 
-  /* expose globally so inline onclick="window.aiSend(...)" works */
   window.aiSend = function (text) {
     var inp = document.getElementById('chatInput');
     if (inp) inp.value = text;

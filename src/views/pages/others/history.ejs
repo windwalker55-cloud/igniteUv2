@@ -1,212 +1,104 @@
 <style>
   /* ===== HISTORY — IgniteU Dark, Calm ===== */
 
-  .section-nav {
-    display: flex;
-    gap: 0.6rem;
-    margin: 0 10px 1.3rem;
-    flex-wrap: wrap;
-  }
+  .section-nav { display: flex; gap: 0.6rem; margin: 0 10px 1.3rem; flex-wrap: wrap; }
   .nav-link {
-    padding: 0.45rem 1.1rem;
-    border-radius: 999px;
-    font: 600 0.82rem 'Inter', sans-serif;
-    text-decoration: none;
-    background: rgba(94,234,212,.06);
-    border: 1px solid var(--line);
-    color: var(--muted);
-    transition: background .2s, border-color .2s, color .2s;
+    padding: 0.45rem 1.1rem; border-radius: 999px;
+    font: 600 0.82rem 'Inter', sans-serif; text-decoration: none;
+    background: rgba(94,234,212,.06); border: 1px solid var(--line);
+    color: var(--muted); transition: background .2s, border-color .2s, color .2s;
   }
-  .nav-link:hover {
-    background: rgba(94,234,212,.1);
-    border-color: var(--line-strong);
-    color: var(--text);
-  }
-  .nav-link.active {
-    background: rgba(94,234,212,.15);
-    border-color: var(--mint);
-    color: var(--mint);
-  }
+  .nav-link:hover  { background: rgba(94,234,212,.1); border-color: var(--line-strong); color: var(--text); }
+  .nav-link.active { background: rgba(94,234,212,.15); border-color: var(--mint); color: var(--mint); }
 
-  /* page header */
   .page-header { margin: 0 10px 1.3rem; }
-  .page-header h2 {
-    font: 700 1.35rem 'Inter', sans-serif;
-    color: var(--text);
-    letter-spacing: -.02em;
-    margin-bottom: .25rem;
-  }
-  .page-header p {
-    font: 400 .8rem 'JetBrains Mono', monospace;
-    color: var(--muted);
-  }
+  .page-header h2 { font: 700 1.35rem 'Inter', sans-serif; color: var(--text); letter-spacing: -.02em; margin-bottom: .25rem; }
+  .page-header p  { font: 400 .8rem 'JetBrains Mono', monospace; color: var(--muted); }
 
-  /* stat cards — clean, flat */
   .history-stats {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0.85rem;
-    margin: 0 10px 1.3rem;
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 0.85rem; margin: 0 10px 1.3rem;
   }
-
   .history-stat-card {
-    background: rgba(94,234,212,.04);
-    border: 1px solid var(--line);
-    border-radius: 14px;
-    padding: 1.1rem 1.2rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
+    background: rgba(94,234,212,.04); border: 1px solid var(--line);
+    border-radius: 14px; padding: 1.1rem 1.2rem;
+    display: flex; align-items: center; gap: 1rem;
     transition: border-color .2s, background .2s;
   }
-  .history-stat-card:hover {
-    border-color: var(--line-strong);
-    background: rgba(94,234,212,.07);
-  }
+  .history-stat-card:hover { border-color: var(--line-strong); background: rgba(94,234,212,.07); }
 
-  .stat-icon-wrap {
-    width: 44px; height: 44px;
-    border-radius: 12px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.2rem;
-    flex-shrink: 0;
-  }
+  .stat-icon-wrap { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
   .stat-icon-wrap.blue  { background: rgba(59,130,246,.18); }
   .stat-icon-wrap.green { background: rgba(16,185,129,.18); }
   .stat-icon-wrap.mint  { background: rgba(94,234,212,.15); }
 
-  .stat-number {
-    font: 700 1.5rem 'Inter', sans-serif;
-    color: var(--text);
-    letter-spacing: -.03em;
-    line-height: 1;
-    margin-bottom: .2rem;
-  }
+  .stat-number { font: 700 1.5rem 'Inter', sans-serif; color: var(--text); letter-spacing: -.03em; line-height: 1; margin-bottom: .2rem; }
   .stat-number.is-mint { color: var(--mint); }
-  .stat-label {
-    font: 500 .68rem 'JetBrains Mono', monospace;
-    color: var(--muted-2);
-    letter-spacing: 1.2px;
-    text-transform: uppercase;
-  }
+  .stat-label  { font: 500 .68rem 'JetBrains Mono', monospace; color: var(--muted-2); letter-spacing: 1.2px; text-transform: uppercase; }
 
-  /* history list */
-  .history-list {
-    background: rgba(94,234,212,.03);
-    border: 1px solid var(--line);
-    border-radius: 16px;
-    margin: 0 10px 18px;
-    overflow: hidden;
-  }
+  .history-list { background: rgba(94,234,212,.03); border: 1px solid var(--line); border-radius: 16px; margin: 0 10px 18px; overflow: hidden; }
 
   .history-header {
-    display: grid;
-    grid-template-columns: 2fr 0.8fr 0.9fr 1.1fr;
+    display: grid; grid-template-columns: 2fr 0.8fr 0.9fr 1.1fr;
     padding: .75rem 1.2rem;
-    font: 600 .68rem 'JetBrains Mono', monospace;
-    color: var(--muted-2);
-    letter-spacing: 1.3px;
-    text-transform: uppercase;
-    border-bottom: 1px solid var(--line);
-    background: rgba(0,0,0,.15);
+    font: 600 .68rem 'JetBrains Mono', monospace; color: var(--muted-2);
+    letter-spacing: 1.3px; text-transform: uppercase;
+    border-bottom: 1px solid var(--line); background: rgba(0,0,0,.15);
   }
-
   .history-item {
-    display: grid;
-    grid-template-columns: 2fr 0.8fr 0.9fr 1.1fr;
-    padding: .85rem 1.2rem;
-    border-bottom: 1px solid var(--line);
-    align-items: center;
-    transition: background .15s;
+    display: grid; grid-template-columns: 2fr 0.8fr 0.9fr 1.1fr;
+    padding: .85rem 1.2rem; border-bottom: 1px solid var(--line);
+    align-items: center; transition: background .15s;
   }
   .history-item:last-child { border-bottom: none; }
   .history-item:hover { background: rgba(94,234,212,.04); }
 
-  .history-course {
-    font: 500 .88rem 'Inter', sans-serif;
-    color: var(--text);
-  }
-  .history-questions {
-    font: 400 .85rem 'JetBrains Mono', monospace;
-    color: var(--muted);
-  }
-  .history-date {
-    font: 400 .8rem 'JetBrains Mono', monospace;
-    color: var(--muted-2);
-  }
+  .history-course   { font: 500 .88rem 'Inter', sans-serif; color: var(--text); }
+  .history-questions{ font: 400 .85rem 'JetBrains Mono', monospace; color: var(--muted); }
+  .history-date     { font: 400 .8rem 'JetBrains Mono', monospace; color: var(--muted-2); }
 
-  /* score badge — simple */
-  .score-badge {
-    font: 600 .8rem 'Inter', sans-serif;
-    padding: .18rem .55rem;
-    border-radius: 6px;
-    letter-spacing: -.01em;
-  }
+  .score-badge { font: 600 .8rem 'Inter', sans-serif; padding: .18rem .55rem; border-radius: 6px; letter-spacing: -.01em; }
   .score-badge.high { background: rgba(94,234,212,.12); color: var(--mint); }
   .score-badge.mid  { background: rgba(234,179,8,.1);  color: #fbbf24; }
   .score-badge.low  { background: rgba(239,68,68,.1);  color: #fca5a5; }
 
-  /* ── RESPONSIVE ── */
+  /* ===== RESPONSIVE ===== */
   @media (max-width: 768px) {
-    .section-nav { justify-content: center; }
-    .history-stats { gap: .6rem; }
-    .history-stat-card {
-      flex-direction: column;
-      text-align: center;
-      padding: 1rem .7rem;
-      gap: .5rem;
-    }
-    .stat-icon-wrap { width: 38px; height: 38px; font-size: 1rem; border-radius: 10px; }
-    .stat-number { font-size: 1.25rem; }
-
-    .history-header { display: none; }
-    .history-list { border-radius: 14px; }
-    .history-items { display: flex; flex-direction: column; padding: .7rem; gap: .55rem; }
-
+    .section-nav        { justify-content: center; }
+    .nav-link           { font-size: 1rem; padding: .5rem 1.3rem; }
+    .page-header h2     { font-size: 1.45rem; }
+    .page-header p      { font-size: .95rem; }
+    .history-stats      { gap: .6rem; }
+    .history-stat-card  { flex-direction: column; text-align: center; padding: 1rem .7rem; gap: .5rem; }
+    .stat-icon-wrap     { width: 44px; height: 44px; font-size: 1.1rem; border-radius: 10px; }
+    .stat-number        { font-size: 1.5rem; }
+    .stat-label         { font-size: .75rem; }
+    .history-header     { display: none; }
+    .history-list       { border-radius: 14px; }
+    .history-items      { display: flex; flex-direction: column; padding: .7rem; gap: .55rem; }
     .history-item {
-      display: block;
-      padding: .9rem 1rem;
-      border-radius: 12px;
-      border: 1px solid var(--line);
-      background: rgba(94,234,212,.03);
+      display: block; padding: .9rem 1rem; border-radius: 12px;
+      border: 1px solid var(--line); background: rgba(94,234,212,.03);
     }
     .history-item:hover { background: rgba(94,234,212,.06); border-color: var(--line-strong); }
-
-    .history-course { display: block; margin-bottom: .55rem; font-size: .9rem; }
-
-    .history-mobile-meta {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: .5rem;
+    .history-course     { display: block; margin-bottom: .55rem; font-size: 1rem; }
+    .history-mobile-meta{ display: grid; grid-template-columns: repeat(3, 1fr); gap: .5rem; }
+    .history-mobile-item{
+      background: rgba(0,0,0,.2); border: 1px solid var(--line);
+      border-radius: 8px; padding: .4rem .55rem;
+      display: flex; flex-direction: column; gap: .1rem;
     }
-    .history-mobile-item {
-      background: rgba(0,0,0,.2);
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: .4rem .55rem;
-      display: flex;
-      flex-direction: column;
-      gap: .1rem;
-    }
-    .h-meta-label {
-      font: 500 .58rem 'JetBrains Mono', monospace;
-      color: var(--muted-2);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-    .h-meta-value {
-      font: 600 .82rem 'Inter', sans-serif;
-      color: var(--text);
-    }
+    .h-meta-label { font: 500 .65rem 'JetBrains Mono', monospace; color: var(--muted-2); text-transform: uppercase; letter-spacing: 1px; }
+    .h-meta-value { font: 600 .95rem 'Inter', sans-serif; color: var(--text); }
     .h-meta-value.is-mint { color: var(--mint); }
   }
 
   @media (max-width: 480px) {
-    .history-stats { grid-template-columns: repeat(3, 1fr); gap: .45rem; }
-    .stat-icon-wrap { width: 32px; height: 32px; font-size: .9rem; }
-    .stat-number { font-size: 1.1rem; }
-    .stat-label  { font-size: .6rem; }
-    .nav-link    { font-size: .78rem; padding: .4rem .9rem; }
+    .history-stats      { grid-template-columns: repeat(3, 1fr); gap: .45rem; }
+    .stat-icon-wrap     { width: 38px; height: 38px; font-size: 1rem; }
+    .stat-number        { font-size: 1.25rem; }
+    .stat-label         { font-size: .7rem; }
+    .nav-link           { font-size: .95rem; padding: .48rem 1rem; }
   }
 </style>
 
@@ -261,7 +153,7 @@
 
 <script>
 (function () {
-  const data = [
+  var data = [
     { course: "GST 112 — Use of English",  questions: 50, score: 85, date: "Dec 15" },
     { course: "MATH 101 — Algebra",         questions: 40, score: 92, date: "Dec 12" },
     { course: "CSC 111 — Programming",      questions: 60, score: 78, date: "Dec 10" },
@@ -275,38 +167,26 @@
 
   function render() {
     document.getElementById("totalCourses").textContent   = data.length;
-    document.getElementById("totalQuestions").textContent = data.reduce((s,h) => s + h.questions, 0).toLocaleString();
-    document.getElementById("avgScore").textContent       = Math.round(data.reduce((s,h) => s + h.score, 0) / data.length) + "%";
+    document.getElementById("totalQuestions").textContent = data.reduce(function(s,h){ return s + h.questions; }, 0).toLocaleString();
+    document.getElementById("avgScore").textContent       = Math.round(data.reduce(function(s,h){ return s + h.score; }, 0) / data.length) + "%";
 
-    const mobile = window.innerWidth <= 768;
-    document.getElementById("historyList").innerHTML = data.map(h => {
+    var mobile = window.innerWidth <= 768;
+    document.getElementById("historyList").innerHTML = data.map(function(h) {
       if (mobile) {
-        return `
-          <div class="history-item">
-            <span class="history-course">${h.course}</span>
-            <div class="history-mobile-meta">
-              <div class="history-mobile-item">
-                <span class="h-meta-label">Questions</span>
-                <span class="h-meta-value">${h.questions}</span>
-              </div>
-              <div class="history-mobile-item">
-                <span class="h-meta-label">Score</span>
-                <span class="h-meta-value is-mint">${h.score}%</span>
-              </div>
-              <div class="history-mobile-item">
-                <span class="h-meta-label">Date</span>
-                <span class="h-meta-value">${h.date}</span>
-              </div>
-            </div>
-          </div>`;
+        return '<div class="history-item">' +
+          '<span class="history-course">' + h.course + '</span>' +
+          '<div class="history-mobile-meta">' +
+            '<div class="history-mobile-item"><span class="h-meta-label">Questions</span><span class="h-meta-value">' + h.questions + '</span></div>' +
+            '<div class="history-mobile-item"><span class="h-meta-label">Score</span><span class="h-meta-value is-mint">' + h.score + '%</span></div>' +
+            '<div class="history-mobile-item"><span class="h-meta-label">Date</span><span class="h-meta-value">' + h.date + '</span></div>' +
+          '</div></div>';
       }
-      return `
-        <div class="history-item">
-          <span class="history-course">${h.course}</span>
-          <span class="history-questions">${h.questions}</span>
-          <span class="history-score"><span class="score-badge ${cls(h.score)}">${h.score}%</span></span>
-          <span class="history-date">${h.date}</span>
-        </div>`;
+      return '<div class="history-item">' +
+        '<span class="history-course">' + h.course + '</span>' +
+        '<span class="history-questions">' + h.questions + '</span>' +
+        '<span class="history-score"><span class="score-badge ' + cls(h.score) + '">' + h.score + '%</span></span>' +
+        '<span class="history-date">' + h.date + '</span>' +
+        '</div>';
     }).join("");
   }
 
