@@ -155,31 +155,62 @@
   .menu-toggle:hover { color: var(--mint); }
   .menu-toggle:active, .notification-bell:active, .user-profile:active { transform: scale(.95); }
 
-  /* Responsive */
+  /* ===== Responsive ===== */
   @media (max-width: 768px) {
-    .dashboard-header { padding: .8rem 1.2rem; }
-    .logo { width: 36px; height: 36px; }
-    .header-title h1 { font-size: 1rem; }
-    .header-title p  { font-size: .65rem; }
-    .right-section { gap: 1rem; }
-    .user-avatar { width: 34px; height: 34px; font-size: .9rem; }
-    .menu-toggle { display: block; }
-    .notif-panel { width: 290px; }
+    /* -- container -- */
+    .dashboard-header   { padding: 1rem 1.4rem; }
+    /* -- logo image -- */
+    .logo               { width: 44px; height: 44px; }
+    /* -- logo text -- */
+    .header-title h1    { font-size: 1.35rem; }
+    .header-title p     { font-size: .95rem; }
+    /* -- right icons -- */
+    .notification-bell  { width: 44px; height: 44px; }
+    .notification-bell i{ font-size: 1.15rem; }
+    .user-avatar        { width: 44px; height: 44px; font-size: 1.1rem; }
+    /* -- hamburger -- */
+    .menu-toggle        { display: block; font-size: 1.7rem; }
+    /* -- gap -- */
+    .right-section      { gap: 1.1rem; }
+    /* -- notif panel -- */
+    .notif-panel        { width: 300px; }
   }
+
   @media (max-width: 576px) {
-    .dashboard-header { padding: .7rem 1rem; }
-    .logo { width: 32px; height: 32px; }
-    .header-title h1 { font-size: .9rem; }
-    .header-title p  { display: none; }
-    .right-section { gap: .8rem; }
-    .user-avatar { width: 32px; height: 32px; font-size: .85rem; }
-    .notif-panel { width: calc(100vw - 2rem); right: -1rem; }
+    /* -- container -- */
+    .dashboard-header   { padding: .9rem 1.1rem; }
+    /* -- logo image -- */
+    .logo               { width: 42px; height: 42px; }
+    /* -- logo text -- */
+    .header-title h1    { font-size: 1.2rem; }
+    .header-title p     { font-size: .85rem; }
+    /* -- right icons -- */
+    .notification-bell  { width: 42px; height: 42px; }
+    .notification-bell i{ font-size: 1.1rem; }
+    .user-avatar        { width: 42px; height: 42px; font-size: 1rem; }
+    /* -- hamburger -- */
+    .menu-toggle        { font-size: 1.6rem; }
+    /* -- gap -- */
+    .right-section      { gap: 1rem; }
+    /* -- notif panel -- */
+    .notif-panel        { width: calc(100vw - 2rem); right: -1rem; }
   }
+
   @media (max-width: 380px) {
-    .dashboard-header { padding: .6rem .8rem; }
-    .logo { width: 28px; height: 28px; }
-    .header-title h1 { font-size: .8rem; }
-    .user-avatar { width: 28px; height: 28px; font-size: .75rem; }
+    /* -- container -- */
+    .dashboard-header   { padding: .8rem .9rem; }
+    /* -- logo image -- */
+    .logo               { width: 38px; height: 38px; }
+    /* -- logo text -- */
+    .header-title h1    { font-size: 1.1rem; }
+    .header-title p     { font-size: .8rem; }
+    /* -- right icons -- */
+    .notification-bell  { width: 38px; height: 38px; }
+    .user-avatar        { width: 38px; height: 38px; font-size: .95rem; }
+    /* -- hamburger -- */
+    .menu-toggle        { font-size: 1.5rem; }
+    /* -- gap -- */
+    .right-section      { gap: .8rem; }
   }
 </style>
 
@@ -305,14 +336,12 @@
     updateBadge();
     var empty = document.getElementById('notifEmpty');
     var list  = document.getElementById('notifList');
-    /* check if all items are now read */
     if (document.querySelectorAll('.notif-item').length === 0 && empty && list) {
       list.style.display  = 'none';
       empty.style.display = 'block';
     }
   };
 
-  /* close panel when clicking outside */
   document.addEventListener('click', function (e) {
     var wrapper = document.querySelector('.notif-wrapper');
     var panel   = document.getElementById('notifPanel');
