@@ -1,0 +1,493 @@
+<style>
+  /* ===== STUDY MATERIALS — IgniteU Theme ===== */
+
+  /* Stats bar */
+  .mat-stats-bar { display: flex; gap: .6rem; flex-wrap: wrap; margin: 0 10px 1.1rem; }
+  .mat-stat {
+    display: flex; align-items: center; gap: .45rem;
+    background: rgba(94,234,212,.05); border: 1px solid var(--line);
+    border-radius: 999px; padding: .28rem .85rem;
+    font: 500 .7rem 'JetBrains Mono', monospace; color: var(--muted);
+  }
+  .mat-stat i { color: var(--mint); font-size: .72rem; }
+
+  /* Search */
+  .search-container { margin: 0 10px 1rem; }
+  .search-wrapper { position: relative; display: flex; align-items: center; }
+  .search-icon {
+    position: absolute; left: .9rem; top: 50%; transform: translateY(-50%);
+    color: var(--muted); pointer-events: none;
+  }
+  .search-bar {
+    width: 100%; padding: .6rem 1rem .6rem 2.6rem;
+    background: rgba(94,234,212,.05); border: 1px solid var(--line);
+    border-radius: 999px; color: var(--text);
+    font: 400 .82rem 'Inter', sans-serif; outline: none;
+    transition: border-color .2s, box-shadow .2s;
+  }
+  .search-bar::placeholder { color: var(--muted-2); }
+  .search-bar:focus { border-color: var(--mint); box-shadow: 0 0 0 3px rgba(94,234,212,.12); }
+  .search-hint { font: 400 .68rem 'JetBrains Mono', monospace; color: var(--muted-2); margin-top: .4rem; padding-left: .2rem; }
+
+  /* Page header */
+  .page-header { margin: 0 10px 1rem; }
+  .page-header h1 { font: 700 1.35rem 'Inter', sans-serif; color: var(--text); letter-spacing: -.02em; margin-bottom: .2rem; }
+  .page-header p  { font: 400 .8rem 'JetBrains Mono', monospace; color: var(--muted); }
+
+  /* Filters */
+  .category-filters { display: flex; gap: .45rem; flex-wrap: wrap; margin: 0 10px 1.1rem; }
+  .filter-btn {
+    padding: .3rem 1rem; border-radius: 999px;
+    font: 600 .72rem 'Inter', sans-serif; cursor: pointer;
+    background: rgba(94,234,212,.05); border: 1px solid var(--line);
+    color: var(--muted); transition: background .2s, border-color .2s, color .2s;
+  }
+  .filter-btn:hover  { background: rgba(94,234,212,.1);  border-color: var(--line-strong); color: var(--text); }
+  .filter-btn.active { background: rgba(94,234,212,.15); border-color: var(--mint);        color: var(--mint); }
+
+  /* Grid */
+  .materials-grid {
+    list-style: none; padding: 0; margin: 0 10px 1rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: .75rem;
+  }
+
+  /* Card */
+  .material-card {
+    background: rgba(94,234,212,.04); border: 1px solid var(--line);
+    border-radius: 14px; padding: 1rem 1.1rem;
+    display: flex; gap: .85rem; position: relative; overflow: hidden;
+    transition: background .15s, border-color .15s, transform .15s;
+  }
+  .material-card::before {
+    content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--mint), transparent);
+    opacity: 0; transition: opacity .2s;
+  }
+  .material-card:hover { background: rgba(94,234,212,.08); border-color: var(--line-strong); transform: translateY(-2px); }
+  .material-card:hover::before { opacity: .3; }
+
+  .material-icon { font-size: 1.9rem; flex-shrink: 0; line-height: 1; padding-top: .1rem; }
+  .material-content { flex: 1; min-width: 0; }
+
+  .material-title { font: 600 .88rem 'Inter', sans-serif; color: var(--text); margin-bottom: .35rem; line-height: 1.35; }
+
+  .material-meta { display: flex; gap: .4rem; flex-wrap: wrap; margin-bottom: .4rem; }
+  .material-course {
+    background: rgba(94,234,212,.12); color: var(--mint);
+    border: 1px solid rgba(94,234,212,.25);
+    padding: .15rem .5rem; border-radius: 4px;
+    font: 600 .6rem 'JetBrains Mono', monospace; letter-spacing: .5px;
+  }
+  .material-type {
+    background: rgba(94,234,212,.05); color: var(--muted);
+    border: 1px solid var(--line);
+    padding: .15rem .5rem; border-radius: 4px;
+    font: 400 .6rem 'JetBrains Mono', monospace;
+  }
+
+  .material-description { font: 400 .77rem 'Inter', sans-serif; color: var(--muted); line-height: 1.5; margin-bottom: .7rem; }
+
+  .material-footer { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: .5rem; }
+  .material-stats  { display: flex; gap: .55rem; font: 400 .62rem 'JetBrains Mono', monospace; color: var(--muted-2); flex-wrap: wrap; }
+
+  .download-btn {
+    display: inline-flex; align-items: center; gap: .35rem;
+    padding: .38rem 1rem; border-radius: 999px; border: none; cursor: pointer;
+    background: linear-gradient(135deg, var(--mint-deep), var(--mint));
+    color: #0d1f1c; font: 600 .72rem 'Inter', sans-serif;
+    transition: opacity .2s, transform .15s; white-space: nowrap; flex-shrink: 0;
+  }
+  .download-btn:hover    { opacity: .85; transform: translateY(-1px); }
+  .download-btn:active   { opacity: 1;   transform: translateY(0);    }
+  .download-btn:disabled { opacity: .7;  cursor: not-allowed; transform: none; }
+
+  /* No results */
+  .no-results {
+    display: none; text-align: center; padding: 3rem 1rem; margin: 0 10px;
+    color: var(--muted); font: 400 .85rem 'JetBrains Mono', monospace;
+  }
+
+  /* Load More */
+  .mat-load-wrap { text-align: center; margin: .5rem 10px 18px; }
+  .mat-load-wrap.hidden { display: none; }
+  .mat-load-btn {
+    display: inline-flex; align-items: center; gap: .5rem;
+    padding: .6rem 1.8rem; border-radius: 999px;
+    border: 1px solid var(--line-strong); background: rgba(94,234,212,.07);
+    color: var(--mint); font: 600 .82rem 'Inter', sans-serif; cursor: pointer;
+    transition: background .2s, box-shadow .2s, transform .15s;
+  }
+  .mat-load-btn:hover  { background: rgba(94,234,212,.14); box-shadow: 0 4px 18px rgba(94,234,212,.2); transform: translateY(-1px); }
+  .mat-load-btn:active { transform: translateY(0); }
+
+  @media (max-width: 768px) {
+    .materials-grid { grid-template-columns: 1fr; }
+    .material-card  { flex-direction: column; }
+    .material-icon  { font-size: 1.75rem; }
+  }
+  @media (max-width: 576px) {
+    .category-filters { gap: .35rem; }
+    .filter-btn { font-size: .68rem; padding: .28rem .8rem; }
+    .material-footer  { flex-direction: column; align-items: flex-start; }
+    .download-btn     { width: 100%; justify-content: center; }
+  }
+</style>
+
+<!-- Stats bar -->
+<div class="mat-stats-bar">
+  <div class="mat-stat"><i class="fa-solid fa-file"></i> 18 Materials</div>
+  <div class="mat-stat"><i class="fa-solid fa-folder-open"></i> 3 Categories</div>
+  <div class="mat-stat"><i class="fa-solid fa-download"></i> 6,400+ Downloads</div>
+  <div class="mat-stat"><i class="fa-solid fa-clock"></i> Updated May 2025</div>
+</div>
+
+<!-- Search -->
+<div class="search-container">
+  <div class="search-wrapper">
+    <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+    </svg>
+    <input type="search" class="search-bar" id="matSearch" placeholder="Search by name, course code, or description…" autocomplete="off">
+  </div>
+  <div class="search-hint">Browse and download study materials for your courses</div>
+</div>
+
+<!-- Header -->
+<div class="page-header">
+  <h1>Study Materials</h1>
+  <p>Download lecture notes, past questions, and resources</p>
+</div>
+
+<!-- Filters -->
+<div class="category-filters">
+  <button class="filter-btn active" data-category="all">All Materials</button>
+  <button class="filter-btn" data-category="notes">Lecture Notes</button>
+  <button class="filter-btn" data-category="pastq">Past Questions</button>
+  <button class="filter-btn" data-category="ebooks">E-Books</button>
+</div>
+
+<!-- Grid -->
+<ul class="materials-grid" id="materialsGrid">
+
+  <li class="material-card" data-category="notes" data-search="gst 112 lecture notes communication english">
+    <div class="material-icon">📄</div>
+    <div class="material-content">
+      <h3 class="material-title">GST 112 — Complete Lecture Notes</h3>
+      <div class="material-meta"><span class="material-course">GST/ENT 112</span><span class="material-type">Lecture Notes</span></div>
+      <p class="material-description">Comprehensive notes covering communication skills, cultural studies, and academic English for all faculties.</p>
+      <div class="material-footer">
+        <div class="material-stats"><span>📄 PDF</span><span>📏 2.4 MB</span><span>⭐ 245</span></div>
+        <button class="download-btn" onclick="window.dlMat(this,'gst112-notes.pdf')"><i class="fa-solid fa-download"></i> Download</button>
+      </div>
+    </div>
+  </li>
+
+  <li class="material-card" data-category="pastq" data-search="math 101 past questions algebra calculus trigonometry">
+    <div class="material-icon">📝</div>
+    <div class="material-content">
+      <h3 class="material-title">MATH 101 — Past Questions (2019–2024)</h3>
+      <div class="material-meta"><span class="material-course">MATH 101</span><span class="material-type">Past Questions</span></div>
+      <p class="material-description">Five-year compiled past questions with worked solutions. Covers algebra, calculus, and trigonometry.</p>
+      <div class="material-footer">
+        <div class="material-stats"><span>📄 PDF</span><span>📏 1.8 MB</span><span>⭐ 512</span></div>
+        <button class="download-btn" onclick="window.dlMat(this,'math101-pastq.pdf')"><i class="fa-solid fa-download"></i> Download</button>
+      </div>
+    </div>
+  </li>
+
+  <li class="material-card" data-category="ebooks" data-search="data science python visualization statistics ebook dta 256">
+    <div class="material-icon">📖</div>
+    <div class="material-content">
+      <h3 class="material-title">Introduction to Data Science — E-Book</h3>
+      <div class="material-meta"><span class="material-course">DTA 256</span><span class="material-type">E-Book</span></div>
+      <p class="material-description">Foundations of data science: Python, data visualisation, statistical analysis, and predictive modelling.</p>
+      <div class="material-footer">
+        <div class="material-stats"><span>📄 EPUB</span><span>📏 5.2 MB</span><span>⭐ 189</span></div>
+        <button class="download-btn" onclick="window.dlMat(this,'datascience-ebook.epub')"><i class="fa-solid fa-download"></i> Download</button>
+      </div>
+    </div>
+  </li>
+
+  <li class="material-card" data-category="notes" data-search="sta 117 probability statistics notes">
+    <div class="material-icon">📄</div>
+    <div class="material-content">
+      <h3 class="material-title">STA 117 — Probability & Statistics Notes</h3>
+      <div class="material-meta"><span class="material-course">STA 117</span><span class="material-type">Lecture Notes</span></div>
+      <p class="material-description">Detailed notes on probability theory, statistical inference, and data analysis with worked examples.</p>
+      <div class="material-footer">
+        <div class="material-stats"><span>📄 PDF</span><span>📏 3.1 MB</span><span>⭐ 378</span></div>
+        <button class="download-btn" onclick="window.dlMat(this,'sta117-notes.pdf')"><i class="fa-solid fa-download"></i> Download</button>
+      </div>
+    </div>
+  </li>
+
+  <li class="material-card" data-category="pastq" data-search="chm 101 chemistry past questions reactions">
+    <div class="material-icon">📝</div>
+    <div class="material-content">
+      <h3 class="material-title">CHM 101 — Chemistry Past Questions</h3>
+      <div class="material-meta"><span class="material-course">CHM 101</span><span class="material-type">Past Questions</span></div>
+      <p class="material-description">Past exam questions covering chemical principles, atomic structure, bonding, and practical applications.</p>
+      <div class="material-footer">
+        <div class="material-stats"><span>📄 PDF</span><span>📏 1.2 MB</span><span>⭐ 234</span></div>
+        <button class="download-btn" onclick="window.dlMat(this,'chm101-pastq.pdf')"><i class="fa-solid fa-download"></i> Download</button>
+      </div>
+    </div>
+  </li>
+
+  <li class="material-card" data-category="ebooks" data-search="nigeria history culture nps 101 heritage">
+    <div class="material-icon">📖</div>
+    <div class="material-content">
+      <h3 class="material-title">Nigerian History & Culture — Complete Guide</h3>
+      <div class="material-meta"><span class="material-course">NPS 101</span><span class="material-type">E-Book</span></div>
+      <p class="material-description">Comprehensive guide to Nigerian history, cultural heritage, and societal development from pre-colonial times.</p>
+      <div class="material-footer">
+        <div class="material-stats"><span>📄 PDF</span><span>📏 8.7 MB</span><span>⭐ 567</span></div>
+        <button class="download-btn" onclick="window.dlMat(this,'nigeria-history.pdf')"><i class="fa-solid fa-download"></i> Download</button>
+      </div>
+    </div>
+  </li>
+
+  <li class="material-card" data-category="notes" data-search="phy 101 physics mechanics waves thermodynamics notes">
+    <div class="material-icon">📄</div>
+    <div class="material-content">
+      <h3 class="material-title">PHY 101 — Mechanics, Waves & Thermodynamics</h3>
+      <div class="material-meta"><span class="material-course">PHY 101</span><span class="material-type">Lecture Notes</span></div>
+      <p class="material-description">Full first-year physics notes: Newton's laws, wave motion, heat transfer, and thermodynamic principles with diagrams.</p>
+      <div class="material-footer">
+        <div class="material-stats"><span>📄 PDF</span><span>📏 4.6 MB</span><span>⭐ 420</span></div>
+        <button class="download-btn" onclick="window.dlMat(this,'phy101-notes.pdf')"><i class="fa-solid fa-download"></i> Download</button>
+      </div>
+    </div>
+  </li>
+
+  <li class="material-card" data-category="pastq" data-search="eng 211 literature past questions prose poetry">
+    <div class="material-icon">📝</div>
+    <div class="material-content">
+      <h3 class="material-title">ENG 211 — Literature in English Past Questions</h3>
+      <div class="material-meta"><span class="material-course">ENG 211</span><span class="material-type">Past Questions</span></div>
+      <p class="material-description">Essay and objective past questions on prose, poetry, and drama. Includes model answers and marking guides.</p>
+      <div class="material-footer">
+        <div class="material-stats"><span>📄 PDF</span><span>📏 2.0 MB</span><span>⭐ 310</span></div>
+        <button class="download-btn" onclick="window.dlMat(this,'eng211-pastq.pdf')"><i class="fa-solid fa-download"></i> Download</button>
+      </div>
+    </div>
+  </li>
+
+  <li class="material-card" data-category="ebooks" data-search="entrepreneurship business startup management ebook ent 203">
+    <div class="material-icon">📖</div>
+    <div class="material-content">
+      <h3 class="material-title">Entrepreneurship & Innovation — E-Book</h3>
+      <div class="material-meta"><span class="material-course">ENT 203</span><span class="material-type">E-Book</span></div>
+      <p class="material-description">Practical guide to entrepreneurial thinking, business model design, lean startup methodology, and funding strategies.</p>
+      <div class="material-footer">
+        <div class="material-stats"><span>📄 PDF</span><span>📏 6.3 MB</span><span>⭐ 298</span></div>
+        <button class="download-btn" onclick="window.dlMat(this,'ent203-ebook.pdf')"><i class="fa-solid fa-download"></i> Download</button>
+      </div>
+    </div>
+  </li>
+
+  <li class="material-card" data-category="notes" data-search="csc 201 data structures algorithms programming notes">
+    <div class="material-icon">📄</div>
+    <div class="material-content">
+      <h3 class="material-title">CSC 201 — Data Structures & Algorithms</h3>
+      <div class="material-meta"><span class="material-course">CSC 201</span><span class="material-type">Lecture Notes</span></div>
+      <p class="material-description">Complete notes on arrays, linked lists, stacks, queues, trees, graphs, sorting, and searching algorithms.</p>
+      <div class="material-footer">
+        <div class="material-stats"><span>📄 PDF</span><span>📏 5.8 MB</span><span>⭐ 634</span></div>
+        <button class="download-btn" onclick="window.dlMat(this,'csc201-notes.pdf')"><i class="fa-solid fa-download"></i> Download</button>
+      </div>
+    </div>
+  </li>
+
+  <li class="material-card" data-category="pastq" data-search="eco 101 economics microeconomics past questions">
+    <div class="material-icon">📝</div>
+    <div class="material-content">
+      <h3 class="material-title">ECO 101 — Principles of Economics Past Questions</h3>
+      <div class="material-meta"><span class="material-course">ECO 101</span><span class="material-type">Past Questions</span></div>
+      <p class="material-description">Past questions covering supply and demand, market structures, elasticity, and national income accounting.</p>
+      <div class="material-footer">
+        <div class="material-stats"><span>📄 PDF</span><span>📏 1.5 MB</span><span>⭐ 401</span></div>
+        <button class="download-btn" onclick="window.dlMat(this,'eco101-pastq.pdf')"><i class="fa-solid fa-download"></i> Download</button>
+      </div>
+    </div>
+  </li>
+
+  <li class="material-card" data-category="ebooks" data-search="artificial intelligence machine learning deep learning ebook csc 415">
+    <div class="material-icon">📖</div>
+    <div class="material-content">
+      <h3 class="material-title">Artificial Intelligence — Beginner to Advanced</h3>
+      <div class="material-meta"><span class="material-course">CSC 415</span><span class="material-type">E-Book</span></div>
+      <p class="material-description">Covers machine learning, neural networks, deep learning, NLP, and ethical AI with Python code examples.</p>
+      <div class="material-footer">
+        <div class="material-stats"><span>📄 EPUB</span><span>📏 9.1 MB</span><span>⭐ 745</span></div>
+        <button class="download-btn" onclick="window.dlMat(this,'ai-ebook.epub')"><i class="fa-solid fa-download"></i> Download</button>
+      </div>
+    </div>
+  </li>
+
+  <li class="material-card" data-category="notes" data-search="bio 101 biology cell genetics evolution notes">
+    <div class="material-icon">📄</div>
+    <div class="material-content">
+      <h3 class="material-title">BIO 101 — General Biology Notes</h3>
+      <div class="material-meta"><span class="material-course">BIO 101</span><span class="material-type">Lecture Notes</span></div>
+      <p class="material-description">Covers cell biology, genetics, evolution, ecology, and physiology with detailed diagrams and revision summaries.</p>
+      <div class="material-footer">
+        <div class="material-stats"><span>📄 PDF</span><span>📏 7.2 MB</span><span>⭐ 489</span></div>
+        <button class="download-btn" onclick="window.dlMat(this,'bio101-notes.pdf')"><i class="fa-solid fa-download"></i> Download</button>
+      </div>
+    </div>
+  </li>
+
+  <li class="material-card" data-category="pastq" data-search="acc 201 accounting financial statements past questions">
+    <div class="material-icon">📝</div>
+    <div class="material-content">
+      <h3 class="material-title">ACC 201 — Financial Accounting Past Questions</h3>
+      <div class="material-meta"><span class="material-course">ACC 201</span><span class="material-type">Past Questions</span></div>
+      <p class="material-description">Past questions on trial balance, income statements, balance sheets, and cash flow analysis with solutions.</p>
+      <div class="material-footer">
+        <div class="material-stats"><span>📄 PDF</span><span>📏 2.3 MB</span><span>⭐ 356</span></div>
+        <button class="download-btn" onclick="window.dlMat(this,'acc201-pastq.pdf')"><i class="fa-solid fa-download"></i> Download</button>
+      </div>
+    </div>
+  </li>
+
+  <li class="material-card" data-category="ebooks" data-search="project management pmp agile scrum ebook mgt 312">
+    <div class="material-icon">📖</div>
+    <div class="material-content">
+      <h3 class="material-title">Project Management Essentials — E-Book</h3>
+      <div class="material-meta"><span class="material-course">MGT 312</span><span class="material-type">E-Book</span></div>
+      <p class="material-description">Covers traditional and agile project management: scope, schedule, risk, stakeholder management, and Scrum sprints.</p>
+      <div class="material-footer">
+        <div class="material-stats"><span>📄 PDF</span><span>📏 4.4 MB</span><span>⭐ 272</span></div>
+        <button class="download-btn" onclick="window.dlMat(this,'mgt312-ebook.pdf')"><i class="fa-solid fa-download"></i> Download</button>
+      </div>
+    </div>
+  </li>
+
+  <li class="material-card" data-category="notes" data-search="mat 202 linear algebra vectors matrices notes">
+    <div class="material-icon">📄</div>
+    <div class="material-content">
+      <h3 class="material-title">MAT 202 — Linear Algebra & Vectors</h3>
+      <div class="material-meta"><span class="material-course">MAT 202</span><span class="material-type">Lecture Notes</span></div>
+      <p class="material-description">Vectors, matrices, determinants, eigenvalues, and linear transformations — with step-by-step worked examples.</p>
+      <div class="material-footer">
+        <div class="material-stats"><span>📄 PDF</span><span>📏 3.8 MB</span><span>⭐ 311</span></div>
+        <button class="download-btn" onclick="window.dlMat(this,'mat202-notes.pdf')"><i class="fa-solid fa-download"></i> Download</button>
+      </div>
+    </div>
+  </li>
+
+  <li class="material-card" data-category="pastq" data-search="psy 101 psychology past questions behaviour cognition">
+    <div class="material-icon">📝</div>
+    <div class="material-content">
+      <h3 class="material-title">PSY 101 — Introduction to Psychology Past Questions</h3>
+      <div class="material-meta"><span class="material-course">PSY 101</span><span class="material-type">Past Questions</span></div>
+      <p class="material-description">Past questions on perception, cognition, learning, memory, development, and abnormal psychology.</p>
+      <div class="material-footer">
+        <div class="material-stats"><span>📄 PDF</span><span>📏 1.6 MB</span><span>⭐ 287</span></div>
+        <button class="download-btn" onclick="window.dlMat(this,'psy101-pastq.pdf')"><i class="fa-solid fa-download"></i> Download</button>
+      </div>
+    </div>
+  </li>
+
+  <li class="material-card" data-category="ebooks" data-search="cybersecurity network security hacking ethical ebook csc 422">
+    <div class="material-icon">📖</div>
+    <div class="material-content">
+      <h3 class="material-title">Cybersecurity Fundamentals — E-Book</h3>
+      <div class="material-meta"><span class="material-course">CSC 422</span><span class="material-type">E-Book</span></div>
+      <p class="material-description">Covers network security, cryptography, ethical hacking, threat modelling, and cyber defence strategies.</p>
+      <div class="material-footer">
+        <div class="material-stats"><span>📄 EPUB</span><span>📏 7.5 MB</span><span>⭐ 618</span></div>
+        <button class="download-btn" onclick="window.dlMat(this,'cybersec-ebook.epub')"><i class="fa-solid fa-download"></i> Download</button>
+      </div>
+    </div>
+  </li>
+
+</ul>
+
+<div class="no-results" id="matNoResults">No materials found matching your search.</div>
+
+<div class="mat-load-wrap hidden" id="matLoadWrap">
+  <button class="mat-load-btn" id="matLoadBtn">
+    <i class="fa-solid fa-chevron-down"></i> Load More
+  </button>
+</div>
+
+<script>
+(function () {
+  if (window.__matReady) return;
+  window.__matReady = true;
+
+  var STEP = 6;
+  var activeCategory = 'all';
+  var searchQuery    = '';
+  var shown          = STEP;
+
+  window.dlMat = function (btn, filename) {
+    var orig = btn.innerHTML;
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Downloading…';
+    btn.disabled = true;
+    setTimeout(function () {
+      btn.innerHTML = '<i class="fa-solid fa-check"></i> Done!';
+      setTimeout(function () { btn.innerHTML = orig; btn.disabled = false; }, 1500);
+    }, 1200);
+  };
+
+  function applyFilters() {
+    var allCards = Array.from(document.querySelectorAll('#materialsGrid .material-card'));
+    var q = searchQuery.toLowerCase().trim();
+
+    var matched = allCards.filter(function (card) {
+      var catOk  = activeCategory === 'all' || card.dataset.category === activeCategory;
+      var text   = (card.dataset.search || '') + ' ' + card.textContent.toLowerCase();
+      var qOk    = !q || text.includes(q);
+      return catOk && qOk;
+    });
+
+    allCards.forEach(function (c) { c.style.display = 'none'; });
+    matched.slice(0, shown).forEach(function (c) { c.style.display = ''; });
+
+    var noRes = document.getElementById('matNoResults');
+    if (noRes) noRes.style.display = matched.length === 0 ? 'block' : 'none';
+
+    var wrap = document.getElementById('matLoadWrap');
+    var btn  = document.getElementById('matLoadBtn');
+    if (wrap && btn) {
+      if (matched.length > shown) {
+        var remaining = Math.min(matched.length - shown, STEP);
+        btn.innerHTML = '<i class="fa-solid fa-chevron-down"></i> Load ' + remaining + ' More';
+        wrap.classList.remove('hidden');
+      } else {
+        wrap.classList.add('hidden');
+      }
+    }
+  }
+
+  document.querySelectorAll('.filter-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      activeCategory = btn.dataset.category;
+      shown = STEP;
+      document.querySelectorAll('.filter-btn').forEach(function (b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      applyFilters();
+    });
+  });
+
+  var searchEl = document.getElementById('matSearch');
+  if (searchEl) searchEl.addEventListener('input', function () {
+    searchQuery = this.value;
+    shown = STEP;
+    applyFilters();
+  });
+
+  var loadBtn = document.getElementById('matLoadBtn');
+  if (loadBtn) loadBtn.addEventListener('click', function () {
+    shown += STEP;
+    applyFilters();
+  });
+
+  applyFilters();
+})();
+</script>

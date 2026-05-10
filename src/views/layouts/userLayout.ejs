@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+</head>
+<body>
+    <style>
+        /* Basic reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+a {
+    text-decoration: none;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    width: 100%;
+}
+
+.main-wrapper {
+    display: flex;
+    flex: 1;
+}
+
+.content {
+    flex: 0.99;
+    margin-right: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.content-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+/* Dark Mode */
+body.dark-mode,
+body.dark-mode .container,
+body.dark-mode .main-wrapper,
+body.dark-mode .content,
+body.dark-mode .content-wrapper {
+    background: #0f172a;
+}
+
+
+
+    </style>
+
+
+
+
+
+     <div class="container">
+         <%- include ('../partials/userHeader') %>
+      
+         <main class="main-wrapper">
+                <%- include ('../partials/userAside') %>
+                <div class="content">
+                    <div class="content-wrapper">
+                         <%- include ('../partials/userBanner') %>
+                          <%- body %>
+                    </div>
+                </div>
+            
+         </main>
+
+
+    <%- include ('../partials/userFooter') %>
+
+
+     </div>
+
+
+
+   
+</body>
+
+
+
+
+</html>

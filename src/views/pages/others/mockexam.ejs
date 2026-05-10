@@ -1,0 +1,498 @@
+<style>
+  /* ===== COURSE SELECTION — IgniteU Theme ===== */
+
+  /* search */
+  .search-container { margin: 0 10px 1.4rem; max-width: 560px; }
+  .search-wrapper   { position: relative; display: flex; align-items: center; }
+
+  .search-icon {
+    position: absolute; left: 1rem; top: 50%; transform: translateY(-50%);
+    color: var(--muted-2); pointer-events: none; width: 16px; height: 16px;
+  }
+
+  .search-bar {
+    width: 100%;
+    padding: .82rem 1rem .82rem 2.8rem;
+    background: rgba(94,234,212,.04);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    color: var(--text);
+    font: 400 .92rem 'Inter', sans-serif;
+    outline: none;
+    transition: border-color .25s, box-shadow .25s, background .25s;
+  }
+  .search-bar::placeholder { color: var(--muted-2); }
+  .search-bar:focus {
+    border-color: var(--mint);
+    background: rgba(94,234,212,.07);
+    box-shadow: 0 0 0 3px rgba(94,234,212,.12);
+  }
+
+  .search-hint {
+    font: 400 .72rem 'JetBrains Mono', monospace;
+    color: var(--muted-2);
+    margin-top: .45rem;
+    margin-left: .25rem;
+    letter-spacing: .3px;
+  }
+
+  /* page header */
+  .page-header { margin: 0 10px 1.2rem; }
+  .page-header h1 {
+    font: 700 1.2rem 'Inter', sans-serif;
+    color: var(--text); letter-spacing: -.02em; margin-bottom: .2rem;
+  }
+  .page-header p {
+    font: 400 .78rem 'JetBrains Mono', monospace;
+    color: var(--muted); letter-spacing: .3px;
+  }
+
+  /* no-results */
+  .no-results {
+    display: none;
+    padding: 2.5rem 1rem;
+    text-align: center;
+    color: var(--muted);
+    font: 400 .88rem 'JetBrains Mono', monospace;
+    grid-column: 1 / -1;
+  }
+  .no-results i { display: block; font-size: 2rem; margin-bottom: .75rem; color: var(--muted-2); }
+
+  /* grid */
+  .course-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+    padding: 0;
+    list-style: none;
+    margin: 0 10px;
+  }
+
+  /* hidden cards (beyond first 6) */
+  .course-item.hidden-card { display: none; }
+  .course-item.hidden-card.shown { display: list-item; }
+
+  /* card */
+  .course-card {
+    position: relative;
+    background: rgba(94,234,212,.04);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 1rem 1rem .9rem;
+    display: block;
+    text-decoration: none;
+    transition: background .2s, border-color .2s, transform .2s, box-shadow .2s;
+    height: 100%;
+  }
+  .course-card:hover {
+    background: rgba(94,234,212,.08);
+    border-color: var(--line-strong);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,.25);
+  }
+
+  /* question count badge */
+  .course-badge {
+    position: absolute; top: .9rem; right: .9rem;
+    background: rgba(94,234,212,.12);
+    border: 1px solid rgba(94,234,212,.25);
+    color: var(--mint);
+    padding: .18rem .6rem;
+    border-radius: 999px;
+    font: 600 .68rem 'JetBrains Mono', monospace;
+    letter-spacing: .5px;
+    white-space: nowrap;
+  }
+
+  .course-title {
+    font: 700 .95rem 'Inter', sans-serif;
+    color: var(--text);
+    margin-bottom: .25rem;
+    padding-right: 56px;
+    letter-spacing: -.01em;
+    line-height: 1.3;
+  }
+
+  .course-code {
+    font: 600 .72rem 'JetBrains Mono', monospace;
+    color: var(--mint);
+    letter-spacing: 1px;
+    margin-bottom: .5rem;
+  }
+
+  .course-description {
+    font: 400 .78rem 'Inter', sans-serif;
+    color: var(--muted);
+    line-height: 1.5;
+    margin-bottom: .6rem;
+  }
+
+  .course-divider {
+    height: 1px;
+    background: var(--line);
+    margin: .7rem 0 .55rem;
+  }
+
+  .course-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font: 400 .7rem 'JetBrains Mono', monospace;
+    color: var(--muted-2);
+  }
+  .course-level, .course-semester {
+    display: flex; align-items: center; gap: .3rem;
+  }
+
+  /* load more */
+  .load-more-container {
+    text-align: center;
+    margin: 1.2rem 10px 18px;
+  }
+  .load-more-container.hidden { display: none; }
+
+  .load-more-btn {
+    display: inline-flex; align-items: center; gap: .55rem;
+    padding: .65rem 1.8rem;
+    border-radius: 999px; border: 1px solid var(--line-strong);
+    background: rgba(94,234,212,.07);
+    color: var(--mint);
+    font: 600 .85rem 'Inter', sans-serif;
+    cursor: pointer; letter-spacing: -.01em;
+    transition: background .2s, box-shadow .2s, transform .2s;
+  }
+  .load-more-btn:hover {
+    background: rgba(94,234,212,.14);
+    box-shadow: 0 4px 18px rgba(94,234,212,.2);
+    transform: translateY(-1px);
+  }
+  .load-more-btn:active { transform: translateY(0); }
+  .load-more-btn i { font-size: .8rem; transition: transform .3s; }
+  .load-more-btn:hover i { transform: translateY(2px); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .course-grid { grid-template-columns: 1fr; gap: .8rem; }
+    .search-bar  { font-size: .88rem; }
+  }
+  @media (max-width: 480px) {
+    .course-badge { font-size: .62rem; }
+    .course-title { font-size: .9rem; padding-right: 52px; }
+    .course-meta  { font-size: .65rem; }
+  }
+</style>
+
+<!-- Search -->
+<div class="search-container">
+  <div class="search-wrapper">
+    <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+    </svg>
+    <input type="search" class="search-bar" id="courseSearch"
+      placeholder="Search by name or course code…" autocomplete="off">
+  </div>
+  <div class="search-hint">Type to filter courses instantly</div>
+</div>
+
+<!-- Header -->
+<div class="page-header">
+  <h1>Select a course to practice</h1>
+  <p id="courseCount">13 Courses Available</p>
+</div>
+
+<!-- Course Grid — EJS HTML rows -->
+<ul class="course-grid" id="courseGrid">
+
+  <!-- Course 1 -->
+  <li class="course-item" data-search="gst ent 112 communication english">
+    <a href="/mockexam/<%= courseCode[1] %>" class="course-card">
+      <div class="course-badge">50 Qs</div>
+      <div class="course-title"><%= courseCode[1] %></div>
+      <div class="course-code">GST/ENT 112</div>
+      <div class="course-description">Communication, cultural studies, and use of English for academic development.</div>
+      <div class="course-divider"></div>
+      <div class="course-meta">
+        <span class="course-level">🎓 100L</span>
+        <span class="course-semester">📅 Second Semester</span>
+      </div>
+    </a>
+  </li>
+
+  <!-- Course 2 -->
+  <li class="course-item" data-search="math 101 algebra calculus trigonometry mathematics">
+    <a href="/mockexam/<%= courseCode[2] %>" class="course-card">
+      <div class="course-badge">40 Qs</div>
+      <div class="course-title"><%= courseCode[2] %></div>
+      <div class="course-code">MATH 101</div>
+      <div class="course-description">Elementary mathematics courses covering algebra, calculus, and trigonometry.</div>
+      <div class="course-divider"></div>
+      <div class="course-meta">
+        <span class="course-level">🎓 100L</span>
+        <span class="course-semester">📅 First Semester</span>
+      </div>
+    </a>
+  </li>
+
+  <!-- Course 3 -->
+  <li class="course-item" data-search="sta 117 statistics probability data">
+    <a href="/mockexam/<%= courseCode[3] %>" class="course-card">
+      <div class="course-badge">35 Qs</div>
+      <div class="course-title"><%= courseCode[3] %></div>
+      <div class="course-code">STA 117</div>
+      <div class="course-description">Probability and statistical methods for data analysis and interpretation.</div>
+      <div class="course-divider"></div>
+      <div class="course-meta">
+        <span class="course-level">🎓 100L</span>
+        <span class="course-semester">📅 Second Semester</span>
+      </div>
+    </a>
+  </li>
+
+  <!-- Course 4 -->
+  <li class="course-item" data-search="csc cos cpt 111 101 121 programming computing computer">
+    <a href="/mockexam/<%= courseCode[4] %>" class="course-card">
+      <div class="course-badge">60 Qs</div>
+      <div class="course-title"><%= courseCode[4] %></div>
+      <div class="course-code">CSC111 / COS101 / CPT121</div>
+      <div class="course-description">Introduction to computing, programming fundamentals, and computer systems.</div>
+      <div class="course-divider"></div>
+      <div class="course-meta">
+        <span class="course-level">🎓 100L</span>
+        <span class="course-semester">📅 First Semester</span>
+      </div>
+    </a>
+  </li>
+
+  <!-- Course 5 -->
+  <li class="course-item" data-search="dta 256 data science python visualization">
+    <a href="/mockexam/<%= courseCode[5] %>" class="course-card">
+      <div class="course-badge">45 Qs</div>
+      <div class="course-title"><%= courseCode[5] %></div>
+      <div class="course-code">DTA256</div>
+      <div class="course-description">Foundations of data science covering Python, data visualization, statistical analysis, and predictive modeling.</div>
+      <div class="course-divider"></div>
+      <div class="course-meta">
+        <span class="course-level">🎓 200L</span>
+        <span class="course-semester">📅 First Semester</span>
+      </div>
+    </a>
+  </li>
+
+  <!-- Course 6 -->
+  <li class="course-item" data-search="chm 101 chemistry chemical reactions">
+    <a href="/mockexam/<%= courseCode[6] %>" class="course-card">
+      <div class="course-badge">30 Qs</div>
+      <div class="course-title"><%= courseCode[6] %></div>
+      <div class="course-code">CHM101</div>
+      <div class="course-description">General chemistry courses covering chemical principles and reactions.</div>
+      <div class="course-divider"></div>
+      <div class="course-meta">
+        <span class="course-level">🎓 100L</span>
+        <span class="course-semester">📅 Second Semester</span>
+      </div>
+    </a>
+  </li>
+
+  <!-- Course 7 — hidden initially -->
+  <li class="course-item hidden-card" data-search="bio 101 biology cell genetics physiology">
+    <a href="/mockexam/<%= courseCode[7] %>" class="course-card">
+      <div class="course-badge">55 Qs</div>
+      <div class="course-title"><%= courseCode[7] %></div>
+      <div class="course-code">BIO101</div>
+      <div class="course-description">General biology courses covering cell biology, genetics, and physiology.</div>
+      <div class="course-divider"></div>
+      <div class="course-meta">
+        <span class="course-level">🎓 100L</span>
+        <span class="course-semester">📅 First Semester</span>
+      </div>
+    </a>
+  </li>
+
+  <!-- Course 8 — hidden initially -->
+  <li class="course-item hidden-card" data-search="geo 101 geology earth materials">
+    <a href="/mockexam/<%= courseCode[8] %>" class="course-card">
+      <div class="course-badge">40 Qs</div>
+      <div class="course-title"><%= courseCode[8] %></div>
+      <div class="course-code">GEO101</div>
+      <div class="course-description">Study of the Earth, its materials, processes, and history.</div>
+      <div class="course-divider"></div>
+      <div class="course-meta">
+        <span class="course-level">🎓 100L</span>
+        <span class="course-semester">📅 Second Semester</span>
+      </div>
+    </a>
+  </li>
+
+  <!-- Course 9 — hidden initially -->
+  <li class="course-item hidden-card" data-search="gpy 110 geophysics physics earth">
+    <a href="/mockexam/<%= courseCode[9] %>" class="course-card">
+      <div class="course-badge">35 Qs</div>
+      <div class="course-title"><%= courseCode[9] %></div>
+      <div class="course-code">GPY110</div>
+      <div class="course-description">Application of physics principles to study the Earth and its environment.</div>
+      <div class="course-divider"></div>
+      <div class="course-meta">
+        <span class="course-level">🎓 100L</span>
+        <span class="course-semester">📅 First Semester</span>
+      </div>
+    </a>
+  </li>
+
+  <!-- Course 10 — hidden initially -->
+  <li class="course-item hidden-card" data-search="ggy 121 geography landscape environment">
+    <a href="/mockexam/<%= courseCode[10] %>" class="course-card">
+      <div class="course-badge">40 Qs</div>
+      <div class="course-title"><%= courseCode[10] %></div>
+      <div class="course-code">GGY121</div>
+      <div class="course-description">Study of Earth's landscapes, environments, and human relationships.</div>
+      <div class="course-divider"></div>
+      <div class="course-meta">
+        <span class="course-level">🎓 100L</span>
+        <span class="course-semester">📅 Second Semester</span>
+      </div>
+    </a>
+  </li>
+
+  <!-- Course 11 — hidden initially -->
+  <li class="course-item hidden-card" data-search="phy 101 physics mechanics waves">
+    <a href="/mockexam/<%= courseCode[11] %>" class="course-card">
+      <div class="course-badge">45 Qs</div>
+      <div class="course-title"><%= courseCode[11] %></div>
+      <div class="course-code">PHY101</div>
+      <div class="course-description">Language proficiency, writing skills, and communication techniques.</div>
+      <div class="course-divider"></div>
+      <div class="course-meta">
+        <span class="course-level">🎓 100L</span>
+        <span class="course-semester">📅 First Semester</span>
+      </div>
+    </a>
+  </li>
+
+  <!-- Course 12 — hidden initially -->
+  <li class="course-item hidden-card" data-search="nps 101 nigeria history culture society">
+    <a href="/mockexam/<%= courseCode[12] %>" class="course-card">
+      <div class="course-badge">50 Qs</div>
+      <div class="course-title"><%= courseCode[12] %></div>
+      <div class="course-code">NPS101</div>
+      <div class="course-description">Study of Nigerian history, culture, and societal development.</div>
+      <div class="course-divider"></div>
+      <div class="course-meta">
+        <span class="course-level">🎓 100L</span>
+        <span class="course-semester">📅 First Semester</span>
+      </div>
+    </a>
+  </li>
+
+  <!-- Course 13 — hidden initially -->
+  <li class="course-item hidden-card" data-search="agg agriculture geography landscape">
+    <a href="/mockexam/<%= courseCode[13] %>" class="course-card">
+      <div class="course-badge">35 Qs</div>
+      <div class="course-title"><%= courseCode[13] %></div>
+      <div class="course-code">AGG</div>
+      <div class="course-description">Study of Earth's landscapes, environments, and human relationships.</div>
+      <div class="course-divider"></div>
+      <div class="course-meta">
+        <span class="course-level">🎓 100L</span>
+        <span class="course-semester">📅 Second Semester</span>
+      </div>
+    </a>
+  </li>
+
+  <!-- No results message -->
+  <li class="no-results" id="noResults">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    No courses match "<span id="noResultsTerm"></span>"
+  </li>
+
+</ul>
+
+<!-- Load More -->
+<div class="load-more-container" id="loadMoreContainer">
+  <button class="load-more-btn" id="loadMoreBtn">
+    <i class="fa-solid fa-chevron-down"></i> Load More Courses
+  </button>
+</div>
+
+<script>
+(function () {
+  var SHOW_INIT = 6;
+  var SHOW_STEP = 6;
+
+  var allItems   = Array.from(document.querySelectorAll('.course-item:not(.no-results)'));
+  var noResults  = document.getElementById('noResults');
+  var countEl    = document.getElementById('courseCount');
+  var loadBtn    = document.getElementById('loadMoreBtn');
+  var loadWrap   = document.getElementById('loadMoreContainer');
+  var searchInput = document.getElementById('courseSearch');
+
+  var totalVisible = SHOW_INIT; // how many the user has unlocked via Load More
+  var query = '';
+
+  /* ── Search ── */
+  searchInput.addEventListener('input', function () {
+    query = this.value.trim().toLowerCase();
+    totalVisible = SHOW_INIT; // reset pager on new search
+    render();
+  });
+
+  /* ── Load More ── */
+  loadBtn.addEventListener('click', function () {
+    totalVisible += SHOW_STEP;
+    render();
+  });
+
+  /* ── Render ── */
+  function render() {
+    // filter by search
+    var matched = allItems.filter(function (li) {
+      if (!query) return true;
+      var keywords = li.dataset.search || '';
+      var title    = (li.querySelector('.course-title')       || {}).textContent || '';
+      var code     = (li.querySelector('.course-code')        || {}).textContent || '';
+      var desc     = (li.querySelector('.course-description') || {}).textContent || '';
+      var haystack = (keywords + ' ' + title + ' ' + code + ' ' + desc).toLowerCase();
+      return haystack.includes(query);
+    });
+
+    var unmatched = allItems.filter(function (li) { return matched.indexOf(li) === -1; });
+
+    // hide all first
+    allItems.forEach(function (li) {
+      li.style.display = 'none';
+      li.classList.remove('hidden-card', 'shown');
+    });
+
+    // show matched up to totalVisible
+    matched.forEach(function (li, i) {
+      if (i < totalVisible) {
+        li.style.display = '';
+      }
+    });
+
+    // no-results message
+    if (matched.length === 0 && query) {
+      noResults.style.display = 'block';
+      document.getElementById('noResultsTerm').textContent = query;
+    } else {
+      noResults.style.display = 'none';
+    }
+
+    // update count label
+    var showing = Math.min(matched.length, totalVisible);
+    countEl.textContent = query
+      ? showing + ' of ' + matched.length + ' courses match "' + query + '"'
+      : allItems.length + ' Courses Available';
+
+    // show/hide Load More
+    if (matched.length > totalVisible) {
+      loadWrap.classList.remove('hidden');
+      var remaining = matched.length - totalVisible;
+      loadBtn.innerHTML = '<i class="fa-solid fa-chevron-down"></i> Load ' + Math.min(remaining, SHOW_STEP) + ' More Courses';
+    } else {
+      loadWrap.classList.add('hidden');
+    }
+  }
+
+  render(); // initial render
+})();
+</script>

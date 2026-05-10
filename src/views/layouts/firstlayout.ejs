@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>IgniteU — Spark Your Success</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+  :root{
+    --mint:#5eead4;          /* primary mint/teal */
+    --mint-bright:#6ee7b7;   /* brighter accent */
+    --mint-deep:#2dd4bf;     /* deeper teal */
+    --bg-0:#192b27;          /* near-black with blue tint */
+    --bg-1:#03101e;
+    --bg-2:#062032;
+    --line:rgba(94,234,212,.18);
+    --line-strong:rgba(94,234,212,.4);
+    --text:#e6fff8;
+    --muted:#7a9aa6;
+    --muted-2:#5e7a86;
+  }
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Inter',system-ui,sans-serif;
+    color:var(--text);
+    background:var(--bg-0);
+    min-height:100vh;
+    overflow-x:hidden;
+    position:relative;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ===== Background ===== */
+  .bg-scene{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+  .bg-scene .glow{
+    position:absolute;inset:-20%;
+    background:
+      radial-gradient(60% 40% at 50% 0%, rgba(94,234,212,.18), transparent 60%),
+      radial-gradient(50% 40% at 80% 50%, rgba(45,212,191,.10), transparent 65%),
+      radial-gradient(50% 40% at 10% 80%, rgba(94,234,212,.08), transparent 65%);
+    filter:blur(20px);
+  }
+
+  
+.logo-section { display: flex; align-items: center; gap: 0.75rem; }
+.logo { width: 36px; height: 36px; border-radius: 10px; overflow: hidden; }
+.logo img { width: 100%; height: 100%; object-fit: cover; }
+.header-title h1 { font-size: 1rem; color: white; }
+.header-title p { font-size: 0.7rem; color: rgba(255,255,255,0.9); }
+  .bg-scene .stars{
+    position:absolute;inset:0;
+    background-image:
+      radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,.6), transparent),
+      radial-gradient(1px 1px at 70% 80%, rgba(94,234,212,.5), transparent),
+      radial-gradient(1px 1px at 40% 60%, rgba(255,255,255,.5), transparent),
+      radial-gradient(1px 1px at 90% 20%, rgba(110,231,183,.5), transparent),
+      radial-gradient(1px 1px at 10% 90%, rgba(255,255,255,.4), transparent),
+      radial-gradient(2px 2px at 55% 15%, rgba(255,255,255,.4), transparent);
+    background-size:700px 700px;opacity:.45;
+  }
+  .bg-scene .vignette{
+    position:absolute;inset:0;
+    background:radial-gradient(ellipse at top, transparent 30%, rgba(2,10,20,.85) 90%);
+  }
+
+  /* ===== Header ===== */
+  .header{
+    position:sticky;top:0;z-index:50;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:1.1rem 2rem;
+    background:rgba(2,10,20,.7);
+    backdrop-filter:blur(16px) saturate(140%);
+    -webkit-backdrop-filter:blur(16px) saturate(140%);
+    border-bottom:1px solid var(--line);
+  }
+  .logo{display:flex;align-items:center;gap:.7rem}
+  .logo-mark{
+    width:40px;height:40px;border-radius:50%;
+    background:linear-gradient(135deg, rgba(94,234,212,.3), rgba(45,212,191,.15));
+    border:1px solid var(--line-strong);
+    display:grid;place-items:center;
+    box-shadow:0 0 25px rgba(94,234,212,.4), inset 0 0 12px rgba(94,234,212,.25);
+    color:var(--mint);font-size:1rem;
+  }
+  .logo-text{font-size:1.4rem;font-weight:800;letter-spacing:-.5px}
+  .logo-text .accent{color:var(--mint)}
+  .nav-links{display:flex;gap:2rem;font-size:.92rem;color:var(--muted)}
+  .nav-links a{color:inherit;text-decoration:none;transition:.25s}
+  .nav-links a:hover{color:var(--mint)}
+  .nav-actions{display:flex;gap:.6rem}
+
+  .btn{
+    position:relative;
+    padding:.85rem 1.6rem;border-radius:999px;
+    font:600 .92rem 'Inter',sans-serif;
+    cursor:pointer;border:1px solid transparent;
+    background:transparent;color:var(--text);
+    transition:transform .25s ease, box-shadow .25s, background .25s;
+    overflow:hidden;display:inline-flex;align-items:center;gap:.5rem;
+  }
+  .btn-ghost{border-color:var(--line-strong);color:var(--text)}
+  .btn-ghost:hover{background:rgba(94,234,212,.08);border-color:var(--mint);transform:translateY(-2px)}
+  .btn-primary{
+    background:linear-gradient(135deg,var(--mint-bright),var(--mint-deep));
+    color:#022; font-weight:700;
+    box-shadow:0 8px 30px rgba(94,234,212,.45), inset 0 1px 0 rgba(255,255,255,.4);
+  }
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(94,234,212,.6)}
+
+  /* ===== Hero ===== */
+  .hero{
+    position:relative;z-index:2;
+    display:grid;grid-template-columns:1.1fr 1fr;
+    align-items:center;gap:3rem;
+    padding:5rem 2rem 3rem;
+    max-width:1400px;margin:0 auto;
+  }
+  .hero-content{max-width:640px}
+  .badge{
+    display:inline-flex;align-items:center;gap:.6rem;
+    padding:.5rem 1.1rem;border-radius:999px;
+    background:rgba(94,234,212,.06);
+    border:1px solid var(--line);
+    font:500 .78rem 'JetBrains Mono',monospace;
+    color:var(--mint);margin-bottom:1.8rem;
+    letter-spacing:1.5px;
+  }
+  .badge .dot{width:8px;height:8px;border-radius:50%;background:var(--mint);box-shadow:0 0 12px var(--mint);animation:pulse 1.6s infinite}
+  @keyframes pulse{50%{opacity:.35;transform:scale(.85)}}
+  .hero h1{
+    font-family:'Inter',sans-serif;
+    font-size:clamp(2.6rem, 6vw, 5rem);
+    font-weight:800;line-height:1.02;letter-spacing:-.035em;
+    margin-bottom:1.6rem;color:#fff;
+  }
+  .hero h1 .accent{color:var(--mint);font-weight:800}
+  .hero p.lead{
+    font-size:1.1rem;color:var(--muted);
+    line-height:1.75;max-width:540px;margin-bottom:2.4rem;
+  }
+  .cta{display:flex;gap:.9rem;flex-wrap:wrap;align-items:center}
+  .stats-inline{
+    display:flex;gap:3rem;margin-top:3rem;flex-wrap:wrap;
+  }
+  .stats-inline .stat .num{
+    font-size:2.2rem;font-weight:800;color:var(--mint);letter-spacing:-1px;
+  }
+  .stats-inline .stat .lbl{
+    font:500 .72rem 'JetBrains Mono',monospace;
+    color:var(--muted-2);letter-spacing:2.5px;text-transform:uppercase;margin-top:.2rem;
+  }
+
+  /* ===== Globe (dense wireframe like ORBIT) ===== */
+  .globe-stage{
+    position:relative;width:100%;aspect-ratio:1;max-width:540px;
+    margin:0 auto;perspective:1600px;
+  }
+  .globe-glow{
+    position:absolute;inset:-10%;
+    background:radial-gradient(circle, rgba(94,234,212,.28), transparent 60%);
+    filter:blur(40px);animation:breathe 5s ease-in-out infinite;
+  }
+  @keyframes breathe{50%{opacity:.55;transform:scale(1.06)}}
+  .globe{
+    position:absolute;inset:8%;
+    transform-style:preserve-3d;
+    animation:rotateGlobe 32s linear infinite;
+    border-radius:50%;
+  }
+  @keyframes rotateGlobe{to{transform:rotateY(360deg)}}
+  .ring{
+    position:absolute;inset:0;border-radius:50%;
+    border:1px solid rgba(94,234,212,.45);
+  }
+  /* Latitudes - many for density */
+  .lat:nth-child(1){transform:rotateX(0deg)}
+  .lat:nth-child(2){transform:rotateX(15deg)}
+  .lat:nth-child(3){transform:rotateX(30deg)}
+  .lat:nth-child(4){transform:rotateX(45deg)}
+  .lat:nth-child(5){transform:rotateX(60deg)}
+  .lat:nth-child(6){transform:rotateX(75deg)}
+  .lat:nth-child(7){transform:rotateX(-15deg)}
+  .lat:nth-child(8){transform:rotateX(-30deg)}
+  .lat:nth-child(9){transform:rotateX(-45deg)}
+  .lat:nth-child(10){transform:rotateX(-60deg)}
+  .lat:nth-child(11){transform:rotateX(-75deg)}
+  /* Longitudes - many for density */
+  .lon:nth-child(12){transform:rotateY(0)}
+  .lon:nth-child(13){transform:rotateY(15deg)}
+  .lon:nth-child(14){transform:rotateY(30deg)}
+  .lon:nth-child(15){transform:rotateY(45deg)}
+  .lon:nth-child(16){transform:rotateY(60deg)}
+  .lon:nth-child(17){transform:rotateY(75deg)}
+  .lon:nth-child(18){transform:rotateY(90deg)}
+  .lon:nth-child(19){transform:rotateY(105deg)}
+  .lon:nth-child(20){transform:rotateY(120deg)}
+  .lon:nth-child(21){transform:rotateY(135deg)}
+  .lon:nth-child(22){transform:rotateY(150deg)}
+  .lon:nth-child(23){transform:rotateY(165deg)}
+
+  /* Course labels orbiting */
+  .courses{position:absolute;inset:0;transform-style:preserve-3d;animation:rotateGlobe 32s linear infinite}
+  .course{
+    position:absolute;top:50%;left:50%;transform-style:preserve-3d;
+    font:600 .7rem 'JetBrains Mono',monospace;
+    padding:.35rem .7rem;border-radius:999px;
+    background:rgba(2,10,20,.85);
+    border:1px solid var(--line-strong);
+    color:var(--mint);white-space:nowrap;
+    backdrop-filter:blur(6px);
+    box-shadow:0 0 14px rgba(94,234,212,.45);
+  }
+  .course::before{
+    content:"";position:absolute;left:-4px;top:50%;
+    width:6px;height:6px;border-radius:50%;background:var(--mint);
+    box-shadow:0 0 10px var(--mint);transform:translateY(-50%);
+  }
+
+  /* ===== Section base ===== */
+  .section{position:relative;z-index:2;max-width:1300px;margin:0 auto;padding:5rem 2rem}
+  .section-head{margin-bottom:3rem;max-width:700px}
+  .section-head .eyebrow{
+    display:inline-flex;align-items:center;gap:.5rem;
+    font:500 .75rem 'JetBrains Mono',monospace;
+    color:var(--mint);letter-spacing:2.5px;text-transform:uppercase;
+    margin-bottom:1.2rem;
+  }
+  .section-head .eyebrow::before{
+    content:"";width:30px;height:1px;background:var(--mint);
+  }
+  .section-head h2{
+    font-size:clamp(2rem,4vw,3.2rem);
+    font-weight:800;letter-spacing:-.03em;line-height:1.05;color:#fff;
+  }
+  .section-head h2 .accent{color:var(--mint);font-style:italic}
+  .section-head p{color:var(--muted);max-width:600px;margin-top:1rem;font-size:1.05rem;line-height:1.7}
+
+  /* ===== Features ===== */
+  .feature-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;
+    perspective:1500px;
+  }
+  .feature-card{
+    position:relative;
+    padding:2.2rem 1.8rem;
+    border-radius:20px;
+    background:linear-gradient(160deg, rgba(94,234,212,.06), rgba(2,16,30,.6));
+    border:1px solid var(--line);
+    transition:transform .5s cubic-bezier(.2,.8,.2,1), box-shadow .35s, border-color .35s;
+    transform-style:preserve-3d;
+    overflow:hidden;
+  }
+  .feature-card::before{
+    content:"";position:absolute;top:0;left:0;right:0;height:1px;
+    background:linear-gradient(90deg, transparent, var(--mint), transparent);
+    opacity:.5;
+  }
+  .feature-card:hover{
+    border-color:var(--line-strong);
+    box-shadow:0 30px 60px -20px rgba(94,234,212,.3);
+  }
+  .feature-icon{
+    width:56px;height:56px;border-radius:14px;display:grid;place-items:center;
+    font-size:1.4rem;margin-bottom:1.4rem;
+    background:rgba(94,234,212,.1);
+    border:1px solid var(--line-strong);
+    color:var(--mint);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.08), 0 0 25px rgba(94,234,212,.25);
+    transform:translateZ(30px);
+  }
+  .feature-card h3{font-size:1.3rem;font-weight:700;margin-bottom:.6rem;color:#fff;transform:translateZ(20px);letter-spacing:-.01em}
+  .feature-card p{color:var(--muted);font-size:.95rem;line-height:1.65;transform:translateZ(15px)}
+  .feature-card .arrow{
+    margin-top:1.3rem;display:inline-flex;align-items:center;gap:.5rem;
+    color:var(--mint);font:600 .85rem 'JetBrains Mono',monospace;
+    transform:translateZ(20px);cursor:pointer;
+  }
+  .feature-card .arrow i{transition:.3s}
+  .feature-card:hover .arrow i{transform:translateX(4px)}
+
+  /* ===== Stats Panel ===== */
+  .stats-panel{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;
+    padding:2.5rem;border-radius:24px;
+    background:linear-gradient(135deg, rgba(94,234,212,.06), rgba(2,16,30,.6));
+    border:1px solid var(--line);
+    backdrop-filter:blur(14px);
+    box-shadow:0 30px 80px -30px rgba(94,234,212,.3);
+  }
+  .stats-panel .stat{text-align:center;padding:1rem;border-right:1px solid var(--line)}
+  .stats-panel .stat:last-child{border-right:none}
+  .stats-panel .num{
+    font-size:clamp(2rem,3.5vw,3rem);font-weight:800;color:var(--mint);
+    letter-spacing:-1px;
+    text-shadow:0 0 30px rgba(94,234,212,.4);
+  }
+  .stats-panel .lbl{color:var(--muted);font:500 .72rem 'JetBrains Mono',monospace;letter-spacing:2.5px;text-transform:uppercase;margin-top:.4rem}
+
+  /* ===== CTA Strip ===== */
+  .cta-strip{
+    margin:5rem auto 4rem;max-width:1200px;
+    padding:4rem 2.5rem;text-align:center;border-radius:28px;
+    background:
+      radial-gradient(circle at 30% 20%, rgba(94,234,212,.18), transparent 55%),
+      radial-gradient(circle at 75% 80%, rgba(45,212,191,.15), transparent 55%),
+      linear-gradient(135deg, rgba(94,234,212,.05), rgba(2,16,30,.7));
+    border:1px solid var(--line);
+    position:relative;overflow:hidden;
+    box-shadow:0 40px 100px -30px rgba(94,234,212,.4);
+  }
+  .cta-strip::before{
+    content:"";position:absolute;inset:0;
+    background-image:linear-gradient(rgba(94,234,212,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(94,234,212,.06) 1px,transparent 1px);
+    background-size:40px 40px;mask-image:radial-gradient(ellipse at center,black,transparent 70%);
+  }
+  .cta-strip h2{font-size:clamp(2rem,4vw,3rem);font-weight:800;margin-bottom:1rem;letter-spacing:-.03em;position:relative;color:#fff}
+  .cta-strip h2 .accent{color:var(--mint);font-style:italic}
+  .cta-strip p{color:var(--muted);max-width:540px;margin:0 auto 2rem;position:relative;font-size:1.05rem}
+  .cta-strip .cta{justify-content:center;position:relative}
+
+  /* ===== Footer ===== */
+  footer{
+    position:relative;z-index:2;
+    padding:2.5rem 2rem;
+    border-top:1px solid var(--line);
+    background:rgba(2,10,20,.6);backdrop-filter:blur(10px);
+    display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;
+    color:var(--muted);font:500 .82rem 'JetBrains Mono',monospace;
+  }
+  footer .links{display:flex;gap:1.5rem}
+  footer a{color:inherit;text-decoration:none;transition:.25s}
+  footer a:hover{color:var(--mint)}
+
+  /* ===== Responsive ===== */
+  @media(max-width:992px){
+    .nav-links{display:none}
+    .hero{grid-template-columns:1fr;text-align:center;padding:3rem 1.5rem}
+    .hero-content{margin:0 auto}
+    .cta,.stats-inline{justify-content:center}
+    .feature-grid{grid-template-columns:repeat(2,1fr)}
+    .globe-stage{max-width:400px}
+    .stats-panel{grid-template-columns:repeat(2,1fr)}
+    .stats-panel .stat:nth-child(2){border-right:none}
+    .stats-panel .stat{border-bottom:1px solid var(--line);padding-bottom:1.5rem}
+    .stats-panel .stat:nth-last-child(-n+2){border-bottom:none}
+  }
+  @media(max-width:640px){
+    .header{padding:1rem 1.2rem}
+    .section{padding:3.5rem 1.2rem}
+    .feature-grid{grid-template-columns:1fr}
+    .stats-panel{padding:1.5rem;gap:.5rem;grid-template-columns:repeat(2,1fr)}
+    .stats-panel .stat{padding:.8rem;border-right:none!important}
+    .stats-inline{gap:1.5rem}
+    .stats-inline .stat .num{font-size:1.6rem}
+    .cta-strip{padding:2.5rem 1.5rem}
+    .cta{flex-direction:column;width:100%}
+    .btn{width:100%;justify-content:center}
+    .globe-stage{max-width:320px}
+    .course{font-size:.6rem;padding:.25rem .5rem}
+    footer{flex-direction:column;text-align:center}
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-scene">
+  <div class="glow"></div>
+  <div class="stars"></div>
+  <div class="vignette"></div>
+</div>
+
+<header class="header">
+   <div class="logo-section">
+            <div class="logo"><img src="https://www.image2url.com/r2/default/images/1777061825417-959bf371-403b-4859-bbfd-ec4f516a2797.jpeg" alt="Logo"></div>
+            <div class="header-title">
+                <h1>IgniteU</h1>
+                <p>Spark Your Success</p>
+            </div>
+        </div>
+</header>
+
+<section class="hero">
+  <div class="hero-content">
+    <div class="badge"><span class="dot"></span> LIVE · 11 COURSES READY</div>
+    <h1>Assess. <span class="accent">Excel.</span><br/>Advance.</h1>
+    <p class="lead">
+      Master your exams with real practice. Take mock tests, challenge yourself with past
+      questions, and track your growth — all from one immersive learning platform.
+    </p>
+    <div class="cta">
+      <button class="btn btn-primary" onclick="window.location.href='/login'" >Get Started <i class="fa-solid fa-arrow-right"></i></button>
+      <button class="btn btn-ghost">Learn More</button>
+    </div>
+    <div class="stats-inline">
+      <div class="stat"><div class="num">300+</div><div class="lbl">Students</div></div>
+      <div class="stat"><div class="num">20+</div><div class="lbl">Past Papers</div></div>
+      <div class="stat"><div class="num">4.8★</div><div class="lbl">Rating</div></div>
+    </div>
+  </div>
+
+  <div class="globe-stage">
+    <div class="globe-glow"></div>
+    <div class="globe">
+      <div class="ring lat"></div><div class="ring lat"></div><div class="ring lat"></div>
+      <div class="ring lat"></div><div class="ring lat"></div><div class="ring lat"></div>
+      <div class="ring lat"></div><div class="ring lat"></div><div class="ring lat"></div>
+      <div class="ring lat"></div><div class="ring lat"></div>
+      <div class="ring lon"></div><div class="ring lon"></div><div class="ring lon"></div>
+      <div class="ring lon"></div><div class="ring lon"></div><div class="ring lon"></div>
+      <div class="ring lon"></div><div class="ring lon"></div><div class="ring lon"></div>
+      <div class="ring lon"></div><div class="ring lon"></div><div class="ring lon"></div>
+    </div>
+    <div class="courses" id="courses"></div>
+  </div>
+</section>
+
+<section class="section" id="features">
+  <div class="section-head">
+    <span class="eyebrow">Why IgniteU</span>
+    <h2>Built to <span class="accent">elevate</span> your performance.</h2>
+    <p>Three pillars engineered to turn study time into measurable progress, exam after exam.</p>
+  </div>
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="feature-icon"><i class="fa-solid fa-folder-open"></i></div>
+      <h3>Past Questions</h3>
+      <p>Comprehensive repository of examination papers spanning multiple academic years with detailed solutions.</p>
+      <a class="arrow">Explore Library <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon"><i class="fa-solid fa-bolt-lightning"></i></div>
+      <h3>Mock Tests</h3>
+      <p>Simulated examination environment that mirrors actual CBT conditions for optimal preparation.</p>
+      <a class="arrow">Start a Mock <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon"><i class="fa-solid fa-chart-line"></i></div>
+      <h3>Performance Analytics</h3>
+      <p>Detailed insights into your strengths, weaknesses, and progress across all subjects and topics.</p>
+      <a class="arrow">View Insights <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="stats">
+  <div class="section-head">
+    <span class="eyebrow">By the Numbers</span>
+    <h2>A platform <span class="accent">trusted</span> by ambitious learners.</h2>
+  </div>
+  <div class="stats-panel">
+    <div class="stat"><div class="num">300+</div><div class="lbl">Active Students</div></div>
+    <div class="stat"><div class="num">20+</div><div class="lbl">Past Questions</div></div>
+    <div class="stat"><div class="num">11+</div><div class="lbl">Courses</div></div>
+    <div class="stat"><div class="num">4.8★</div><div class="lbl">User Rating</div></div>
+  </div>
+</section>
+
+<section class="section" id="cta">
+  <div class="cta-strip">
+    <h2>Ready to <span class="accent">ignite</span> your future?</h2>
+    <p>Join 300+ students already using IgniteU to dominate their exams with confidence.</p>
+    <div class="cta">
+      <button class="btn btn-primary">Create Free Account <i class="fa-solid fa-rocket"></i></button>
+      <button class="btn btn-ghost">Watch Demo</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div>© 2026 IgniteU — Spark Your Success</div>
+  <div class="links">
+    <a href="#">Privacy</a>
+    <a href="#">Terms</a>
+    <a href="#">Contact</a>
+  </div>
+</footer>
+
+<script>
+  // Floating course labels orbiting the globe
+  const courses = [
+    "Gst 101","Gst 202","Math 111","Sta 222",
+    "FUtm Sta 232","Machine Learning","Mobile Development",
+    "Cloud Computing","Python Programming","JavaScript Mastery",  "FUtm Sta 232", "FUtm Sta 232", "FUtm Sta 232"
+  ];
+  const container = document.getElementById('courses');
+  const total = courses.length;
+
+  function build(){
+    container.innerHTML = "";
+    const w = container.clientWidth;
+    const radius = w * 0.46;
+    courses.forEach((name,i)=>{
+      const el = document.createElement('div');
+      el.className = 'course';
+      el.textContent = name;
+      const phi = Math.acos(-1 + (2*i)/total);
+      const theta = Math.sqrt(total*Math.PI) * phi;
+      const x = radius*Math.sin(phi)*Math.cos(theta);
+      const y = radius*Math.cos(phi);
+      const z = radius*Math.sin(phi)*Math.sin(theta);
+      el.style.transform = `translate(-50%,-50%) translate3d(${x}px, ${y}px, ${z}px)`;
+      container.appendChild(el);
+    });
+  }
+  window.addEventListener('load', build);
+  window.addEventListener('resize', () => { clearTimeout(window.__rb); window.__rb = setTimeout(build, 150); });
+
+  // Tilt effect on feature cards
+  document.querySelectorAll('.feature-card').forEach(card=>{
+    card.addEventListener('mousemove', e=>{
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left)/r.width - .5;
+      const y = (e.clientY - r.top)/r.height - .5;
+      card.style.transform = `translateY(-6px) rotateX(${-y*8}deg) rotateY(${x*10}deg)`;
+    });
+    card.addEventListener('mouseleave', ()=> card.style.transform = '');
+  });
+
+  // Auth buttons
+  const lg = document.getElementById('loginToggle');
+  const sg = document.getElementById('signupToggle');
+  if(lg) lg.onclick = () => window.location.href = '/login';
+  if(sg) sg.onclick = () => window.location.href = '/signup';
+</script>
+</body>
+</html>

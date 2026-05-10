@@ -1,0 +1,215 @@
+<style>
+  /* ===== COURSE DETAIL PAGE — IgniteU Theme ===== */
+
+  .gst-page { padding: 0 10px 18px; width: 100%; box-sizing: border-box; }
+
+  /* Back nav */
+  .gst-nav { display: flex; align-items: center; gap: .9rem; margin-bottom: 1.1rem; flex-wrap: wrap; }
+
+  .back-btn {
+    display: inline-flex; align-items: center; gap: .4rem;
+    padding: .38rem 1rem; border-radius: 999px;
+    background: rgba(94,234,212,.06); border: 1px solid var(--line);
+    color: var(--muted); font: 600 .78rem 'Inter', sans-serif;
+    cursor: pointer; text-decoration: none;
+    transition: background .2s, border-color .2s, color .2s;
+  }
+  .back-btn:hover { background: rgba(94,234,212,.12); border-color: var(--line-strong); color: var(--mint); }
+  .back-btn i { font-size: .7rem; }
+
+  .gst-page-title {
+    font: 700 1.1rem 'Inter', sans-serif;
+    color: var(--text); letter-spacing: -.01em;
+  }
+
+  /* Course header banner */
+  .course-banner {
+    position: relative;
+    background: linear-gradient(160deg, rgba(94,234,212,.1), rgba(2,16,30,.75));
+    border: 1px solid var(--line); border-radius: 16px;
+    padding: 1.3rem 1.5rem; margin-bottom: 1.1rem; overflow: hidden;
+  }
+  .course-banner::before {
+    content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--mint), transparent);
+    opacity: .5;
+  }
+  .course-banner h1 {
+    font: 700 1.35rem 'Inter', sans-serif; color: var(--text);
+    letter-spacing: -.02em; margin-bottom: .3rem;
+  }
+  .course-banner .course-subtitle {
+    font: 400 .8rem 'JetBrains Mono', monospace; color: var(--muted);
+  }
+
+  /* Grid */
+  .courses-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: .85rem; margin-bottom: 1rem;
+  }
+
+  /* Card */
+  .gst-course-card {
+    position: relative;
+    background: rgba(94,234,212,.04); border: 1px solid var(--line);
+    border-radius: 16px; padding: 1.3rem 1.3rem 1.1rem;
+    display: flex; flex-direction: column; gap: 1rem; overflow: hidden;
+    transition: background .15s, border-color .15s, transform .15s;
+  }
+  .gst-course-card::before {
+    content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--mint), transparent);
+    opacity: 0; transition: opacity .2s;
+  }
+  .gst-course-card:hover { background: rgba(94,234,212,.07); border-color: var(--line-strong); transform: translateY(-3px); }
+  .gst-course-card:hover::before { opacity: .35; }
+
+  /* Course code badge */
+  .course-code-badge {
+    display: inline-flex; align-items: center;
+    background: rgba(94,234,212,.15); border: 1px solid rgba(94,234,212,.3);
+    color: var(--mint); padding: .22rem .85rem; border-radius: 999px;
+    font: 700 .7rem 'JetBrains Mono', monospace; letter-spacing: 1px;
+    list-style: none; align-self: flex-start;
+  }
+
+  .gst-course-title { font: 700 1.05rem 'Inter', sans-serif; color: var(--text); line-height: 1.4; }
+  .gst-course-description { font: 400 .8rem 'Inter', sans-serif; color: var(--muted); line-height: 1.6; }
+
+  /* Detail rows */
+  .course-details {
+    background: rgba(0,0,0,.25); border: 1px solid var(--line);
+    border-radius: 10px; padding: .85rem 1rem;
+    display: flex; flex-direction: column; gap: .45rem;
+  }
+  .detail-item { display: flex; justify-content: space-between; align-items: center; }
+  .detail-label { font: 400 .72rem 'JetBrains Mono', monospace; color: var(--muted-2); }
+  .detail-value { font: 600 .75rem 'Inter', sans-serif; color: var(--mint); }
+
+  /* Features grid */
+  .features-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .55rem; }
+  .feature-item {
+    display: flex; align-items: center; gap: .55rem;
+    background: rgba(94,234,212,.05); border: 1px solid var(--line);
+    border-radius: 8px; padding: .5rem .7rem;
+  }
+  .feature-icon {
+    width: 28px; height: 28px; border-radius: 7px; flex-shrink: 0;
+    background: rgba(94,234,212,.12); border: 1px solid rgba(94,234,212,.2);
+    display: flex; align-items: center; justify-content: center; font-size: .82rem;
+  }
+  .feature-text { font: 500 .72rem 'Inter', sans-serif; color: var(--text); line-height: 1.3; }
+
+  /* About section */
+  .additional-info {
+    background: rgba(94,234,212,.04); border: 1px solid var(--line);
+    border-radius: 12px; padding: 1rem 1.1rem;
+  }
+  .info-title {
+    font: 700 .88rem 'Inter', sans-serif; color: var(--text); margin-bottom: .6rem;
+  }
+  .info-content { font: 400 .78rem 'Inter', sans-serif; color: var(--muted); line-height: 1.65; }
+
+  /* CTA button */
+  .practice-btn {
+    width: 100%; padding: .75rem 1rem; border-radius: 999px; border: none; cursor: pointer;
+    background: linear-gradient(135deg, var(--mint-deep), var(--mint));
+    color: #0d1f1c; font: 700 .88rem 'Inter', sans-serif;
+    letter-spacing: .3px; margin-top: auto;
+    transition: opacity .2s, transform .15s, box-shadow .2s;
+  }
+  .practice-btn:hover { opacity: .88; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(94,234,212,.3); }
+  .practice-btn:active { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 768px) {
+    .courses-container { grid-template-columns: 1fr; gap: .75rem; }
+    .course-banner h1 { font-size: 1.15rem; }
+    .features-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 576px) {
+    .gst-nav { flex-direction: column; align-items: flex-start; gap: .6rem; }
+    .gst-page-title { font-size: .95rem; }
+    .gst-course-card { padding: 1rem; }
+  }
+</style>
+
+<div class="gst-page">
+
+  <!-- Nav -->
+  <div class="gst-nav">
+    <a class="back-btn" href="#" onclick="history.back(); return false;">
+      <i class="fa-solid fa-chevron-left"></i> Back to Courses
+    </a>
+    <div class="gst-page-title"><%= course %></div>
+  </div>
+
+  <!-- Course banner -->
+  <div class="course-banner">
+    <h1><%= course %></h1>
+    <div class="course-subtitle"><%= coursecode[1]["firstDisplay"] %></div>
+  </div>
+
+  <!-- Cards grid -->
+  <div class="courses-container">
+
+    <div class="gst-course-card">
+      <div class="course-code-badge"><%= coursecode[1]["codeOfCourse"] %></div>
+
+      <div class="gst-course-title"><%= coursecode[1]["coursedisplay"] %></div>
+
+      <p class="gst-course-description"><%= coursecode[1]["coursemeaning"] %></p>
+
+      <!-- Detail rows -->
+      <div class="course-details">
+        <div class="detail-item">
+          <span class="detail-label">Course Type</span>
+          <span class="detail-value">Compulsory</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Credit Units</span>
+          <span class="detail-value">2 / 3 Units</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Academic Year</span>
+          <span class="detail-value">2020 – 2023</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Questions Available</span>
+          <span class="detail-value">150+</span>
+        </div>
+      </div>
+
+      <!-- Features -->
+      <div class="features-grid">
+        <div class="feature-item">
+          <div class="feature-icon">⏱️</div>
+          <span class="feature-text">Time Limit Per Question</span>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">⚡</div>
+          <span class="feature-text">Real Test Simulation</span>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">📖</div>
+          <span class="feature-text">Final Score Only</span>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">📈</div>
+          <span class="feature-text">Performance Analysis</span>
+        </div>
+      </div>
+
+      <!-- About -->
+      <div class="additional-info">
+        <div class="info-title">About <%= course %> Courses</div>
+        <div class="info-content"><%= coursecode[1]["courseFooter"] %></div>
+      </div>
+
+      <button class="practice-btn">
+        <i class="fa-solid fa-play"></i> Start Practice
+      </button>
+    </div>
+
+  </div>
+</div>

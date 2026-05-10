@@ -1,0 +1,462 @@
+<style>
+  /* ===== PROFILE PAGE — IgniteU Theme ===== */
+
+  .profile-dashboard { padding: 0 10px 18px; width: 100%; box-sizing: border-box; }
+
+  /* ── Header card ── */
+  .profile-header {
+    position: relative;
+    background: linear-gradient(160deg, rgba(94,234,212,.09), rgba(2,16,30,.7));
+    border: 1px solid var(--line);
+    border-radius: 16px; padding: 1.3rem 1.4rem;
+    display: flex; align-items: center; gap: 1.3rem;
+    margin-bottom: 1rem; overflow: hidden;
+  }
+  .profile-header::before {
+    content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--mint), transparent);
+    opacity: .45;
+  }
+
+  /* Avatar */
+  .profile-avatar { display: flex; flex-direction: column; align-items: center; gap: .45rem; flex-shrink: 0; }
+  .avatar {
+    width: 64px; height: 64px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--mint-deep), var(--mint));
+    color: #0d1f1c; font: 700 1.55rem 'Inter', sans-serif;
+    display: flex; align-items: center; justify-content: center;
+    border: 2px solid rgba(94,234,212,.4);
+    box-shadow: 0 0 0 4px rgba(94,234,212,.1);
+  }
+  .edit-avatar {
+    font: 500 .62rem 'JetBrains Mono', monospace; letter-spacing: .5px;
+    color: var(--mint); background: rgba(94,234,212,.08);
+    border: 1px solid rgba(94,234,212,.25); border-radius: 999px;
+    padding: .18rem .65rem; cursor: pointer;
+    transition: background .2s, border-color .2s;
+  }
+  .edit-avatar:hover { background: rgba(94,234,212,.16); border-color: var(--mint); }
+
+  /* Profile info */
+  .profile-info { flex: 1; min-width: 0; }
+  .profile-info h2 { font: 700 1.2rem 'Inter', sans-serif; color: var(--text); letter-spacing: -.01em; margin-bottom: .2rem; }
+  .profile-info > p { font: 400 .75rem 'JetBrains Mono', monospace; color: var(--mint); margin-bottom: .85rem; }
+
+  /* Stats row */
+  .profile-stats-new { display: flex; gap: .6rem; flex-wrap: wrap; }
+  .stat-card-new {
+    background: rgba(94,234,212,.06); border: 1px solid var(--line);
+    border-radius: 10px; padding: .5rem .85rem; text-align: center; min-width: 70px;
+  }
+  .stat-value-new { font: 700 1.1rem 'Inter', sans-serif; color: var(--mint); letter-spacing: -.02em; }
+  .stat-label-new { font: 400 .6rem 'JetBrains Mono', monospace; color: var(--muted-2); margin-top: .1rem; white-space: nowrap; }
+
+  /* Logout button top-right */
+  .edit-profile-btn {
+    align-self: flex-start; padding: .38rem 1.1rem; border-radius: 999px;
+    border: 1px solid var(--mint);; background: rgba(239,68,68,.08);
+    cursor: pointer; flex-shrink: 0;
+    transition: background .2s, border-color .2s;
+  }
+  .edit-profile-btn:hover { background: rgba(239,68,68,.16); border-color: rgba(239,68,68,.6); }
+  .edit-profile-btn a {
+   color: var(--mint); font: 600 .75rem 'Inter', sans-serif;
+    text-decoration: none; display: block;
+  }
+
+  /* ── Sections grid ── */
+  .profile-sections {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: .75rem;
+  }
+
+  .profile-section {
+    background: rgba(94,234,212,.04); border: 1px solid var(--line);
+    border-radius: 14px; padding: 1rem 1.1rem;
+    position: relative; overflow: hidden;
+  }
+  .profile-section::before {
+    content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--mint), transparent);
+    opacity: .2;
+  }
+  .profile-section h3 {
+    font: 600 .72rem 'JetBrains Mono', monospace;
+    color: var(--mint); letter-spacing: 1.2px; text-transform: uppercase;
+    margin-bottom: .65rem;
+  }
+
+  .profile-options { display: flex; flex-direction: column; gap: .4rem; }
+
+  .profile-option {
+    width: 100%; text-align: left; background: rgba(94,234,212,.04);
+    border: 1px solid var(--line); border-radius: 10px;
+    padding: .65rem .9rem; cursor: pointer;
+    font: 500 .82rem 'Inter', sans-serif; color: var(--text);
+    transition: background .15s, border-color .15s, transform .1s;
+    display: flex; align-items: center;
+  }
+  .profile-option:hover { background: rgba(94,234,212,.1); border-color: var(--line-strong); transform: translateX(2px); }
+  .profile-option a { color: inherit; text-decoration: none; display: block; width: 100%; }
+  .profile-option span { display: flex; align-items: center; gap: .5rem; }
+
+  /* Danger zone */
+  .danger-zone .profile-section { border-color: rgba(239,68,68,.2); }
+  
+  .logout-btn {border-color: rgba(239,68,68,.2); }
+  .logout-btn:hover { background: rgba(239,68,68,.1); border-color: rgba(239,68,68,.4); }
+
+  .delete-btn {border-color: rgba(239,68,68,.15); }
+  .delete-btn:hover { background: rgba(239,68,68,.12); border-color: rgba(239,68,68,.5); }
+
+  .danger-zone form { width: 100%; }
+  .danger-zone form .profile-option { width: 100%; }
+
+  /* ── Modals ── */
+  .modal {
+    display: none; position: fixed; inset: 0; z-index: 1000;
+    background: rgba(0,0,0,.65); backdrop-filter: blur(4px);
+    align-items: center; justify-content: center;
+  }
+  .modal[style*="block"] { display: flex !important; }
+
+  .modal-content {
+    background: #0f2320; border: 1px solid var(--line);
+    border-radius: 16px; width: 90%; max-width: 440px;
+    box-shadow: 0 24px 60px rgba(0,0,0,.6);
+    position: relative; overflow: hidden;
+  }
+  .modal-content::before {
+    content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--mint), transparent);
+    opacity: .5;
+  }
+
+  .modal-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 1.2rem .85rem; border-bottom: 1px solid var(--line);
+  }
+  .modal-header h3 { font: 700 1rem 'Inter', sans-serif; color: var(--text); letter-spacing: -.01em; }
+  .close {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: rgba(94,234,212,.08); border: 1px solid var(--line);
+    color: var(--muted); font-size: 1.1rem; line-height: 1;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: background .2s, color .2s;
+  }
+  .close:hover { background: rgba(94,234,212,.18); color: var(--text); }
+
+  .modal-body { padding: 1rem 1.2rem; display: flex; flex-direction: column; gap: .65rem; }
+
+  .modal-body label {
+    font: 600 .68rem 'JetBrains Mono', monospace; color: var(--mint);
+    letter-spacing: 1px; text-transform: uppercase;
+  }
+  .modal-body input[type="text"],
+  .modal-body input[type="password"] {
+    width: 100%; box-sizing: border-box;
+    padding: .55rem .9rem; border-radius: 10px;
+    background: rgba(94,234,212,.05); border: 1px solid var(--line);
+    color: var(--text); font: 400 .83rem 'Inter', sans-serif; outline: none;
+    transition: border-color .2s, box-shadow .2s;
+  }
+  .modal-body input::placeholder { color: var(--muted-2); }
+  .modal-body input:focus { border-color: var(--mint); box-shadow: 0 0 0 3px rgba(94,234,212,.12); }
+
+  /* Notification items */
+  .notification-item, .admin-notification-item {
+    background: rgba(94,234,212,.04); border: 1px solid var(--line);
+    border-radius: 10px; padding: .7rem .9rem;
+  }
+  .notification-item p, .admin-notification-item p {
+    font: 400 .82rem 'Inter', sans-serif; color: var(--text); margin-bottom: .25rem;
+  }
+  .notification-item small, .admin-notification-item small {
+    font: 400 .65rem 'JetBrains Mono', monospace; color: var(--muted-2);
+  }
+
+  /* Contact items */
+  .contact-item {
+    background: rgba(94,234,212,.04); border: 1px solid var(--line);
+    border-radius: 10px; padding: .75rem .9rem;
+    display: flex; flex-direction: column; gap: .35rem;
+  }
+  .contact-item strong { font: 600 .85rem 'Inter', sans-serif; color: var(--text); }
+  .contact-item a { font: 400 .78rem 'JetBrains Mono', monospace; color: var(--mint); text-decoration: none; }
+  .contact-item a:hover { text-decoration: underline; }
+
+  .whatsapp-btn {
+    display: inline-flex; align-items: center; gap: .4rem;
+    padding: .35rem .9rem; border-radius: 999px; border: none; cursor: pointer;
+    background: linear-gradient(135deg, #16a34a, #22c55e);
+    color: #fff; font: 600 .72rem 'Inter', sans-serif;
+    transition: opacity .2s, transform .15s; align-self: flex-start;
+  }
+  .whatsapp-btn:hover { opacity: .85; transform: translateY(-1px); }
+
+  .modal-footer {
+    padding: .85rem 1.2rem 1rem; border-top: 1px solid var(--line);
+    display: flex; gap: .5rem; justify-content: flex-end;
+  }
+  .modal-btn {
+    padding: .45rem 1.2rem; border-radius: 999px; border: none; cursor: pointer;
+    font: 600 .78rem 'Inter', sans-serif; transition: opacity .2s, transform .15s;
+  }
+  .modal-btn.save {
+    background: linear-gradient(135deg, var(--mint-deep), var(--mint));
+    color: #0d1f1c;
+  }
+  .modal-btn.save:hover { opacity: .85; transform: translateY(-1px); }
+  .modal-btn.cancel {
+    background: rgba(94,234,212,.07); border: 1px solid var(--line); color: var(--muted);
+  }
+  .modal-btn.cancel:hover { background: rgba(94,234,212,.14); color: var(--text); }
+
+  @media (max-width: 768px) {
+    .profile-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+    .edit-profile-btn { align-self: flex-start; }
+    .profile-stats-new { gap: .45rem; }
+    .stat-card-new { padding: .45rem .7rem; min-width: 60px; }
+  }
+  @media (max-width: 480px) {
+    .profile-sections { grid-template-columns: 1fr; }
+    .modal-content { width: 95%; }
+  }
+</style>
+
+<!-- Profile Dashboard -->
+<div class="profile-dashboard">
+
+  <!-- Header -->
+  <div class="profile-header">
+    <div class="profile-avatar">
+      <div class="avatar">
+        <% if (user && user.username) { %>
+          <%= user.username.substring(0, 1).toUpperCase() %>
+        <% } else { %>
+          U
+        <% } %>
+      </div>
+      <button class="edit-avatar" onclick="openEditProfileModal()">Edit</button>
+    </div>
+
+    <div class="profile-info">
+      <h2 id="displayUsername">
+        <% if (user) { %><span><%= user.username %></span><% } %>
+      </h2>
+      <p>Student ✅</p>
+      <div class="profile-stats-new">
+        <div class="stat-card-new"><div class="stat-value-new">0</div><div class="stat-label-new">Sessions</div></div>
+        <div class="stat-card-new"><div class="stat-value-new">0</div><div class="stat-label-new">Avg Score</div></div>
+        <div class="stat-card-new"><div class="stat-value-new">0</div><div class="stat-label-new">Best Score</div></div>
+        <div class="stat-card-new"><div class="stat-value-new">0</div><div class="stat-label-new">Accuracy</div></div>
+      </div>
+    </div>
+
+    <button class="edit-profile-btn"><a href="/logout">Logout</a></button>
+  </div>
+
+  <!-- Sections -->
+  <div class="profile-sections">
+
+    <!-- Account Settings -->
+    <div class="profile-section">
+      <h3>Account Settings</h3>
+      <div class="profile-options">
+        <button class="profile-option" onclick="openEditProfileModal()"><span>✏️ Edit Profile</span></button>
+        <button class="profile-option" onclick="openChangePasswordModal()"><span>🔒 Change Password</span></button>
+        <button class="profile-option" onclick="openNotificationsModal()"><span>🔔 Notification Settings</span></button>
+        <button class="profile-option" onclick="openAdminNotificationsModal()"><span>📢 Admin Notifications</span></button>
+      </div>
+    </div>
+
+    <!-- Website Actions -->
+    <div class="profile-section">
+      <h3>Website Actions</h3>
+      <div class="profile-options">
+        <button class="profile-option"><span>📤 Share Website</span></button>
+        <button class="profile-option"><span>⭐ Rate on Trustpilot</span></button>
+        <button class="profile-option">
+          <a href="https://play.google.com/store/apps/details?id=com.genius0018.igniteu"><span>📱 Download Mobile App</span></a>
+        </button>
+      </div>
+    </div>
+
+    <!-- Support & Legal -->
+    <div class="profile-section">
+      <h3>Support & Legal</h3>
+      <div class="profile-options">
+        <button class="profile-option" onclick="openHelpSupportModal()"><span>🆘 Help & Support</span></button>
+        <button class="profile-option"><span>📜 Privacy Policy</span></button>
+        <button class="profile-option"><span>📋 Terms of Service</span></button>
+        <button class="profile-option"><span>🍪 Cookie Policy</span></button>
+      </div>
+    </div>
+
+    <!-- Account Actions (danger) -->
+    <div class="profile-section danger-zone">
+      <h3>Account Actions</h3>
+      <div class="profile-options">
+        <button class="profile-option logout-btn" onclick="window.location.href='/logout'"><span>🚪 Logout</span></button>
+        <form action="/delete" method="POST" onsubmit="return confirmDelete()">
+          <button type="submit" class="profile-option delete-btn"><span>🗑️ Delete Account</span></button>
+        </form>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── MODALS ── -->
+
+<!-- Edit Profile -->
+<div id="editProfileModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Edit Profile</h3>
+      <span class="close" onclick="closeEditProfileModal()">×</span>
+    </div>
+    <form id="updateForm" action="/update" method="POST">
+      <div class="modal-body">
+        <label>Username</label>
+        <input type="text" id="newUsername" name="username" placeholder="Enter new username" required>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="modal-btn save" onclick="saveUsername()">Save Changes</button>
+        <button type="button" class="modal-btn cancel" onclick="closeEditProfileModal()">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Change Password -->
+<div id="changePasswordModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Change Password</h3>
+      <span class="close" onclick="closeChangePasswordModal()">×</span>
+    </div>
+    <div class="modal-body">
+      <label>Current Password</label>
+      <input type="password" id="currentPassword" placeholder="Enter current password">
+      <label>New Password</label>
+      <input type="password" id="newPassword" placeholder="Enter new password">
+      <label>Confirm New Password</label>
+      <input type="password" id="confirmPassword" placeholder="Confirm new password">
+    </div>
+    <div class="modal-footer">
+      <button class="modal-btn save" onclick="changePassword()">Save Changes</button>
+      <button class="modal-btn cancel" onclick="closeChangePasswordModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Notifications -->
+<div id="notificationsModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Notifications</h3>
+      <span class="close" onclick="closeNotificationsModal()">×</span>
+    </div>
+    <div class="modal-body">
+      <div class="notification-item"><p>📝 New quiz available: STA223</p><small>2 hours ago</small></div>
+      <div class="notification-item"><p>🏆 You ranked #3 in overall scores!</p><small>1 day ago</small></div>
+      <div class="notification-item"><p>📚 New study materials added</p><small>3 days ago</small></div>
+    </div>
+  </div>
+</div>
+
+<!-- Admin Notifications -->
+<div id="adminNotificationsModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Admin Notifications</h3>
+      <span class="close" onclick="closeAdminNotificationsModal()">×</span>
+    </div>
+    <div class="modal-body">
+      <div class="admin-notification-item"><p>📢 <strong>Exam Schedule Update:</strong> Final exams start Dec 15th</p><small>Posted by Admin · 1 day ago</small></div>
+      <div class="admin-notification-item"><p>📢 <strong>New Feature:</strong> Practice tests now available for all courses</p><small>Posted by Admin · 3 days ago</small></div>
+      <div class="admin-notification-item"><p>📢 <strong>Maintenance Notice:</strong> Platform will be down Dec 20th 2AM–4AM</p><small>Posted by Admin · 5 days ago</small></div>
+    </div>
+  </div>
+</div>
+
+<!-- Help & Support -->
+<div id="helpSupportModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Help & Support</h3>
+      <span class="close" onclick="closeHelpSupportModal()">×</span>
+    </div>
+    <div class="modal-body">
+      <label>Customer Support — WhatsApp</label>
+      <div class="contact-item">
+        <strong>Diamond Windwalker</strong>
+        <a href="https://wa.me/2348149669202" target="_blank">08149669202</a>
+        <button class="whatsapp-btn" onclick="window.open('https://wa.me/2348149669202','_blank')">💬 Chat on WhatsApp</button>
+      </div>
+      <div class="contact-item">
+        <strong>Emmanuel Oguniran</strong>
+        <a href="https://wa.me/2348095250676" target="_blank">08095250676</a>
+        <button class="whatsapp-btn" onclick="window.open('https://wa.me/2348095250676','_blank')">💬 Chat on WhatsApp</button>
+      </div>
+      <div class="contact-item">
+        <strong>Comiberry Oluwaseyi</strong>
+        <a href="https://wa.me/2348149669202" target="_blank">08149669202</a>
+        <button class="whatsapp-btn" onclick="window.open('https://wa.me/2348149669202','_blank')">💬 Chat on WhatsApp</button>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="modal-btn cancel" onclick="closeHelpSupportModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  if (window.__profileReady) return;
+  window.__profileReady = true;
+
+  function openModal(id)  { document.getElementById(id).style.display = 'block'; }
+  function closeModal(id) { document.getElementById(id).style.display = 'none';  }
+
+  window.openEditProfileModal       = function () { openModal('editProfileModal'); };
+  window.closeEditProfileModal      = function () { closeModal('editProfileModal'); };
+  window.openChangePasswordModal    = function () { openModal('changePasswordModal'); };
+  window.closeChangePasswordModal   = function () { closeModal('changePasswordModal'); };
+  window.openNotificationsModal     = function () { openModal('notificationsModal'); };
+  window.closeNotificationsModal    = function () { closeModal('notificationsModal'); };
+  window.openAdminNotificationsModal  = function () { openModal('adminNotificationsModal'); };
+  window.closeAdminNotificationsModal = function () { closeModal('adminNotificationsModal'); };
+  window.openHelpSupportModal       = function () { openModal('helpSupportModal'); };
+  window.closeHelpSupportModal      = function () { closeModal('helpSupportModal'); };
+
+  window.saveUsername = function () {
+    var val = document.getElementById('newUsername').value.trim();
+    if (!val) return;
+    var el = document.getElementById('displayUsername');
+    if (el) el.innerHTML = '<span>' + val + '</span>';
+    var av = document.querySelector('.avatar');
+    if (av) av.textContent = val.substring(0, 1).toUpperCase();
+    closeModal('editProfileModal');
+  };
+
+  window.changePassword = function () {
+    var np = document.getElementById('newPassword').value;
+    var cp = document.getElementById('confirmPassword').value;
+    if (np !== cp) { alert('New passwords do not match!'); return; }
+    alert('Password changed successfully!');
+    closeModal('changePasswordModal');
+  };
+
+  window.confirmDelete = function () {
+    return confirm('Are you sure you want to delete your account? This cannot be undone.');
+  };
+
+  /* close on backdrop click */
+  document.addEventListener('click', function (e) {
+    if (e.target.classList.contains('modal')) e.target.style.display = 'none';
+  });
+})();
+</script>

@@ -1,0 +1,699 @@
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+  @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css');
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  :root {
+    --mint:#5eead4; --mint-bright:#6ee7b7; --mint-deep:#2dd4bf;
+    --bg-0:#192b27; --line:rgba(94,234,212,.18); --line-strong:rgba(94,234,212,.4);
+    --text:#e6fff8; --muted:#7a9aa6; --muted-2:#5e7a86;
+  }
+
+  .ign-root {
+    font-family: 'Inter', system-ui, sans-serif; color: var(--text);
+    background: var(--bg-0); min-height: 100vh; overflow-x: hidden;
+    position: relative; line-height: 1.5; -webkit-font-smoothing: antialiased;
+    display: flex; flex-direction: column;
+  }
+
+  /* ── Background (identical to login/signup) ── */
+  .ign-bg { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+  .ign-bg .glow {
+    position: absolute; inset: -20%;
+    background:
+      radial-gradient(60% 40% at 50% 0%, rgba(94,234,212,.18), transparent 60%),
+      radial-gradient(50% 40% at 80% 50%, rgba(45,212,191,.10), transparent 65%),
+      radial-gradient(50% 40% at 10% 80%, rgba(94,234,212,.08), transparent 65%);
+    filter: blur(20px);
+  }
+  .ign-bg .stars {
+    position: absolute; inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,.6), transparent),
+      radial-gradient(1px 1px at 70% 80%, rgba(94,234,212,.5), transparent),
+      radial-gradient(1px 1px at 40% 60%, rgba(255,255,255,.5), transparent),
+      radial-gradient(1px 1px at 90% 20%, rgba(110,231,183,.5), transparent),
+      radial-gradient(2px 2px at 55% 15%, rgba(255,255,255,.4), transparent);
+    background-size: 700px 700px; opacity: .45;
+  }
+  .ign-bg .vignette {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at top, transparent 30%, rgba(2,10,20,.85) 90%);
+  }
+
+  /* ── Header (identical to login/signup) ── */
+  .ign-header {
+    position: sticky; top: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.1rem 2rem;
+    background: rgba(2,10,20,.7); backdrop-filter: blur(16px) saturate(140%);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+    border-bottom: 1px solid var(--line);
+  }
+  .ign-logo-section { display: flex; align-items: center; gap: .75rem; }
+  .ign-logo-img {
+    width: 36px; height: 36px; border-radius: 10px; overflow: hidden;
+    border: 1px solid var(--line-strong); box-shadow: 0 0 18px rgba(94,234,212,.3);
+  }
+  .ign-logo-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .ign-logo-title h1 { font-size: 1rem; font-weight: 700; color: white; letter-spacing: -.01em; }
+  .ign-logo-title p  { font-size: .7rem; color: rgba(255,255,255,.65); font-family: 'JetBrains Mono', monospace; }
+
+  .ign-header-right { display: flex; align-items: center; gap: 1rem; }
+
+  /* Timer in header */
+  .ign-timer-wrap { display: flex; flex-direction: column; align-items: flex-end; }
+  .ign-timer-label { font: 500 .58rem 'JetBrains Mono', monospace; color: var(--muted-2); letter-spacing: 1.2px; text-transform: uppercase; }
+  .ign-timer {
+    font: 700 1.25rem 'JetBrains Mono', monospace; color: var(--mint);
+    letter-spacing: .05em; text-shadow: 0 0 18px rgba(94,234,212,.4); transition: color .3s;
+  }
+  .ign-timer.warn   { color: #facc15; text-shadow: 0 0 18px rgba(250,204,21,.4); }
+  .ign-timer.danger { color: #f87171; text-shadow: 0 0 18px rgba(248,113,113,.5); animation: ign-pulse 1s infinite; }
+
+  .ign-btn {
+    position: relative; padding: .55rem 1.2rem; border-radius: 999px;
+    font: 600 .85rem 'Inter', sans-serif; cursor: pointer;
+    border: 1px solid transparent; background: transparent; color: var(--text);
+    transition: transform .25s, box-shadow .25s, background .25s;
+    display: inline-flex; align-items: center; gap: .5rem; text-decoration: none;
+  }
+  .ign-btn-ghost { border-color: var(--line-strong); color: var(--text); }
+  .ign-btn-ghost:hover { background: rgba(94,234,212,.08); border-color: var(--mint); transform: translateY(-2px); }
+  .ign-btn-primary {
+    background: linear-gradient(135deg, var(--mint-bright), var(--mint-deep));
+    color: #022; font-weight: 700;
+    box-shadow: 0 8px 30px rgba(94,234,212,.45), inset 0 1px 0 rgba(255,255,255,.4);
+  }
+  .ign-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(94,234,212,.6); }
+
+  /* ── Main layout ── */
+  .ign-main { position: relative; z-index: 2; flex: 1; padding: 1.3rem 1.5rem 2rem; }
+  .ign-exam-grid { display: grid; grid-template-columns: 260px 1fr; gap: 1.1rem; align-items: start; }
+
+  /* ── Card (identical to login/signup) ── */
+  .ign-card {
+    position: relative; border-radius: 20px;
+    background: linear-gradient(160deg, rgba(94,234,212,.07), rgba(2,16,30,.65));
+    border: 1px solid var(--line); backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    box-shadow: 0 30px 80px -20px rgba(94,234,212,.25); overflow: hidden;
+  }
+  .ign-card::before {
+    content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--mint), transparent); opacity: .5;
+  }
+
+  /* ── Eyebrow (identical to login/signup) ── */
+  .ign-eyebrow {
+    display: inline-flex; align-items: center; gap: .5rem;
+    font: 500 .72rem 'JetBrains Mono', monospace;
+    color: var(--mint); letter-spacing: 2.5px; text-transform: uppercase; margin-bottom: .7rem;
+  }
+  .ign-eyebrow::before { content: ""; width: 26px; height: 1px; background: var(--mint); }
+  .ign-dot {
+    width: 7px; height: 7px; border-radius: 50%; background: var(--mint);
+    box-shadow: 0 0 10px var(--mint); animation: ign-pulse 1.6s infinite; display: inline-block;
+  }
+  @keyframes ign-pulse { 50% { opacity: .35; transform: scale(.85); } }
+
+  /* ── Label (identical) ── */
+  .ign-label {
+    display: block; font: 600 .72rem 'JetBrains Mono', monospace;
+    color: var(--muted); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: .5rem;
+  }
+
+  /* ── Stats strip ── */
+  .ign-stats { display: grid; grid-template-columns: repeat(4,1fr); gap: .6rem; margin-bottom: 1.1rem; }
+  .ign-stat {
+    padding: .7rem 1rem; border-radius: 14px;
+    background: linear-gradient(160deg, rgba(94,234,212,.07), rgba(2,16,30,.65));
+    border: 1px solid var(--line); position: relative; overflow: hidden;
+  }
+  .ign-stat::before {
+    content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--mint), transparent); opacity: .3;
+  }
+  .ign-stat-label { font: 500 .6rem 'JetBrains Mono', monospace; color: var(--muted-2); letter-spacing: 1px; text-transform: uppercase; margin-bottom: .2rem; }
+  .ign-stat-value { font: 700 1.4rem 'Inter', sans-serif; color: var(--mint); letter-spacing: -.03em; }
+  .ign-stat-value.green  { color: #4ade80; }
+  .ign-stat-value.amber  { color: #fbbf24; }
+  .ign-stat-value.red    { color: #f87171; }
+
+  /* ── Sidebar ── */
+  .ign-sidebar { display: flex; flex-direction: column; gap: .8rem; position: sticky; top: 80px; }
+  .ign-sidebar-card { padding: 1rem 1.1rem; }
+
+  /* Palette */
+  .ign-palette { display: grid; grid-template-columns: repeat(6,1fr); gap: .28rem; margin: .6rem 0 .75rem; }
+  .ign-pal-btn {
+    aspect-ratio: 1; border-radius: 7px; border: 1px solid var(--line);
+    background: rgba(94,234,212,.04); color: var(--muted-2);
+    font: 600 .62rem 'JetBrains Mono', monospace; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background .15s, border-color .15s, color .15s;
+  }
+  .ign-pal-btn:hover      { background: rgba(94,234,212,.12); border-color: var(--line-strong); color: var(--text); }
+  .ign-pal-btn.current    { background: rgba(94,234,212,.22); border-color: var(--mint); color: var(--mint); }
+  .ign-pal-btn.answered   { background: rgba(74,222,128,.18); border-color: rgba(74,222,128,.45); color: #4ade80; }
+  .ign-pal-btn.flagged    { background: rgba(251,191,36,.15); border-color: rgba(251,191,36,.4);  color: #fbbf24; }
+
+  .ign-legend { display: flex; flex-direction: column; gap: .3rem; }
+  .ign-legend-item { display: flex; align-items: center; gap: .5rem; font: 400 .65rem 'Inter', sans-serif; color: var(--muted); }
+  .ign-legend-dot { width: 9px; height: 9px; border-radius: 3px; flex-shrink: 0; }
+
+  .ign-instr-list { list-style: none; display: flex; flex-direction: column; gap: .4rem; }
+  .ign-instr-list li { display: flex; align-items: flex-start; gap: .5rem; font: 400 .73rem 'Inter', sans-serif; color: var(--muted); line-height: 1.45; }
+  .ign-instr-list li i { color: var(--mint); font-size: .45rem; margin-top: .35rem; flex-shrink: 0; }
+
+  /* ── Progress bar ── */
+  .ign-progress-wrap { margin-bottom: .85rem; }
+  .ign-progress-header { display: flex; justify-content: space-between; margin-bottom: .4rem; }
+  .ign-progress-header span { font: 500 .72rem 'JetBrains Mono', monospace; color: var(--muted); }
+  .ign-progress-header .pct { color: var(--mint); }
+  .ign-progress-track { height: 3px; background: var(--line); border-radius: 999px; overflow: hidden; }
+  .ign-progress-fill  { height: 100%; background: linear-gradient(90deg, var(--mint-deep), var(--mint)); border-radius: 999px; transition: width .4s ease; }
+
+  /* ── Question card ── */
+  .ign-q-card { padding: 1.5rem 1.6rem; }
+  .ign-q-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.1rem; }
+  .ign-q-badge {
+    display: inline-flex; align-items: center;
+    background: rgba(94,234,212,.12); border: 1px solid rgba(94,234,212,.3);
+    color: var(--mint); padding: .22rem .9rem; border-radius: 999px;
+    font: 700 .68rem 'JetBrains Mono', monospace; letter-spacing: .5px;
+  }
+  .ign-flag-btn {
+    display: inline-flex; align-items: center; gap: .4rem;
+    padding: .3rem .9rem; border-radius: 999px;
+    border: 1px solid var(--line); background: rgba(94,234,212,.04);
+    color: var(--muted); font: 500 .72rem 'Inter', sans-serif; cursor: pointer;
+    transition: background .2s, border-color .2s, color .2s;
+  }
+  .ign-flag-btn:hover  { background: rgba(251,191,36,.1); border-color: rgba(251,191,36,.4); color: #fbbf24; }
+  .ign-flag-btn.active { background: rgba(251,191,36,.15); border-color: rgba(251,191,36,.5); color: #fbbf24; }
+
+  .ign-q-text { font: 500 1rem 'Inter', sans-serif; color: var(--text); line-height: 1.7; margin-bottom: 1.3rem; }
+
+  /* Options */
+  .ign-options { display: flex; flex-direction: column; gap: .5rem; }
+  .ign-option {
+    display: flex; align-items: center; gap: .9rem;
+    padding: .85rem 1.1rem; border-radius: 12px; cursor: pointer;
+    background: rgba(94,234,212,.04); border: 1px solid var(--line);
+    transition: background .15s, border-color .15s, transform .12s;
+  }
+  .ign-option:hover { background: rgba(94,234,212,.09); border-color: var(--line-strong); transform: translateX(3px); }
+  .ign-option.selected {
+    background: rgba(94,234,212,.14); border-color: var(--mint);
+    transform: translateX(3px); box-shadow: 0 0 0 1px rgba(94,234,212,.18);
+  }
+  .ign-opt-letter {
+    width: 30px; height: 30px; border-radius: 50%; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(94,234,212,.07); border: 1px solid var(--line);
+    font: 700 .72rem 'JetBrains Mono', monospace; color: var(--muted);
+    transition: background .15s, border-color .15s, color .15s;
+  }
+  .ign-option.selected .ign-opt-letter { background: var(--mint); border-color: var(--mint); color: #022; }
+  .ign-opt-text { font: 400 .9rem 'Inter', sans-serif; color: var(--text); flex: 1; line-height: 1.45; }
+
+  /* Nav buttons */
+  .ign-nav-btns { display: flex; gap: .6rem; margin-top: .9rem; flex-wrap: wrap; }
+  .ign-nav-btns .ign-btn-ghost { color: var(--muted); }
+  .ign-nav-btns .ign-btn-next  {
+    background: rgba(94,234,212,.1); border: 1px solid var(--line-strong); color: var(--mint);
+  }
+  .ign-nav-btns .ign-btn-next:hover { background: rgba(94,234,212,.2); transform: translateY(-2px); }
+  .ign-nav-btns .ign-btn-submit { margin-left: auto; }
+
+  /* ── Calculator Modal ── */
+  .ign-modal-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,.65); backdrop-filter: blur(4px); z-index: 400;
+  }
+  .ign-modal-overlay.open { display: block; }
+  .ign-calc-modal {
+    display: none; position: fixed; top: 50%; left: 50%;
+    transform: translate(-50%,-50%); z-index: 500;
+    width: 360px; max-width: calc(100vw - 2rem);
+    border-radius: 22px; overflow: hidden;
+    box-shadow: 0 30px 80px rgba(0,0,0,.7);
+    animation: ign-calc-drop .2s ease;
+  }
+  .ign-calc-modal.open { display: block; }
+  @keyframes ign-calc-drop { from{opacity:0;transform:translate(-50%,-47%)} to{opacity:1;transform:translate(-50%,-50%)} }
+
+  .ign-calc-head {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: .9rem 1.2rem; border-bottom: 1px solid var(--line);
+  }
+  .ign-calc-head h3 { font: 700 .9rem 'Inter', sans-serif; color: var(--text); display: flex; align-items: center; gap: .5rem; }
+  .ign-calc-head h3 i { color: var(--mint); }
+  .ign-calc-close {
+    width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--line);
+    background: rgba(94,234,212,.06); color: var(--muted);
+    display: flex; align-items: center; justify-content: center; cursor: pointer;
+    transition: background .2s, color .2s;
+  }
+  .ign-calc-close:hover { background: rgba(94,234,212,.15); color: var(--text); }
+
+  .ign-calc-display {
+    font: 600 1.55rem 'JetBrains Mono', monospace; color: var(--text);
+    text-align: right; padding: .75rem 1rem .55rem;
+    background: rgba(0,0,0,.3); border-bottom: 1px solid var(--line);
+    min-height: 58px; word-break: break-all;
+  }
+  .ign-calc-display.err { color: #f87171; font-size: 1rem; }
+
+  .ign-calc-sci { display: grid; grid-template-columns: repeat(8,1fr); gap: .22rem; padding: .45rem .6rem .2rem; }
+  .ign-sci-key {
+    padding: .33rem .1rem; border-radius: 6px;
+    border: 1px solid rgba(94,234,212,.12); background: rgba(94,234,212,.06);
+    color: var(--mint); font: 600 .6rem 'JetBrains Mono', monospace; cursor: pointer;
+    transition: background .15s;
+  }
+  .ign-sci-key:hover { background: rgba(94,234,212,.18); }
+
+  .ign-calc-keys { display: grid; grid-template-columns: repeat(4,1fr); gap: .28rem; padding: .35rem .6rem .65rem; }
+  .ign-calc-key {
+    padding: .68rem; border-radius: 9px; border: 1px solid var(--line);
+    background: rgba(94,234,212,.04); color: var(--text);
+    font: 600 .9rem 'JetBrains Mono', monospace; cursor: pointer;
+    transition: background .15s, transform .1s;
+  }
+  .ign-calc-key:hover  { background: rgba(94,234,212,.12); }
+  .ign-calc-key:active { transform: scale(.92); }
+  .ign-calc-key.op    { color: var(--mint); background: rgba(94,234,212,.07); }
+  .ign-calc-key.clr   { color: #f87171; background: rgba(239,68,68,.07); border-color: rgba(239,68,68,.2); }
+  .ign-calc-key.bk    { color: #fbbf24; background: rgba(234,179,8,.07); border-color: rgba(234,179,8,.2); }
+  .ign-calc-key.eq    {
+    grid-column: span 4;
+    background: linear-gradient(135deg, var(--mint-bright), var(--mint-deep));
+    color: #022; border-color: var(--mint); font-weight: 700;
+    box-shadow: 0 4px 20px rgba(94,234,212,.35);
+  }
+  .ign-calc-key.eq:hover { opacity: .88; transform: translateY(-1px); }
+
+  /* ── Page footer ── */
+  .ign-page-footer {
+    position: relative; z-index: 2; padding: 1.2rem 2rem;
+    border-top: 1px solid var(--line); background: rgba(2,10,20,.6); backdrop-filter: blur(10px);
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
+    color: var(--muted); font: 500 .78rem 'JetBrains Mono', monospace;
+  }
+  .ign-page-footer a { color: inherit; text-decoration: none; transition: color .25s; }
+  .ign-page-footer a:hover { color: var(--mint); }
+  .ign-page-footer .links { display: flex; gap: 1.5rem; }
+
+  /* Responsive */
+  @media (max-width: 900px) { .ign-exam-grid { grid-template-columns: 1fr; } .ign-sidebar { position: static; } }
+  @media (max-width: 768px) {
+    .ign-stats { grid-template-columns: repeat(2,1fr); }
+    .ign-header { padding: .9rem 1.2rem; }
+    .ign-timer { font-size: 1rem; }
+  }
+  @media (max-width: 520px) {
+    .ign-main { padding: .9rem .9rem 1.5rem; }
+    .ign-q-text { font-size: .9rem; }
+    .ign-option { padding: .75rem .9rem; }
+    .ign-palette { grid-template-columns: repeat(8,1fr); }
+    .ign-page-footer { flex-direction: column; text-align: center; }
+  }
+
+    /* ── Responsive ── */
+  @media (max-width: 1024px) {
+    .ign-exam-grid { grid-template-columns: 220px 1fr; }
+  }
+
+  @media (max-width: 900px) {
+    .ign-exam-grid { grid-template-columns: 1fr; }
+    .ign-sidebar   { position: static; display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; }
+  }
+
+  @media (max-width: 768px) {
+    .ign-header { padding: .8rem 1.1rem; flex-wrap: wrap; gap: .6rem; }
+    .ign-header-right { gap: .7rem; }
+    .ign-timer { font-size: 1.05rem; }
+    .ign-timer-label { display: none; }
+    .ign-stats { grid-template-columns: repeat(2,1fr); gap: .5rem; }
+    .ign-sidebar { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 600px) {
+    .ign-main { padding: .8rem .75rem 1.5rem; }
+    .ign-header { padding: .7rem .9rem; }
+    .ign-logo-title p { display: none; }
+    .ign-stats { grid-template-columns: repeat(2,1fr); gap: .4rem; }
+    .ign-stat-value { font-size: 1.15rem; }
+    .ign-q-card { padding: 1.1rem 1rem; }
+    .ign-q-text { font-size: .88rem; }
+    .ign-option { padding: .7rem .85rem; gap: .7rem; }
+    .ign-opt-letter { width: 26px; height: 26px; font-size: .62rem; }
+    .ign-opt-text { font-size: .83rem; }
+    .ign-palette { grid-template-columns: repeat(8,1fr); }
+    .ign-nav-btns { flex-wrap: wrap; }
+    .ign-nav-btns .ign-btn-submit { width: 100%; justify-content: center; margin-left: 0; margin-top: .2rem; }
+    .ign-progress-wrap { margin-bottom: .7rem; }
+  }
+
+  @media (max-width: 400px) {
+    .ign-stats { grid-template-columns: repeat(2,1fr); }
+    .ign-header-right .ign-btn span { display: none; }
+    .ign-timer { font-size: .95rem; }
+    .ign-calc-modal { border-radius: 16px; }
+    .ign-calc-sci { grid-template-columns: repeat(4,1fr); }
+  }
+</style>
+
+<!-- Background -->
+<div class="ign-root">
+<div class="ign-bg"><div class="glow"></div><div class="stars"></div><div class="vignette"></div></div>
+
+<!-- Header -->
+<header class="ign-header">
+  <div class="ign-logo-section">
+    <div class="ign-logo-img">
+      <img src="https://www.image2url.com/r2/default/images/1777061825417-959bf371-403b-4859-bbfd-ec4f516a2797.jpeg" alt="IgniteU">
+    </div>
+    <div class="ign-logo-title">
+      <h1>IgniteU</h1>
+      <p>CBT Exam Portal</p>
+    </div>
+  </div>
+  <div class="ign-header-right">
+    <div class="ign-timer-wrap">
+      <div class="ign-timer-label">Time Remaining</div>
+      <div class="ign-timer" id="ignTimer">01:00:00</div>
+    </div>
+    <button class="ign-btn ign-btn-primary" onclick="window.ignSubmit()">
+      <i class="fa-solid fa-paper-plane"></i> Submit
+    </button>
+  </div>
+</header>
+
+<!-- Main -->
+<main class="ign-main">
+
+  <!-- Stats -->
+  <div class="ign-stats">
+    <div class="ign-stat">
+      <div class="ign-stat-label">Total Qs</div>
+      <div class="ign-stat-value" id="ignStatTotal">60</div>
+    </div>
+    <div class="ign-stat">
+      <div class="ign-stat-label">Answered</div>
+      <div class="ign-stat-value green" id="ignStatAns">0</div>
+    </div>
+    <div class="ign-stat">
+      <div class="ign-stat-label">Flagged</div>
+      <div class="ign-stat-value amber" id="ignStatFlag">0</div>
+    </div>
+    <div class="ign-stat">
+      <div class="ign-stat-label">Remaining</div>
+      <div class="ign-stat-value red" id="ignStatLeft">60</div>
+    </div>
+  </div>
+
+  <!-- Grid -->
+  <div class="ign-exam-grid">
+
+    <!-- Sidebar -->
+    <aside class="ign-sidebar">
+
+      <!-- Quick Tools -->
+      <div class="ign-card ign-sidebar-card">
+        <div class="ign-eyebrow"><span class="ign-dot"></span> Quick Tools</div>
+        <button class="ign-btn ign-btn-ghost" style="width:100%;justify-content:center;" onclick="window.ignToggleCalc()">
+          <i class="fa-solid fa-calculator"></i> Scientific Calculator
+        </button>
+      </div>
+
+      <!-- Palette -->
+      <div class="ign-card ign-sidebar-card">
+        <div class="ign-eyebrow"><span class="ign-dot"></span> Question Palette</div>
+        <div class="ign-palette" id="ignPalette"></div>
+        <div class="ign-legend">
+          <div class="ign-legend-item"><div class="ign-legend-dot" style="background:var(--mint)"></div> Current</div>
+          <div class="ign-legend-item"><div class="ign-legend-dot" style="background:#4ade80"></div> Answered</div>
+          <div class="ign-legend-item"><div class="ign-legend-dot" style="background:#fbbf24"></div> Flagged for Review</div>
+        </div>
+      </div>
+
+      <!-- Instructions -->
+      <div class="ign-card ign-sidebar-card">
+        <div class="ign-eyebrow"><span class="ign-dot"></span> Instructions</div>
+        <ul class="ign-instr-list">
+          <li><i class="fas fa-circle"></i> Each question carries equal marks</li>
+          <li><i class="fas fa-circle"></i> No negative marking</li>
+          <li><i class="fas fa-circle"></i> Use the calculator when needed</li>
+          <li><i class="fas fa-circle"></i> Flag questions to revisit later</li>
+          <li><i class="fas fa-circle"></i> Submit before the timer runs out</li>
+        </ul>
+      </div>
+
+    </aside>
+
+    <!-- Exam main -->
+    <section>
+
+      <!-- Progress -->
+      <div class="ign-progress-wrap">
+        <div class="ign-progress-header">
+          <span>Question <strong id="ignQNum">1</strong> of <strong id="ignQTotal">60</strong></span>
+          <span class="pct" id="ignPct">2%</span>
+        </div>
+        <div class="ign-progress-track"><div class="ign-progress-fill" id="ignFill" style="width:2%"></div></div>
+      </div>
+
+      <!-- Question card -->
+      <div class="ign-card ign-q-card">
+        <div class="ign-q-header">
+          <span class="ign-q-badge" id="ignBadge">Q1 / 60</span>
+          <button class="ign-flag-btn" id="ignFlagBtn" onclick="window.ignToggleFlag()">
+            <i class="far fa-flag"></i> Flag for Review
+          </button>
+        </div>
+        <div class="ign-q-text" id="ignQText">
+          What is the value of x in the equation 3x + 7 = 22?
+        </div>
+        <div class="ign-options" id="ignOptions">
+          <div class="ign-option" onclick="window.ignSelect(0)"><span class="ign-opt-letter">A</span><span class="ign-opt-text">x = 3</span></div>
+          <div class="ign-option" onclick="window.ignSelect(1)"><span class="ign-opt-letter">B</span><span class="ign-opt-text">x = 5</span></div>
+          <div class="ign-option" onclick="window.ignSelect(2)"><span class="ign-opt-letter">C</span><span class="ign-opt-text">x = 7</span></div>
+          <div class="ign-option" onclick="window.ignSelect(3)"><span class="ign-opt-letter">D</span><span class="ign-opt-text">x = 9</span></div>
+        </div>
+      </div>
+
+      <!-- Nav buttons -->
+      <div class="ign-nav-btns">
+        <button class="ign-btn ign-btn-ghost" onclick="window.ignPrev()"><i class="fas fa-arrow-left"></i> Previous</button>
+        <button class="ign-btn ign-btn-next"  onclick="window.ignNext()">Next <i class="fas fa-arrow-right"></i></button>
+        <button class="ign-btn ign-btn-primary ign-btn-submit" onclick="window.ignSubmit()">
+          <i class="fas fa-paper-plane"></i> Submit Exam
+        </button>
+      </div>
+
+    </section>
+  </div>
+</main>
+
+<!-- Footer -->
+<footer class="ign-page-footer">
+  <div>© 2026 IgniteU — Spark Your Success</div>
+  <div class="links"><a href="#">Help</a><a href="#">Privacy</a><a href="#">Terms</a></div>
+</footer>
+
+<!-- Calculator Modal -->
+<div class="ign-modal-overlay" id="ignCalcOverlay" onclick="window.ignToggleCalc()"></div>
+<div class="ign-card ign-calc-modal" id="ignCalcModal">
+  <div class="ign-calc-head">
+    <h3><i class="fas fa-calculator"></i> Scientific Calculator</h3>
+    <button class="ign-calc-close" onclick="window.ignToggleCalc()"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="ign-calc-display" id="ignCalcDisp">0</div>
+  <div class="ign-calc-sci">
+    <button class="ign-sci-key" onclick="window.ca('Math.sin(')">sin</button>
+    <button class="ign-sci-key" onclick="window.ca('Math.cos(')">cos</button>
+    <button class="ign-sci-key" onclick="window.ca('Math.tan(')">tan</button>
+    <button class="ign-sci-key" onclick="window.ca('Math.asin(')">sin⁻¹</button>
+    <button class="ign-sci-key" onclick="window.ca('Math.acos(')">cos⁻¹</button>
+    <button class="ign-sci-key" onclick="window.ca('Math.atan(')">tan⁻¹</button>
+    <button class="ign-sci-key" onclick="window.ca('Math.log10(')">log</button>
+    <button class="ign-sci-key" onclick="window.ca('Math.log(')">ln</button>
+    <button class="ign-sci-key" onclick="window.ca('Math.sqrt(')">√</button>
+    <button class="ign-sci-key" onclick="window.ca('**')">xʸ</button>
+    <button class="ign-sci-key" onclick="window.ca('Math.PI')">π</button>
+    <button class="ign-sci-key" onclick="window.ca('Math.E')">e</button>
+    <button class="ign-sci-key" onclick="window.ca('Math.abs(')">|x|</button>
+    <button class="ign-sci-key" onclick="window.ca('Math.floor(')">⌊x⌋</button>
+    <button class="ign-sci-key" onclick="window.ca('Math.ceil(')">⌈x⌉</button>
+    <button class="ign-sci-key" onclick="window.ca('Math.round(')">rnd</button>
+  </div>
+  <div class="ign-calc-keys">
+    <button class="ign-calc-key clr" onclick="window.cc()">C</button>
+    <button class="ign-calc-key bk"  onclick="window.cb()">⌫</button>
+    <button class="ign-calc-key op"  onclick="window.ca('(')">(</button>
+    <button class="ign-calc-key op"  onclick="window.ca(')')">)</button>
+    <button class="ign-calc-key"     onclick="window.ca('7')">7</button>
+    <button class="ign-calc-key"     onclick="window.ca('8')">8</button>
+    <button class="ign-calc-key"     onclick="window.ca('9')">9</button>
+    <button class="ign-calc-key op"  onclick="window.ca('/')">÷</button>
+    <button class="ign-calc-key"     onclick="window.ca('4')">4</button>
+    <button class="ign-calc-key"     onclick="window.ca('5')">5</button>
+    <button class="ign-calc-key"     onclick="window.ca('6')">6</button>
+    <button class="ign-calc-key op"  onclick="window.ca('*')">×</button>
+    <button class="ign-calc-key"     onclick="window.ca('1')">1</button>
+    <button class="ign-calc-key"     onclick="window.ca('2')">2</button>
+    <button class="ign-calc-key"     onclick="window.ca('3')">3</button>
+    <button class="ign-calc-key op"  onclick="window.ca('-')">−</button>
+    <button class="ign-calc-key"     onclick="window.ca('%')">%</button>
+    <button class="ign-calc-key"     onclick="window.ca('0')">0</button>
+    <button class="ign-calc-key"     onclick="window.ca('.')">.</button>
+    <button class="ign-calc-key op"  onclick="window.ca('+')">+</button>
+    <button class="ign-calc-key eq"  onclick="window.ce()">=</button>
+  </div>
+</div>
+
+</div><!-- .ign-root -->
+
+<script>
+(function () {
+  if (window.__ignExam) return;
+  window.__ignExam = true;
+
+  var TOTAL   = 60;
+  var current = 0;
+  var answers = new Array(TOTAL).fill(null);
+  var flagged = new Array(TOTAL).fill(false);
+
+  /* ── Sample questions (replace with EJS loop output) ── */
+  var questions = [
+    { text: "What is the value of x in the equation 3x + 7 = 22?",            opts: ["x = 3","x = 5","x = 7","x = 9"] },
+    { text: "Which measure of central tendency is most affected by outliers?", opts: ["Mode","Median","Mean","Range"] },
+    { text: "A fair coin is tossed. What is the probability of getting heads?", opts: ["1/4","1/3","1/2","2/3"] },
+    { text: "The data set is: 2, 4, 4, 6, 8. What is the variance?",           opts: ["3.2","4.0","4.8","6.4"] },
+    { text: "Which chart best shows the distribution of continuous data?",      opts: ["Pie chart","Bar chart","Histogram","Line graph"] }
+  ];
+  while (questions.length < TOTAL) {
+    questions.push({ text: "Sample question #" + (questions.length + 1) + ". Choose the best answer.", opts: ["Option A","Option B","Option C","Option D"] });
+  }
+
+  /* ── Palette ── */
+  function buildPalette() {
+    var grid = document.getElementById('ignPalette');
+    if (!grid) return;
+    grid.innerHTML = '';
+    for (var i = 0; i < TOTAL; i++) {
+      (function (idx) {
+        var btn = document.createElement('button');
+        btn.className   = 'ign-pal-btn';
+        btn.textContent = idx + 1;
+        btn.onclick = function () { goTo(idx); };
+        grid.appendChild(btn);
+      })(i);
+    }
+  }
+
+  function refreshPalette() {
+    var btns = document.querySelectorAll('.ign-pal-btn');
+    btns.forEach(function (btn, i) {
+      btn.className = 'ign-pal-btn';
+      if (i === current)             btn.classList.add('current');
+      else if (flagged[i])           btn.classList.add('flagged');
+      else if (answers[i] !== null)  btn.classList.add('answered');
+    });
+    var ans  = answers.filter(function(a){ return a !== null; }).length;
+    var flg  = flagged.filter(Boolean).length;
+    document.getElementById('ignStatAns').textContent  = ans;
+    document.getElementById('ignStatFlag').textContent = flg;
+    document.getElementById('ignStatLeft').textContent = TOTAL - ans;
+  }
+
+  /* ── Render question ── */
+  function render() {
+    var q   = questions[current];
+    var pct = Math.round(((current + 1) / TOTAL) * 100);
+    var pfx = ['A','B','C','D'];
+
+    document.getElementById('ignQNum').textContent   = current + 1;
+    document.getElementById('ignBadge').textContent  = 'Q' + (current+1) + ' / ' + TOTAL;
+    document.getElementById('ignPct').textContent    = pct + '%';
+    document.getElementById('ignFill').style.width   = pct + '%';
+    document.getElementById('ignQText').textContent  = q.text;
+
+    var cont = document.getElementById('ignOptions');
+    cont.innerHTML = '';
+    q.opts.forEach(function (opt, i) {
+      var div = document.createElement('div');
+      div.className = 'ign-option' + (answers[current] === i ? ' selected' : '');
+      div.innerHTML = '<span class="ign-opt-letter">' + pfx[i] + '</span><span class="ign-opt-text">' + opt + '</span>';
+      div.onclick   = (function(idx){ return function(){ ignSelect(idx); }; })(i);
+      cont.appendChild(div);
+    });
+
+    var fb = document.getElementById('ignFlagBtn');
+    if (fb) {
+      fb.className = 'ign-flag-btn' + (flagged[current] ? ' active' : '');
+      fb.innerHTML = flagged[current]
+        ? '<i class="fas fa-flag"></i> Flagged'
+        : '<i class="far fa-flag"></i> Flag for Review';
+    }
+
+    refreshPalette();
+  }
+
+  function goTo(idx) { current = Math.max(0, Math.min(TOTAL-1, idx)); render(); }
+  window.ignPrev   = function () { goTo(current - 1); };
+  window.ignNext   = function () { goTo(current + 1); };
+  window.ignSelect = function (idx) { answers[current] = idx; render(); };
+  window.ignToggleFlag = function () { flagged[current] = !flagged[current]; render(); };
+
+  window.ignSubmit = function () {
+    var ans = answers.filter(function(a){ return a !== null; }).length;
+    if (!confirm('You have answered ' + ans + ' of ' + TOTAL + ' questions.\nSubmit the exam now?')) return;
+    alert('Exam submitted! Your results will be available shortly.');
+  };
+
+  /* ── Timer ── */
+  var secs    = 3600;
+  var timerEl = document.getElementById('ignTimer');
+  var tick    = setInterval(function () {
+    secs--;
+    if (secs < 0) { clearInterval(tick); if(timerEl) timerEl.textContent = '00:00:00'; return; }
+    var h = Math.floor(secs/3600), m = Math.floor((secs%3600)/60), s = secs%60;
+    if (timerEl) {
+      timerEl.textContent = pad(h)+':'+pad(m)+':'+pad(s);
+      timerEl.className   = 'ign-timer' + (secs<300?' danger':secs<600?' warn':'');
+    }
+  }, 1000);
+  function pad(n){ return n<10?'0'+n:n; }
+
+  /* ── Calculator ── */
+  var expr = '';
+  var disp = document.getElementById('ignCalcDisp');
+
+  window.ignToggleCalc = function () {
+    document.getElementById('ignCalcModal').classList.toggle('open');
+    document.getElementById('ignCalcOverlay').classList.toggle('open');
+  };
+  window.ca = function (v) { expr += v; if(disp){ disp.textContent=expr; disp.className='ign-calc-display'; } };
+  window.cc = function () { expr=''; if(disp){ disp.textContent='0'; disp.className='ign-calc-display'; } };
+  window.cb = function () { expr=expr.slice(0,-1); if(disp) disp.textContent=expr||'0'; };
+  window.ce = function () {
+    try {
+      var result = Function('"use strict";return('+expr+')')();
+      expr = String(Math.round(result*1e10)/1e10);
+      if(disp){ disp.textContent=expr; disp.className='ign-calc-display'; }
+    } catch(e) {
+      if(disp){ disp.textContent='Error'; disp.className='ign-calc-display err'; }
+      expr='';
+    }
+  };
+
+  /* ── Init ── */
+  buildPalette();
+  render();
+})();
+</script>

@@ -1,0 +1,391 @@
+<style>
+  .signup-wrap { width: 100%; max-width: 480px; }
+
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: .6rem;
+    font: 500 .72rem 'JetBrains Mono', monospace;
+    color: var(--mint); letter-spacing: 2.5px; text-transform: uppercase;
+    margin-bottom: 1.2rem;
+  }
+  .eyebrow::before { content: ""; width: 26px; height: 1px; background: var(--mint); }
+
+  .dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--mint); box-shadow: 0 0 10px var(--mint);
+    animation: pulse 1.6s infinite; display: inline-block;
+  }
+  @keyframes pulse { 50% { opacity: .35; transform: scale(.85); } }
+
+  .signup-heading {
+    font-size: clamp(1.9rem, 5vw, 2.6rem);
+    font-weight: 800; letter-spacing: -.03em; line-height: 1.05;
+    color: #fff; margin-bottom: .6rem;
+  }
+  .signup-heading .accent { color: var(--mint); }
+
+  .signup-sub { color: var(--muted); font-size: .95rem; margin-bottom: 2rem; line-height: 1.6; }
+
+  .card {
+    position: relative; padding: 2.2rem 2.2rem; border-radius: 24px;
+    background: linear-gradient(160deg, rgba(94,234,212,.07), rgba(2,16,30,.65));
+    border: 1px solid var(--line); backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    box-shadow: 0 30px 80px -20px rgba(94,234,212,.25); overflow: hidden;
+  }
+  .card::before {
+    content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--mint), transparent); opacity: .5;
+  }
+
+  .social-row { display: flex; gap: .75rem; margin-bottom: 1.6rem; }
+  .social-btn {
+    flex: 1; display: flex; align-items: center; justify-content: center; gap: .6rem;
+    padding: .75rem 1rem; border-radius: 12px; background: rgba(94,234,212,.05);
+    border: 1px solid var(--line); color: var(--text); font: 500 .88rem 'Inter', sans-serif;
+    cursor: pointer; transition: background .25s, border-color .25s, transform .25s;
+    text-decoration: none;
+  }
+  .social-btn:hover { background: rgba(94,234,212,.1); border-color: var(--line-strong); transform: translateY(-1px); }
+
+  .divider { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.6rem; }
+  .divider-line { flex: 1; height: 1px; background: var(--line); }
+  .divider-text {
+    font: 500 .7rem 'JetBrains Mono', monospace; color: var(--muted-2);
+    letter-spacing: 2px; text-transform: uppercase; white-space: nowrap;
+  }
+
+  .field { margin-bottom: 1.1rem; }
+  .label {
+    display: block; font: 600 .72rem 'JetBrains Mono', monospace;
+    color: var(--muted); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: .5rem;
+  }
+  .input-wrap { position: relative; }
+  .input-icon {
+    position: absolute; left: 1rem; top: 50%; transform: translateY(-50%);
+    color: var(--muted-2); font-size: .9rem; pointer-events: none;
+  }
+  .input {
+    width: 100%; padding: .82rem 1rem .82rem 2.8rem;
+    background: rgba(94,234,212,.04); border: 1px solid var(--line);
+    border-radius: 12px; color: var(--text); font: 400 .95rem 'Inter', sans-serif;
+    outline: none; transition: border-color .25s, box-shadow .25s, background .25s;
+  }
+  .input::placeholder { color: var(--muted-2); }
+  .input:focus { border-color: var(--mint); background: rgba(94,234,212,.07); box-shadow: 0 0 0 3px rgba(94,234,212,.12); }
+  .input.err { border-color: rgba(239,68,68,.6); box-shadow: 0 0 0 3px rgba(239,68,68,.1); }
+  .input.ok  { border-color: rgba(94,234,212,.55); }
+  .input-pr  { padding-right: 3rem; }
+
+  .pass-toggle {
+    position: absolute; right: 1rem; top: 50%; transform: translateY(-50%);
+    color: var(--muted-2); background: none; border: none; cursor: pointer;
+    font-size: .9rem; padding: .25rem; transition: color .2s;
+  }
+  .pass-toggle:hover { color: var(--mint); }
+
+  /* Strength bar */
+  .strength-bar { display: flex; gap: 4px; margin-top: .5rem; height: 3px; }
+  .strength-bar span { flex: 1; border-radius: 999px; background: var(--line); transition: background .3s; }
+  .strength-bar.s1 span:nth-child(1)    { background: #ef4444; }
+  .strength-bar.s2 span:nth-child(-n+2) { background: #f97316; }
+  .strength-bar.s3 span:nth-child(-n+3) { background: #eab308; }
+  .strength-bar.s4 span                 { background: var(--mint); }
+  .strength-lbl {
+    font: 500 .7rem 'JetBrains Mono', monospace;
+    color: var(--muted-2); letter-spacing: 1px; margin-top: .35rem;
+  }
+
+  /* Password rules checklist */
+  .pass-rules { list-style: none; margin-top: .65rem; display: flex; flex-direction: column; gap: .3rem; }
+  .pass-rules li {
+    display: flex; align-items: center; gap: .5rem;
+    font: 400 .75rem 'JetBrains Mono', monospace;
+    color: var(--muted-2); transition: color .2s;
+  }
+  .pass-rules li.ok { color: var(--mint); }
+  .pass-rules li i  { width: 14px; text-align: center; font-size: .7rem; }
+
+  /* Server-side error (email only) */
+  .error-message {
+    display: flex; align-items: center; gap: .4rem;
+    font-size: .78rem; color: #fca5a5; margin-top: .45rem;
+  }
+  .error-message::before {
+    content: "\f06a"; font-family: "Font Awesome 6 Free"; font-weight: 900; font-size: .75rem;
+  }
+  .field.has-error .input { border-color: rgba(239,68,68,.6); box-shadow: 0 0 0 3px rgba(239,68,68,.1); }
+
+  /* JS inline errors */
+  .js-error {
+    display: none; align-items: center; gap: .4rem;
+    font-size: .78rem; color: #fca5a5; margin-top: .45rem;
+  }
+  .js-error.visible { display: flex; }
+  .js-error::before {
+    content: "\f06a"; font-family: "Font Awesome 6 Free"; font-weight: 900; font-size: .75rem;
+  }
+  .js-ok {
+    display: none; align-items: center; gap: .4rem;
+    font-size: .75rem; color: var(--mint); margin-top: .4rem;
+  }
+  .js-ok.visible { display: flex; }
+
+  /* Flash messages */
+  .flash {
+    padding: .85rem 1.1rem; border-radius: 12px; margin-bottom: 1.2rem;
+    font-size: .88rem; display: flex; align-items: center; gap: .6rem;
+  }
+  .flash-success { background: rgba(94,234,212,.08); border: 1px solid var(--line-strong); color: var(--mint); }
+
+  .submit-btn {
+    width: 100%; padding: 1rem 1.6rem; margin-top: .85rem;
+    border-radius: 999px; border: none; cursor: pointer;
+    background: linear-gradient(135deg, var(--mint-bright), var(--mint-deep));
+    color: #022; font: 700 1rem 'Inter', sans-serif;
+    box-shadow: 0 8px 30px rgba(94,234,212,.45), inset 0 1px 0 rgba(255,255,255,.4);
+    display: flex; align-items: center; justify-content: center; gap: .6rem;
+    transition: transform .25s, box-shadow .25s, opacity .25s; letter-spacing: -.01em;
+  }
+  .submit-btn:not(:disabled):hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(94,234,212,.6); }
+  .submit-btn:disabled { opacity: .38; cursor: not-allowed; transform: none; }
+
+  .card-footer { text-align: center; margin-top: 1.6rem; font-size: .88rem; color: var(--muted); }
+  .card-footer a { color: var(--mint); text-decoration: none; font-weight: 600; }
+  .card-footer a:hover { text-decoration: underline; }
+
+  @media (max-width: 520px) {
+    .card { padding: 1.8rem 1.4rem; border-radius: 18px; }
+    .social-row { flex-direction: column; }
+    .signup-sub { margin-bottom: 1.6rem; }
+  }
+</style>
+
+<div class="signup-wrap">
+  <span class="eyebrow"><span class="dot"></span> Create Account</span>
+  <h1 class="signup-heading">Join <span class="accent">IgniteU.</span></h1>
+  <p class="signup-sub">Start mastering your exams today — free forever, no credit card needed.</p>
+
+  <div class="card">
+
+    <div class="social-row">
+      <a href="/auth/google"   class="social-btn"><i class="fa-brands fa-google"></i>   Google</a>
+      <a href="/auth/facebook" class="social-btn"><i class="fa-brands fa-facebook"></i> Facebook</a>
+    </div>
+
+    <div class="divider">
+      <div class="divider-line"></div>
+      <span class="divider-text">or sign up with email</span>
+      <div class="divider-line"></div>
+    </div>
+
+    <form id="signupForm" action="/signup" method="POST" novalidate>
+
+      <!-- ── EMAIL (server-side error only) ── -->
+      <div class="field <%= (typeof errors !== 'undefined' && errors.email) ? 'has-error' : '' %>">
+        <label class="label" for="email">Email Address</label>
+        <div class="input-wrap">
+          <i class="fa-solid fa-envelope input-icon"></i>
+          <input class="input" type="email" id="email" name="email"
+            placeholder="Windwalker@example.com" autocomplete="email"
+            value="<%= typeof formData !== 'undefined' ? formData.email || '' : '' %>" required>
+        </div>
+        <% if (error) { %>
+          <p class="error-message"><%= error %></p>
+        <% } %>
+      </div>
+
+
+
+
+      <!-- ── USERNAME (JS validation only) ── -->
+      <div class="field">
+        <label class="label" for="username">Username</label>
+        <div class="input-wrap">
+          <i class="fa-solid fa-at input-icon"></i>
+          <input class="input" type="text" id="username" name="username"
+            placeholder="e.g. Windwalker" autocomplete="username"
+            value="<%= typeof formData !== 'undefined' ? formData.username || '' : '' %>" required>
+        </div>
+        <p class="js-error" id="usernameErr">3–20 characters: letters, numbers, underscores only.</p>
+      </div>
+
+      <!-- ── PASSWORD (JS validation only) ── -->
+      <div class="field">
+        <label class="label" for="password">Password</label>
+        <div class="input-wrap">
+          <i class="fa-solid fa-lock input-icon"></i>
+          <input class="input input-pr" type="password" id="password"
+            name="password" placeholder="Min. 8 characters"
+            autocomplete="new-password" required>
+          <button type="button" class="pass-toggle" id="passToggle" aria-label="Toggle password visibility">
+            <i class="fa-solid fa-eye" id="passIcon"></i>
+          </button>
+        </div>
+        <div class="strength-bar" id="strengthBar"><span></span><span></span><span></span><span></span></div>
+        <p class="strength-lbl" id="strengthLbl"></p>
+        <ul class="pass-rules" id="passRules" style="display:none">
+          <li id="rule-len">    <i class="fa-solid fa-ruler"></i>         At least 8 characters</li>
+          <li id="rule-upper">  <i class="fa-solid fa-arrow-up-a-z"></i>  One uppercase letter (A–Z)</li>
+          <li id="rule-num">    <i class="fa-solid fa-hashtag"></i>        One number (0–9)</li>
+          <li id="rule-special"><i class="fa-solid fa-star-of-life"></i>   One special character (!@#…)</li>
+        </ul>
+      </div>
+
+      <!-- ── CONFIRM PASSWORD (JS validation only) ── -->
+      <div class="field">
+        <label class="label" for="confirmPassword">Confirm Password</label>
+        <div class="input-wrap">
+          <i class="fa-solid fa-shield-halved input-icon"></i>
+          <input class="input input-pr" type="password" id="confirmPassword"
+            name="confirmPassword" placeholder="Repeat your password"
+            autocomplete="new-password" required>
+          <button type="button" class="pass-toggle" id="confirmToggle" aria-label="Toggle confirm visibility">
+            <i class="fa-solid fa-eye" id="confirmIcon"></i>
+          </button>
+        </div>
+        <p class="js-error" id="confirmErr">Passwords do not match.</p>
+        <p class="js-ok"    id="confirmOk"><i class="fa-solid fa-circle-check" style="margin-right:.35rem"></i>Passwords match</p>
+      </div>
+      <button type="submit" class="submit-btn" id="submitBtn">
+        Create Free Account <i class="fa-solid fa-rocket"></i>
+      </button>
+    </form>
+
+    <div class="card-footer">
+      Already have an account? <a href="/login">Sign in</a>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  /* ── helpers ── */
+  function setInputState(input, state) {      // state: 'err' | 'ok' | ''
+    input.classList.remove('err', 'ok');
+    if (state) input.classList.add(state);
+  }
+  function showEl(el, show) {
+    el.classList.toggle('visible', show);
+  }
+
+  /* ── password toggles ── */
+  function makeToggle(btnId, inputId, iconId) {
+    const btn   = document.getElementById(btnId);
+    const input = document.getElementById(inputId);
+    const icon  = document.getElementById(iconId);
+    btn.addEventListener('click', () => {
+      const hidden = input.type === 'password';
+      input.type = hidden ? 'text' : 'password';
+      icon.className = hidden ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye';
+    });
+  }
+  makeToggle('passToggle',    'password',        'passIcon');
+  makeToggle('confirmToggle', 'confirmPassword', 'confirmIcon');
+
+  /* ── refs ── */
+  const emailInput    = document.getElementById('email');
+  const usernameInput = document.getElementById('username');
+  const passInput     = document.getElementById('password');
+  const confirmInput  = document.getElementById('confirmPassword');
+
+  const submitBtn     = document.getElementById('submitBtn');
+
+  const usernameErr  = document.getElementById('usernameErr');
+  const strengthBar  = document.getElementById('strengthBar');
+  const strengthLbl  = document.getElementById('strengthLbl');
+  const passRules    = document.getElementById('passRules');
+  const confirmErr   = document.getElementById('confirmErr');
+  const confirmOk    = document.getElementById('confirmOk');
+
+  const ruleEls = {
+    len:     document.getElementById('rule-len'),
+    upper:   document.getElementById('rule-upper'),
+    num:     document.getElementById('rule-num'),
+    special: document.getElementById('rule-special'),
+  };
+
+  const strengthLabels = ['', 'Weak', 'Fair', 'Good', 'Strong'];
+
+  /* ── validation state ── */
+  let state = { username: false, password: false, confirm: false };
+
+  /* ── username ── */
+  usernameInput.addEventListener('input', () => {
+    const v = usernameInput.value;
+    const valid = /^[a-zA-Z0-9_]{3,20}$/.test(v);
+    state.username = valid;
+    setInputState(usernameInput, v ? (valid ? 'ok' : 'err') : '');
+    showEl(usernameErr, v.length > 0 && !valid);
+    checkReady();
+  });
+
+  /* ── password ── */
+  passInput.addEventListener('input', () => {
+    const v = passInput.value;
+
+    // rules
+    const rules = {
+      len:     v.length >= 8,
+      upper:   /[A-Z]/.test(v),
+      num:     /[0-9]/.test(v),
+      special: /[^A-Za-z0-9]/.test(v),
+    };
+    const allOk = rules.len && rules.upper && rules.num && rules.special;
+    state.password = allOk;
+
+    // strength bar
+    const s = Object.values(rules).filter(Boolean).length;
+    strengthBar.className = v.length ? 'strength-bar s' + s : 'strength-bar';
+    strengthLbl.textContent = v.length ? strengthLabels[s] : '';
+
+    // rules list
+    passRules.style.display = v.length ? '' : 'none';
+    Object.entries(rules).forEach(([key, ok]) => {
+      const li = ruleEls[key];
+      li.classList.toggle('ok', ok);
+      // swap icon: check when ok, original when not
+      const icons = {
+        len:     'fa-ruler',
+        upper:   'fa-arrow-up-a-z',
+        num:     'fa-hashtag',
+        special: 'fa-star-of-life',
+      };
+      li.querySelector('i').className = ok
+        ? 'fa-solid fa-circle-check'
+        : 'fa-solid ' + icons[key];
+    });
+
+    setInputState(passInput, v ? (allOk ? 'ok' : 'err') : '');
+
+    // re-evaluate confirm match
+    validateConfirm();
+    checkReady();
+  });
+
+  /* ── confirm password ── */
+  confirmInput.addEventListener('input', validateConfirm);
+
+  function validateConfirm() {
+    const v   = confirmInput.value;
+    const pass = passInput.value;
+    const match = v.length > 0 && v === pass;
+    const mismatch = v.length > 0 && v !== pass;
+    state.confirm = match;
+    setInputState(confirmInput, v ? (match ? 'ok' : 'err') : '');
+    showEl(confirmErr, mismatch);
+    showEl(confirmOk,  match);
+    checkReady();
+  }
+
+
+  // also re-check when user types email
+  emailInput.addEventListener('input', checkReady);
+
+  /* ── submit: loading state ── */
+  document.getElementById('signupForm').addEventListener('submit', (e) => {
+    if (submitBtn.disabled) { e.preventDefault(); return; }
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Creating account…';
+  });
+})();
+</script>

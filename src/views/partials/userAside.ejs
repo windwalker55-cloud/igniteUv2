@@ -1,0 +1,221 @@
+<style>
+  /* ===== SIDEBAR — IgniteU Theme ===== */
+  :root {
+    --mint: #5eead4; --mint-bright: #6ee7b7; --mint-deep: #2dd4bf;
+    --bg-0: #192b27; --bg-1: #03101e;
+    --line: rgba(94,234,212,.18); --line-strong: rgba(94,234,212,.4);
+    --text: #e6fff8; --muted: #7a9aa6; --muted-2: #5e7a86;
+  }
+
+  .sidebar {
+    width: 220px;
+    background: rgba(2, 10, 20, 0.75);
+    backdrop-filter: blur(16px) saturate(140%);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+    border-right: 1px solid var(--line);
+    padding: 1.2rem 0;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
+    overflow-y: auto;
+  }
+
+  .nav-section { margin-bottom: 1.2rem; }
+
+  .section-title {
+    font-size: 0.68rem;
+    font-weight: 600;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--muted-2);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding: 0 1rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.65rem 1rem;
+    background: none;
+    border: none;
+    border-left: 3px solid transparent;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+    text-decoration: none;
+  }
+
+  .nav-item a {
+    color: var(--muted);
+    text-decoration: none;
+    font: 500 0.85rem 'Inter', sans-serif;
+    transition: color 0.2s;
+    display: block;
+    width: 100%;
+  }
+
+  .nav-item:hover {
+    background: rgba(94,234,212,.07);
+    border-left-color: var(--mint);
+  }
+  .nav-item:hover a,
+  .nav-item:hover .nav-icon,
+  .nav-item:hover .nav-icon i { color: var(--mint); }
+
+  .nav-item.active {
+    background: rgba(94,234,212,.1);
+    border-left-color: var(--mint);
+  }
+  .nav-item.active a,
+  .nav-item.active .nav-icon,
+  .nav-item.active .nav-icon i { color: var(--mint); }
+
+  .nav-icon,
+  .nav-icon i {
+    font-size: 0.95rem;
+    width: 20px;
+    text-align: center;
+    flex-shrink: 0;
+    color: var(--muted-2);
+    transition: color 0.2s;
+  }
+
+  .logout-btn { margin-top: auto; margin-bottom: 0.5rem; }
+  .logout-btn:hover { background: rgba(239,68,68,.08) !important; border-left-color: #ef4444 !important; }
+
+  /* sidebar divider */
+  .nav-divider { height: 1px; background: var(--line); margin: 0.4rem 1rem 0.8rem; }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 768px) {
+    .sidebar {
+      position: fixed;
+      top: 57px;
+      left: 0;
+      height: calc(100vh - 57px);
+      transform: translateX(-100%);
+      z-index: 90;
+      width: 100%;
+      box-shadow: 4px 0 24px rgba(94,234,212,.08);
+    }
+    .sidebar.active { transform: translateX(0); }
+    .nav-item { padding: 0.75rem 1.1rem; }
+    .nav-icon, .nav-icon i { font-size: 1.05rem; width: 22px; }
+  }
+
+  @media (max-width: 380px) {
+    .sidebar { top: 52px; height: calc(100vh - 52px); }
+  }
+</style>
+
+<nav class="sidebar" id="sidebar">
+
+  <div class="nav-section">
+    <div class="section-title">Dashboard</div>
+    <button id="homepage" class="nav-item active">
+      <span class="nav-icon"><i class="fa-solid fa-house"></i></span>
+      <span><a href="/homepage">Home</a></span>
+    </button>
+    <button id="history" class="nav-item">
+      <span class="nav-icon"><i class="fa-solid fa-chart-column"></i></span>
+      <span><a href="/history">History</a></span>
+    </button>
+  </div>
+
+  <div class="nav-divider"></div>
+
+  <div class="nav-section">
+    <div class="section-title">Practice</div>
+    <button id="quickquiz" class="nav-item">
+      <span class="nav-icon"><i class="fa-solid fa-bolt"></i></span>
+      <span><a href="/quickquiz">Quick Quiz</a></span>
+    </button>
+    <button id="mocktest" class="nav-item">
+      <span class="nav-icon"><i class="fa-solid fa-bullseye"></i></span>
+      <span><a href="/mocktest">Mock Test</a></span>
+    </button>
+    <button id="mockexam" class="nav-item">
+      <span class="nav-icon"><i class="fa-solid fa-book-open"></i></span>
+      <span><a href="/mockexam">Mock Exam</a></span>
+    </button>
+  </div>
+
+  <div class="nav-divider"></div>
+
+  <div class="nav-section">
+    <div class="section-title">Student Hub</div>
+    <button id="ai" class="nav-item">
+      <span class="nav-icon"><i class="fa-solid fa-robot"></i></span>
+      <span><a href="/ai">AI Assistant</a></span>
+    </button>
+    <button id="leaderboard" class="nav-item">
+      <span class="nav-icon"><i class="fa-solid fa-trophy"></i></span>
+      <span><a href="/leaderboard">Leaderboard</a></span>
+    </button>
+    <button id="materials" class="nav-item">
+      <span class="nav-icon"><i class="fa-solid fa-book"></i></span>
+      <span><a href="/materials">Study Materials</a></span>
+    </button>
+  </div>
+
+  <div class="nav-divider"></div>
+
+  <div class="nav-section">
+    <div class="section-title">Account</div>
+    <button id="profile" class="nav-item">
+      <span class="nav-icon"><i class="fa-solid fa-user"></i></span>
+      <span><a href="/profile">Profile</a></span>
+    </button>
+    <button id="logoutr" class="nav-item logout-btn">
+      <span class="nav-icon"><i class="fa-solid fa-arrow-right-from-bracket"></i></span>
+      <span><a href="/logout">Logout</a></span>
+    </button>
+  </div>
+
+</nav>
+
+<script>
+(function () {
+  // Mark active nav item based on current URL
+  const path = window.location.pathname;
+  const map = { homepage: '/homepage', history: '/history', quickquiz: '/quickquiz',
+    mocktest: '/mocktest', mockexam: '/mockexam', ai: '/ai',
+    leaderboard: '/leaderboard', materials: '/materials', profile: '/profile' };
+  Object.entries(map).forEach(([id, href]) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.classList.toggle('active', path === href || path.startsWith(href + '/'));
+    el.addEventListener('click', () => window.location.href = href);
+  });
+  const logoutr = document.getElementById('logoutr');
+  if (logoutr) logoutr.addEventListener('click', () => window.location.href = '/logout');
+
+  // Sidebar toggle (used by header hamburger)
+  window.toggleSidebar = function () {
+    document.getElementById('sidebar').classList.toggle('active');
+  };
+
+  // Close on outside tap (mobile)
+  document.addEventListener('click', function (e) {
+    const sidebar = document.getElementById('sidebar');
+    const toggle  = document.querySelector('.menu-toggle');
+    if (window.innerWidth <= 768 &&
+        sidebar && !sidebar.contains(e.target) &&
+        toggle  && !toggle.contains(e.target) &&
+        sidebar.classList.contains('active')) {
+      sidebar.classList.remove('active');
+    }
+  });
+
+  window.addEventListener('resize', function () {
+    if (window.innerWidth > 768) {
+      const s = document.getElementById('sidebar');
+      if (s) s.classList.remove('active');
+    }
+  });
+})();
+</script>

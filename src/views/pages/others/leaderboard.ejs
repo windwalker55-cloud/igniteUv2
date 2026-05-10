@@ -1,0 +1,255 @@
+<style>
+  /* ===== LEADERBOARD — IgniteU Theme ===== */
+
+  .section-nav { display: flex; gap: 0.6rem; margin: 0 10px 1.3rem; flex-wrap: wrap; }
+  .nav-link {
+    padding: 0.45rem 1.1rem; border-radius: 999px;
+    font: 600 0.82rem 'Inter', sans-serif; text-decoration: none;
+    background: rgba(94,234,212,.06); border: 1px solid var(--line);
+    color: var(--muted); transition: background .2s, border-color .2s, color .2s;
+  }
+  .nav-link:hover  { background: rgba(94,234,212,.1); border-color: var(--line-strong); color: var(--text); }
+  .nav-link.active { background: rgba(94,234,212,.15); border-color: var(--mint); color: var(--mint); }
+
+  .page-header { margin: 0 10px 1.1rem; }
+  .page-header h2 { font: 700 1.35rem 'Inter', sans-serif; color: var(--text); letter-spacing: -.02em; margin-bottom: .25rem; }
+  .page-header p  { font: 400 .8rem 'JetBrains Mono', monospace; color: var(--muted); }
+
+  .leaderboard-controls {
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: .6rem; margin: 0 10px 1rem;
+  }
+  .tabs, .periods {
+    display: flex; gap: .2rem;
+    background: rgba(94,234,212,.05); border: 1px solid var(--line);
+    padding: .22rem; border-radius: 999px;
+  }
+  .tab, .period {
+    padding: .28rem .9rem; border-radius: 999px;
+    font: 600 0.72rem 'Inter', sans-serif; cursor: pointer; border: none;
+    background: transparent; color: var(--muted);
+    transition: background .2s, color .2s;
+  }
+  .tab.active, .period.active { background: rgba(94,234,212,.18); color: var(--mint); }
+  .tab:hover:not(.active), .period:hover:not(.active) { color: var(--text); }
+
+  .leaderboard-container { margin: 0 10px 0; }
+
+  .leaderboard-list {
+    display: flex; flex-direction: column;
+    border: 1px solid var(--line); border-radius: 16px;
+    background: rgba(10,26,22,.45);
+    padding: .6rem; gap: .45rem; overflow: hidden;
+  }
+
+  .leaderboard-item {
+    background: rgba(94,234,212,.04); border: 1px solid var(--line);
+    border-radius: 12px; padding: .8rem 1rem;
+    display: flex; align-items: center; gap: .8rem;
+    transition: background .15s, border-color .15s;
+  }
+  .leaderboard-item:hover { background: rgba(94,234,212,.08); border-color: var(--line-strong); }
+  .rank-1 { border-color: rgba(250,204,21,.35); }
+  .rank-2 { border-color: rgba(203,213,225,.22); }
+  .rank-3 { border-color: rgba(205,127,50,.28); }
+
+  .rank-medal { width: 48px; flex-shrink: 0; display: flex; justify-content: center; }
+  .medal {
+    width: 42px; height: 42px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: 700;
+  }
+  .rank-1 .medal { background: rgba(250,204,21,.15); }
+  .rank-2 .medal { background: rgba(203,213,225,.1); }
+  .rank-3 .medal { background: rgba(205,127,50,.15); }
+  .rank-regular .medal { font: 600 .82rem 'JetBrains Mono', monospace; color: var(--muted-2); background: transparent; }
+
+  .student-info { flex: 1; min-width: 0; }
+  .student-name { font: 500 .88rem 'Inter', sans-serif; color: var(--text); margin-bottom: .18rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .student-sessions { font: 400 .68rem 'JetBrains Mono', monospace; color: var(--muted-2); letter-spacing: .4px; }
+
+  .student-score { text-align: right; flex-shrink: 0; }
+  .score-value { font: 700 1.15rem 'Inter', sans-serif; color: var(--mint); letter-spacing: -.02em; line-height: 1; }
+  .score-label { font: 400 .62rem 'JetBrains Mono', monospace; color: var(--muted-2); margin-top: .2rem; }
+
+  .lb-empty { padding: 3rem 1rem; text-align: center; color: var(--muted); font: 400 .85rem 'JetBrains Mono', monospace; }
+
+  /* Load More */
+  .lb-load-more-wrap { text-align: center; margin: 1rem 10px 18px; }
+  .lb-load-more-wrap.hidden { display: none; }
+  .lb-load-more-btn {
+    display: inline-flex; align-items: center; gap: .5rem;
+    padding: .6rem 1.8rem; border-radius: 999px;
+    border: 1px solid var(--line-strong); background: rgba(94,234,212,.07);
+    color: var(--mint); font: 600 .82rem 'Inter', sans-serif; cursor: pointer;
+    transition: background .2s, box-shadow .2s, transform .15s;
+  }
+  .lb-load-more-btn:hover { background: rgba(94,234,212,.14); box-shadow: 0 4px 18px rgba(94,234,212,.2); transform: translateY(-1px); }
+  .lb-load-more-btn:active { transform: translateY(0); }
+  .lb-load-more-btn i { font-size: .75rem; }
+
+  @media (max-width: 768px) {
+    .section-nav { justify-content: center; }
+    .leaderboard-controls { flex-direction: column; align-items: flex-start; }
+    .leaderboard-item { padding: .7rem .85rem; gap: .6rem; }
+    .rank-medal { width: 40px; }
+    .medal { width: 36px; height: 36px; font-size: 1rem; }
+    .score-value { font-size: 1rem; }
+  }
+  @media (max-width: 480px) {
+    .nav-link { font-size: .78rem; padding: .4rem .9rem; }
+    .tab, .period { padding: .25rem .7rem; font-size: .68rem; }
+  }
+</style>
+
+<!-- Nav -->
+<div class="section-nav">
+  <a href="/leaderboard" class="nav-link active">🏆 Leaderboard</a>
+  <a href="/ai"          class="nav-link">🤖 AI Tutor</a>
+  <a href="/history"     class="nav-link">📜 History</a>
+</div>
+
+<!-- Header -->
+<div class="page-header">
+  <h2>Leaderboard</h2>
+  <p>Top performing students across all activities</p>
+</div>
+
+<!-- Controls -->
+<div class="leaderboard-controls">
+  <div class="tabs">
+    <button class="tab active" data-tab="all">All</button>
+    <button class="tab" data-tab="practice">Practice</button>
+    <button class="tab" data-tab="test">Test</button>
+    <button class="tab" data-tab="exam">Exam</button>
+  </div>
+  <div class="periods">
+    <button class="period active" data-period="alltime">All Time</button>
+    <button class="period" data-period="week">This Week</button>
+    <button class="period" data-period="month">This Month</button>
+  </div>
+</div>
+
+<!-- List -->
+<div class="leaderboard-container">
+  <div class="leaderboard-list" id="leaderboardList"></div>
+</div>
+
+<!-- Load More -->
+<div class="lb-load-more-wrap hidden" id="lbLoadWrap">
+  <button class="lb-load-more-btn" id="lbLoadBtn">
+    <i class="fa-solid fa-chevron-down"></i> Load More
+  </button>
+</div>
+
+<script>
+(function () {
+  if (window.__lbReady) return;
+  window.__lbReady = true;
+
+  var STEP = 10;
+
+  /* ── Data — names live under "all" so the All tab shows them ── */
+  var data = {
+    all: {
+      alltime: [
+        { rank: 1,  name: "justme",      sessions: "2 sessions",  score: 100, avg: 100 },
+        { rank: 2,  name: "UTO JOY",     sessions: "11 sessions", score: 100, avg: 80  },
+        { rank: 3,  name: "Kolami+",     sessions: "24 sessions", score: 100, avg: 85  },
+        { rank: 4,  name: "UncleSly01",  sessions: "43 sessions", score: 100, avg: 39  },
+        { rank: 5,  name: "Mira",        sessions: "3 sessions",  score: 100, avg: 100 },
+        { rank: 6,  name: "Wasilat",     sessions: "5 sessions",  score: 100, avg: 67  },
+        { rank: 7,  name: "mexthekking", sessions: "12 sessions", score: 100, avg: 74  },
+        { rank: 8,  name: "spacboy",     sessions: "3 sessions",  score: 100, avg: 88  },
+        { rank: 9,  name: "John Doe",    sessions: "8 sessions",  score: 95,  avg: 92  },
+        { rank: 10, name: "Jane Smith",  sessions: "15 sessions", score: 92,  avg: 85  },
+        { rank: 11, name: "Alex Turner", sessions: "20 sessions", score: 90,  avg: 88  },
+        { rank: 12, name: "Sam Wilson",  sessions: "6 sessions",  score: 89,  avg: 82  }
+      ],
+      week: [], month: []
+    },
+    practice: { alltime: [], week: [], month: [] },
+    test:     { alltime: [], week: [], month: [] },
+    exam:     { alltime: [], week: [], month: [] }
+  };
+
+  var state = { tab: 'all', period: 'alltime', shown: STEP };
+
+  function medal(rank) {
+    if (rank === 1) return '🥇';
+    if (rank === 2) return '🥈';
+    if (rank === 3) return '🥉';
+    return '#' + rank;
+  }
+
+  function render() {
+    var fullList = (data[state.tab] || data.all)[state.period] || [];
+    var visible  = fullList.slice(0, state.shown);
+    var el       = document.getElementById('leaderboardList');
+    var wrap     = document.getElementById('lbLoadWrap');
+    var btn      = document.getElementById('lbLoadBtn');
+    if (!el) return;
+
+    if (!fullList.length) {
+      el.innerHTML = '<div class="lb-empty">No data for this filter yet.</div>';
+      wrap.classList.add('hidden');
+      return;
+    }
+
+    el.innerHTML = visible.map(function (item) {
+      var cls = item.rank <= 3 ? 'rank-' + item.rank : 'rank-regular';
+      return (
+        '<div class="leaderboard-item ' + cls + '">' +
+          '<div class="rank-medal"><div class="medal">' + medal(item.rank) + '</div></div>' +
+          '<div class="student-info">' +
+            '<div class="student-name">' + item.name + '</div>' +
+            '<div class="student-sessions">' + item.sessions + '</div>' +
+          '</div>' +
+          '<div class="student-score">' +
+            '<div class="score-value">' + item.score + '%</div>' +
+            '<div class="score-label">avg ' + item.avg + '%</div>' +
+          '</div>' +
+        '</div>'
+      );
+    }).join('');
+
+    /* Load More button */
+    if (fullList.length > state.shown) {
+      var remaining = Math.min(fullList.length - state.shown, STEP);
+      btn.innerHTML = '<i class="fa-solid fa-chevron-down"></i> Load ' + remaining + ' More';
+      wrap.classList.remove('hidden');
+    } else {
+      wrap.classList.add('hidden');
+    }
+  }
+
+  /* Tab clicks — reset pager */
+  document.querySelectorAll('.tab').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      state.tab   = btn.dataset.tab;
+      state.shown = STEP;
+      document.querySelectorAll('.tab').forEach(function (b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      render();
+    });
+  });
+
+  /* Period clicks — reset pager */
+  document.querySelectorAll('.period').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      state.period = btn.dataset.period;
+      state.shown  = STEP;
+      document.querySelectorAll('.period').forEach(function (b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      render();
+    });
+  });
+
+  /* Load More */
+  document.getElementById('lbLoadBtn').addEventListener('click', function () {
+    state.shown += STEP;
+    render();
+  });
+
+  render();
+})();
+</script>

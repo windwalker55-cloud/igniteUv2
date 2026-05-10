@@ -1,0 +1,278 @@
+<style>
+  .login-wrap { width: 100%; max-width: 460px; }
+
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: .6rem;
+    font: 500 .72rem 'JetBrains Mono', monospace;
+    color: var(--mint); letter-spacing: 2.5px; text-transform: uppercase;
+    margin-bottom: 1.2rem;
+  }
+  .eyebrow::before { content: ""; width: 26px; height: 1px; background: var(--mint); }
+
+  .dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--mint); box-shadow: 0 0 10px var(--mint);
+    animation: pulse 1.6s infinite; display: inline-block;
+  }
+  @keyframes pulse { 50% { opacity: .35; transform: scale(.85); } }
+
+  .login-heading {
+    font-size: clamp(1.9rem, 5vw, 2.6rem);
+    font-weight: 800; letter-spacing: -.03em; line-height: 1.05;
+    color: #fff; margin-bottom: .6rem;
+  }
+  .login-heading .accent { color: var(--mint); }
+
+  .login-sub {
+    color: var(--muted); font-size: .95rem; margin-bottom: 2.2rem; line-height: 1.6;
+  }
+
+  .card {
+    position: relative; padding: 2.4rem 2.2rem; border-radius: 24px;
+    background: linear-gradient(160deg, rgba(94,234,212,.07), rgba(2,16,30,.65));
+    border: 1px solid var(--line);
+    backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+    box-shadow: 0 30px 80px -20px rgba(94,234,212,.25);
+    overflow: hidden;
+  }
+  .card::before {
+    content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--mint), transparent);
+    opacity: .5;
+  }
+
+  .social-row { display: flex; gap: .75rem; margin-bottom: 1.6rem; }
+  .social-btn {
+    flex: 1; display: flex; align-items: center; justify-content: center; gap: .6rem;
+    padding: .75rem 1rem; border-radius: 12px;
+    background: rgba(94,234,212,.05); border: 1px solid var(--line);
+    color: var(--text); font: 500 .88rem 'Inter', sans-serif;
+    cursor: pointer; transition: background .25s, border-color .25s, transform .25s;
+    text-decoration: none;
+  }
+  .social-btn:hover { background: rgba(94,234,212,.1); border-color: var(--line-strong); transform: translateY(-1px); }
+
+  .divider { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.6rem; }
+  .divider-line { flex: 1; height: 1px; background: var(--line); }
+  .divider-text {
+    font: 500 .7rem 'JetBrains Mono', monospace;
+    color: var(--muted-2); letter-spacing: 2px; text-transform: uppercase; white-space: nowrap;
+  }
+
+  .field { margin-bottom: 1.2rem; }
+  .label {
+    display: block; font: 600 .72rem 'JetBrains Mono', monospace;
+    color: var(--muted); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: .5rem;
+  }
+  .input-wrap { position: relative; }
+  .input-icon {
+    position: absolute; left: 1rem; top: 50%; transform: translateY(-50%);
+    color: var(--muted-2); font-size: .9rem; pointer-events: none;
+  }
+  .input {
+    width: 100%; padding: .85rem 1rem .85rem 2.8rem;
+    background: rgba(94,234,212,.04); border: 1px solid var(--line);
+    border-radius: 12px; color: var(--text); font: 400 .95rem 'Inter', sans-serif;
+    outline: none; transition: border-color .25s, box-shadow .25s, background .25s;
+  }
+  .input::placeholder { color: var(--muted-2); }
+  .input:focus {
+    border-color: var(--mint); background: rgba(94,234,212,.07);
+    box-shadow: 0 0 0 3px rgba(94,234,212,.12);
+  }
+  .input-password { padding-right: 3rem; }
+
+  .pass-toggle {
+    position: absolute; right: 1rem; top: 50%; transform: translateY(-50%);
+    color: var(--muted-2); background: none; border: none; cursor: pointer;
+    font-size: .9rem; padding: .25rem; transition: color .2s;
+  }
+  .pass-toggle:hover { color: var(--mint); }
+
+  .field-footer { display: flex; justify-content: flex-end; margin-top: .4rem; }
+  .link {
+    font: 500 .78rem 'Inter', sans-serif; color: var(--mint);
+    text-decoration: none; opacity: .85; transition: opacity .2s;
+  }
+  .link:hover { opacity: 1; text-decoration: underline; }
+
+  /* Flash messages */
+  .flash {
+    padding: .85rem 1.1rem; border-radius: 12px; margin-bottom: 1.2rem;
+    font-size: .88rem; display: flex; align-items: center; gap: .6rem;
+  }
+  .flash-error {
+    background: rgba(239,68,68,.1); border: 1px solid rgba(239,68,68,.35); color: #fca5a5;
+  }
+  .flash-success {
+    background: rgba(94,234,212,.08); border: 1px solid var(--line-strong); color: var(--mint);
+  }
+
+  /* Inline field errors */
+  .error-message {
+    display: flex; align-items: center; gap: .4rem;
+    font-size: .78rem; color: #fca5a5; margin-top: .45rem;
+  }
+  .error-message::before {
+    content: "\f06a";
+    font-family: "Font Awesome 6 Free"; font-weight: 900;
+    font-size: .75rem;
+  }
+  /* Red border on the input when its field has an error */
+  .field.has-error .input {
+    border-color: rgba(239,68,68,.6);
+    box-shadow: 0 0 0 3px rgba(239,68,68,.1);
+  }
+
+  .submit-btn {
+    width: 100%; padding: 1rem 1.6rem; margin-top: .6rem;
+    border-radius: 999px; border: none; cursor: pointer;
+    background: linear-gradient(135deg, var(--mint-bright), var(--mint-deep));
+    color: #022; font: 700 1rem 'Inter', sans-serif;
+    box-shadow: 0 8px 30px rgba(94,234,212,.45), inset 0 1px 0 rgba(255,255,255,.4);
+    display: flex; align-items: center; justify-content: center; gap: .6rem;
+    transition: transform .25s, box-shadow .25s; letter-spacing: -.01em;
+  }
+  .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(94,234,212,.6); }
+  .submit-btn:active { transform: translateY(0); }
+  .submit-btn:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+
+  .card-footer {
+    text-align: center; margin-top: 1.8rem;
+    font-size: .88rem; color: var(--muted);
+  }
+  .card-footer a { color: var(--mint); text-decoration: none; font-weight: 600; }
+  .card-footer a:hover { text-decoration: underline; }
+
+  @media (max-width: 520px) {
+    .card { padding: 1.8rem 1.4rem; border-radius: 18px; }
+    .social-row { flex-direction: column; }
+    .login-sub { margin-bottom: 1.6rem; }
+  }
+</style>
+
+<div class="login-wrap">
+  <span class="eyebrow"><span class="dot"></span> Secure Login</span>
+  <h1 class="login-heading">Welcome <span class="accent">back.</span></h1>
+  <p class="login-sub">Pick up right where you left off. Your progress, tests, and insights are waiting.</p>
+
+  <div class="card">
+
+    <!-- Top-level flash (general login failure, e.g. wrong credentials) -->
+    <% if (typeof success !== 'undefined' && success) { %>
+      <div class="flash flash-success">
+        <i class="fa-solid fa-circle-check"></i> <%= success %>
+      </div>
+    <% } %>
+
+    <div class="social-row">
+      <a href="/auth/google" class="social-btn">
+        <i class="fa-brands fa-google"></i> Google
+      </a>
+      <a href="/auth/facebook" class="social-btn">
+        <i class="fa-brands fa-facebook"></i> Facebook
+      </a>
+    </div>
+
+    <div class="divider">
+      <div class="divider-line"></div>
+      <span class="divider-text">or continue with email</span>
+      <div class="divider-line"></div>
+    </div>
+
+    <form id="loginForm" action="/login" method="POST" novalidate>
+
+      <!-- Email field -->
+      <div class="field <%= (typeof error !== 'undefined' && error) ? 'has-error' : '' %>">
+        <label class="label" for="email">Email Address</label>
+        <div class="input-wrap">
+          <i class="fa-solid fa-envelope input-icon"></i>
+          <input class="input" type="email" id="email" name="email"
+            placeholder="you@example.com" autocomplete="email"
+            value="<%= typeof formData !== 'undefined' ? formData.email || '' : '' %>" required>
+        </div>
+        <!-- Inline email error -->
+        <% if (typeof error !== 'undefined' && error) { %>
+          <p class="error-message"><%= error %></p>
+        <% } %>
+      </div>
+
+      <!-- Password field -->
+      <div class="field <%= (typeof passwordError !== 'undefined' && passwordError) ? 'has-error' : '' %>">
+        <label class="label" for="password">Password</label>
+        <div class="input-wrap">
+          <i class="fa-solid fa-lock input-icon"></i>
+          <input class="input input-password" type="password" id="password"
+            name="password" placeholder="Enter your password"
+            autocomplete="current-password" required>
+          <button type="button" class="pass-toggle" id="passToggle" aria-label="Toggle password visibility">
+            <i class="fa-solid fa-eye" id="passIcon"></i>
+          </button>
+        </div>
+        <!-- Inline password error -->
+        <% if (typeof password!== 'undefined' && password) { %>
+          <p class="error-message"><%= password %></p>
+        <% } %>
+
+        
+        <div class="field-footer">
+          <a href="/forgot-password" class="link">Forgot password?</a>
+        </div>
+      </div>
+
+      <button type="submit" class="submit-btn" id="submitBtn">
+        Sign In <i class="fa-solid fa-arrow-right"></i>
+      </button>
+    </form>
+
+    <div class="card-footer">
+      Don't have an account? <a href="/signup">Create one free</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function () {
+    const passToggle = document.getElementById('passToggle');
+    const passInput  = document.getElementById('password');
+    const passIcon   = document.getElementById('passIcon');
+
+    passToggle.addEventListener('click', () => {
+      const hidden = passInput.type === 'password';
+      passInput.type = hidden ? 'text' : 'password';
+      passIcon.className = hidden ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye';
+    });
+
+    const form      = document.getElementById('loginForm');
+    const submitBtn = document.getElementById('submitBtn');
+
+    form.addEventListener('submit', (e) => {
+      const email    = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+
+      if (!email || !password) {
+        e.preventDefault();
+        shakeCard();
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Signing in…';
+    });
+
+    function shakeCard() {
+      const card = document.querySelector('.card');
+      const steps = [6, -6, 4, -4, 2, -2, 0];
+      let i = 0;
+      card.style.transition = 'transform .08s ease';
+      (function next() {
+        if (i < steps.length) {
+          card.style.transform = 'translateX(' + steps[i++] + 'px)';
+          setTimeout(next, 60);
+        } else {
+          card.style.transform = '';
+        }
+      })();
+    }
+  })();
+</script>

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>IgniteU' %> — Spark Your Success</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --mint: #5eead4;
+      --mint-bright: #6ee7b7;
+      --mint-deep: #2dd4bf;
+      --bg-0: #192b27;
+      --bg-1: #03101e;
+      --bg-2: #062032;
+      --line: rgba(94,234,212,.18);
+      --line-strong: rgba(94,234,212,.4);
+      --text: #e6fff8;
+      --muted: #7a9aa6;
+      --muted-2: #5e7a86;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      color: var(--text);
+      background: var(--bg-0);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Background ── */
+    .bg-scene { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+    .bg-scene .glow {
+      position: absolute; inset: -20%;
+      background:
+        radial-gradient(60% 40% at 50% 0%, rgba(94,234,212,.18), transparent 60%),
+        radial-gradient(50% 40% at 80% 50%, rgba(45,212,191,.10), transparent 65%),
+        radial-gradient(50% 40% at 10% 80%, rgba(94,234,212,.08), transparent 65%);
+      filter: blur(20px);
+    }
+    .bg-scene .stars {
+      position: absolute; inset: 0;
+      background-image:
+        radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,.6), transparent),
+        radial-gradient(1px 1px at 70% 80%, rgba(94,234,212,.5), transparent),
+        radial-gradient(1px 1px at 40% 60%, rgba(255,255,255,.5), transparent),
+        radial-gradient(1px 1px at 90% 20%, rgba(110,231,183,.5), transparent),
+        radial-gradient(1px 1px at 10% 90%, rgba(255,255,255,.4), transparent),
+        radial-gradient(2px 2px at 55% 15%, rgba(255,255,255,.4), transparent);
+      background-size: 700px 700px; opacity: .45;
+    }
+    .bg-scene .vignette {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at top, transparent 30%, rgba(2,10,20,.85) 90%);
+    }
+
+    /* ── Header ── */
+    .header {
+      position: sticky; top: 0; z-index: 50;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.1rem 2rem;
+      background: rgba(2,10,20,.7);
+      backdrop-filter: blur(16px) saturate(140%);
+      -webkit-backdrop-filter: blur(16px) saturate(140%);
+      border-bottom: 1px solid var(--line);
+    }
+    .logo-section { display: flex; align-items: center; gap: .75rem; }
+    .logo-img {
+      width: 36px; height: 36px; border-radius: 10px; overflow: hidden;
+      flex-shrink: 0;
+    }
+    .logo-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .logo-title h1 { font-size: 1rem; font-weight: 700; color: white; letter-spacing: -.01em; }
+    .logo-title p { font-size: .7rem; color: rgba(255, 255, 255, 0.9) }
+    .header-actions { display: flex; gap: .6rem; }
+
+    .btn {
+      position: relative; padding: .6rem 1.3rem; border-radius: 999px;
+      font: 600 .88rem 'Inter', sans-serif; cursor: pointer;
+      border: 1px solid transparent; background: transparent; color: var(--text);
+      transition: transform .25s ease, box-shadow .25s, background .25s;
+      display: inline-flex; align-items: center; gap: .5rem;
+      text-decoration: none; white-space: nowrap;
+    }
+    .btn-ghost { border-color: var(--line-strong); color: var(--text); }
+    .btn-ghost:hover { background: rgba(94,234,212,.08); border-color: var(--mint); transform: translateY(-2px); }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--mint-bright), var(--mint-deep));
+      color: #022; font-weight: 700;
+      box-shadow: 0 8px 30px rgba(94,234,212,.45), inset 0 1px 0 rgba(255,255,255,.4);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(94,234,212,.6); }
+
+    /* ── Auth container ── */
+    .auth-container {
+      position: relative; z-index: 2;
+      flex: 1; display: flex; align-items: center; justify-content: center;
+      padding: 3rem 1.5rem;
+    }
+
+    /* ── Footer ── */
+    .site-footer {
+      position: relative; z-index: 2;
+      padding: 1.4rem 2rem;
+      border-top: 1px solid var(--line);
+      background: rgba(2,10,20,.6); backdrop-filter: blur(10px);
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 1rem;
+      color: var(--muted); font: 500 .78rem 'JetBrains Mono', monospace;
+    }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a { color: inherit; text-decoration: none; transition: color .25s; }
+    .footer-links a:hover { color: var(--mint); }
+
+    /* ── Responsive ── */
+    @media (max-width: 520px) {
+      .header { padding: 1rem 1.2rem; }
+      .btn-ghost { display: none; }
+      .site-footer { flex-direction: column; text-align: center; }
+    }
+
+    /* Additional responsive breakpoints - Add these to your existing CSS */
+
+/* Medium screens (tablets, smaller laptops) */
+@media (max-width: 768px) {
+  .header {
+    padding: 1rem 1.5rem;
+  }
+  
+  .logo-img {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .logo-title h1 {
+    font-size: 0.9rem;
+  }
+  
+  .logo-title p {
+    font-size: 0.65rem;
+  }
+  
+  .auth-container {
+    padding: 2rem 1.5rem;
+  }
+}
+
+/* Large screens (desktops) - ensure content doesn't stretch too wide */
+@media (min-width: 1400px) {
+  .auth-container {
+    padding: 4rem 2rem;
+  }
+}
+
+/* Small phones (very narrow screens) */
+@media (max-width: 380px) {
+  .header {
+    padding: 0.8rem 1rem;
+  }
+  
+  .logo-img {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .logo-title h1 {
+    font-size: 0.8rem;
+  }
+  
+  .logo-title p {
+    font-size: 0.55rem;
+  }
+  
+  .auth-container {
+    padding: 1.5rem 1rem;
+  }
+  
+  .site-footer {
+    padding: 1rem 1rem;
+    font-size: 0.7rem;
+  }
+  
+  .footer-links {
+    gap: 1rem;
+  }
+}
+
+/* Landscape mode on phones */
+@media (max-width: 768px) and (orientation: landscape) {
+  .auth-container {
+    padding: 1.5rem;
+    min-height: auto;
+  }
+}
+  </style>
+</head>
+<body>
+
+  <div class="bg-scene">
+    <div class="glow"></div>
+    <div class="stars"></div>
+    <div class="vignette"></div>
+  </div>
+
+  <header class="header">
+    <div class="logo-section">
+      <div class="logo-img">
+        <img src="https://www.image2url.com/r2/default/images/1777061825417-959bf371-403b-4859-bbfd-ec4f516a2797.jpeg" alt="IgniteU Logo">
+      </div>
+      <div class="logo-title">
+        <h1>IgniteU</h1>
+        <p>Spark Your Success</p>
+      </div>
+    </div>
+  </header>
+
+  <div class="auth-container">
+    <%- body %>
+  </div>
+
+  <footer class="site-footer">
+    <div>© 2026 IgniteU — Spark Your Success</div>
+    <div class="footer-links">
+      <a href="/privacy">Privacy</a>
+      <a href="/terms">Terms</a>
+      <a href="/contact">Contact</a>
+    </div>
+  </footer>
+
+</body>
+</html>
