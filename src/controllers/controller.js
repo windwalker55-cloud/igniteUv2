@@ -62,7 +62,7 @@ const getLogin=(req, res)=>{
     req.session.password= null
     req.session.saver= null
 
-    res.render('pages/auth/login', {layout:'layouts/authlayout', error, success, password, saver})
+    res.render('pages/auth/login', {layout:'layouts/authLayout', error, success, password, saver})
 }
 
 const postSignup= async(req, res)=>{
@@ -121,7 +121,7 @@ const getSignup=(req, res)=>{
         req.session.error=null
 
 
-    res.render('pages/auth/signup',{layout:'layouts/authlayout', error})
+    res.render('pages/auth/signup',{layout:'layouts/authLayout', error})
 }
 
 
