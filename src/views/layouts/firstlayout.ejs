@@ -211,6 +211,10 @@
     backdrop-filter:blur(6px);
     box-shadow:0 0 14px rgba(94,234,212,.45);
   }
+  /* Counter-rotate labels so text never flips backwards */
+  @keyframes counterSpin{to{transform:rotateY(-360deg)}}
+  .course-label{display:block;animation:counterSpin 32s linear infinite}
+
   .course::before{
     content:"";position:absolute;left:-4px;top:50%;
     width:6px;height:6px;border-radius:50%;background:var(--mint);
@@ -328,11 +332,9 @@
   }
   @media(max-width:640px){
     .header{padding:1rem 1.2rem}
-    /* ── NAVBAR FONT SIZE INCREASE FOR MOBILE ── */
     .header-title h1{font-size:1.35rem}
     .header-title p{font-size:0.95rem}
     .logo{width:44px;height:44px}
-    /* ── end of change ── */
     .section{padding:3.5rem 1.2rem}
     .feature-grid{grid-template-columns:1fr}
     .stats-panel{padding:1.5rem;gap:.5rem;grid-template-columns:repeat(2,1fr)}
@@ -463,11 +465,13 @@
 </footer>
 
 <script>
-  const courses = [
-    "Gst 101","Gst 202","Math 111","Sta 222",
-    "FUtm Sta 232","Machine Learning","Mobile Development",
-    "Cloud Computing","Python Programming","JavaScript Mastery","FUtm Sta 232","FUtm Sta 232","FUtm Sta 232"
-  ];
+const courses = [
+    "GST 101", "GST 102", "GST 103", "GST 104",
+    "MTH 111", "MTH 112", "STA 117", "STA 221", "STA 222",
+    "CSC 101", "CSC 102", "CSC 201", "CSC 202", "CSC 301", "CSC 302",
+    "PHY 101", "PHY 102", "CHM 101", "CHM 102", "BIO 101",
+    "ENT 301", "ENT 302", "ENS 201", "ENS 202"
+];
   const container = document.getElementById('courses');
   const total = courses.length;
 
@@ -478,7 +482,7 @@
     courses.forEach((name,i)=>{
       const el = document.createElement('div');
       el.className = 'course';
-      el.textContent = name;
+      el.innerHTML = '<span class="course-label">' + name + '</span>';
       const phi = Math.acos(-1 + (2*i)/total);
       const theta = Math.sqrt(total*Math.PI) * phi;
       const x = radius*Math.sin(phi)*Math.cos(theta);
