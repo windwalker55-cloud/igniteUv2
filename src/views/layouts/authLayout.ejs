@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>IgniteU' %> — Spark Your Success</title>
+  <title><%= typeof title !== 'undefined' ? title : 'IgniteU' %> — Spark Your Success</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -66,7 +66,7 @@
       background: radial-gradient(ellipse at top, transparent 30%, rgba(2,10,20,.85) 90%);
     }
 
-    /* ── Header — exact copy from landing page ── */
+    /* ── Header ── */
     .header {
       position: sticky; top: 0; z-index: 50;
       display: flex; align-items: center; justify-content: space-between;
@@ -76,12 +76,13 @@
       -webkit-backdrop-filter: blur(16px) saturate(140%);
       border-bottom: 1px solid var(--line);
     }
-    .logo-section  { display: flex; align-items: center; gap: 0.75rem; }
-    .logo          { width: 36px; height: 36px; border-radius: 10px; overflow: hidden; }
-    .logo img      { width: 100%; height: 100%; object-fit: cover; }
+    .logo-section { display: flex; align-items: center; gap: 0.75rem; }
+    .logo         { width: 36px; height: 36px; border-radius: 10px; overflow: hidden; }
+    .logo img     { width: 100%; height: 100%; object-fit: cover; }
     .header-title h1 { font-size: 1rem; color: white; font-weight: 700; letter-spacing: -.01em; }
     .header-title p  { font-size: 0.7rem; color: rgba(255,255,255,0.9); }
 
+    /* ── Buttons ── */
     .btn {
       position: relative; padding: .85rem 1.6rem; border-radius: 999px;
       font: 600 .92rem 'Inter', sans-serif; cursor: pointer;
@@ -120,13 +121,14 @@
     .footer-links a { color: inherit; text-decoration: none; transition: color .25s; }
     .footer-links a:hover { color: var(--mint); }
 
-    /* ===== RESPONSIVE — exact copy from landing page ===== */
+    /* ── Responsive ── */
     @media (max-width: 640px) {
-      .header          { padding: 1rem 1.2rem; }
-      .logo            { width: 44px; height: 44px; }
-      .header-title h1 { font-size: 1.35rem; }
-      .header-title p  { font-size: 0.95rem; }
+      .header          { padding: 0.8rem 1.1rem; }
+      .logo            { width:34px; height:34px; }
+      .header-title h1{ font-size:1.05rem; font-weight:700; }
+      .header-title p  { font-size:.7rem; }
       .btn-ghost       { display: none; }
+      .auth-container  { padding: 2rem 1.2rem; }
       .site-footer     { flex-direction: column; text-align: center; font-size: .85rem; }
       .footer-links    { gap: 1.2rem; justify-content: center; }
     }
@@ -134,7 +136,7 @@
     @media (max-width: 400px) {
       .header          { padding: .8rem .9rem; }
       .logo            { width: 38px; height: 38px; }
-      .header-title h1 { font-size: 1.1rem; }
+      .header-title h1 { font-size: .98rem; }
       .header-title p  { font-size: .75rem; }
       .auth-container  { padding: 1.5rem 1rem; }
       .site-footer     { padding: 1rem; font-size: .8rem; }

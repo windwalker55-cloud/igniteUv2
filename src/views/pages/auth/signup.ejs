@@ -37,13 +37,31 @@
     background: linear-gradient(90deg, transparent, var(--mint), transparent); opacity: .5;
   }
 
+  /* Auth tabs */
+  .auth-tabs {
+    display: flex; margin-bottom: 1.6rem;
+    background: rgba(94,234,212,.05); border-radius: 12px; padding: 4px;
+    border: 1px solid var(--line);
+  }
+  .auth-tab {
+    flex: 1; padding: .55rem 1rem; border-radius: 9px; text-align: center;
+    font: 600 .85rem 'Inter', sans-serif; color: var(--muted);
+    cursor: pointer; text-decoration: none; transition: all .2s;
+  }
+  .auth-tab.active {
+    background: linear-gradient(135deg, var(--mint-bright), var(--mint-deep));
+    color: #022; box-shadow: 0 4px 14px rgba(94,234,212,.35);
+  }
+  .auth-tab:hover:not(.active) { color: var(--text); }
+
+  /* Social buttons — always side by side */
   .social-row { display: flex; gap: .75rem; margin-bottom: 1.6rem; }
   .social-btn {
     flex: 1; display: flex; align-items: center; justify-content: center; gap: .6rem;
     padding: .75rem 1rem; border-radius: 12px; background: rgba(94,234,212,.05);
     border: 1px solid var(--line); color: var(--text); font: 500 .82rem 'Inter', sans-serif;
     cursor: pointer; transition: background .25s, border-color .25s, transform .25s;
-    text-decoration: none;
+    text-decoration: none; white-space: nowrap;
   }
   .social-btn:hover { background: rgba(94,234,212,.1); border-color: var(--line-strong); transform: translateY(-1px); }
 
@@ -105,7 +123,6 @@
   .pass-rules li.ok { color: var(--mint); }
   .pass-rules li i  { width: 14px; text-align: center; font-size: .68rem; }
 
-  /* Server-side error */
   .error-message {
     display: flex; align-items: center; gap: .4rem;
     font-size: .75rem; color: #fca5a5; margin-top: .45rem;
@@ -115,7 +132,6 @@
   }
   .field.has-error .input { border-color: rgba(239,68,68,.6); box-shadow: 0 0 0 3px rgba(239,68,68,.1); }
 
-  /* JS inline errors */
   .js-error {
     display: none; align-items: center; gap: .4rem;
     font-size: .75rem; color: #fca5a5; margin-top: .45rem;
@@ -130,7 +146,6 @@
   }
   .js-ok.visible { display: flex; }
 
-  /* Flash messages */
   .flash {
     padding: .85rem 1.1rem; border-radius: 12px; margin-bottom: 1.2rem;
     font-size: .85rem; display: flex; align-items: center; gap: .6rem;
@@ -153,30 +168,25 @@
   .card-footer a { color: var(--mint); text-decoration: none; font-weight: 600; }
   .card-footer a:hover { text-decoration: underline; }
 
-  /* ===== MOBILE — scale UP ===== */
   @media (max-width: 640px) {
-    .eyebrow         { font-size: .8rem; }
-    .signup-heading  { font-size: clamp(2rem, 6vw, 2.8rem); }
-    .signup-sub      { font-size: 1rem; }
-    .label           { font-size: .78rem; }
-    .input           { font-size: 1rem; padding: .95rem 1rem .95rem 2.8rem; }
-    .input-pr        { padding-right: 3rem; }
-    .social-btn      { font-size: .95rem; padding: .88rem 1rem; }
-    .divider-text    { font-size: .72rem; }
-    .submit-btn      { font-size: 1.05rem; padding: 1.05rem 1.6rem; }
-    .card-footer     { font-size: .95rem; }
-    .flash           { font-size: .95rem; }
-    .error-message   { font-size: .85rem; }
-    .js-error        { font-size: .85rem; }
-    .js-ok           { font-size: .82rem; }
-    .pass-rules li   { font-size: .82rem; }
-    .strength-lbl    { font-size: .75rem; }
+    .eyebrow        { font-size: .8rem; }
+    .signup-heading { font-size: clamp(1.8rem, 6vw, 2.4rem); }
+    .signup-sub     { font-size: .95rem; }
+    .label          { font-size: .72rem; }
+    .input          { font-size: .95rem; }
+    .social-btn     { font-size: .78rem; padding: .75rem .5rem; gap: .4rem; }
+    .divider-text   { font-size: .62rem; }
+    .submit-btn     { font-size: 1rem; }
+    .card-footer    { font-size: .9rem; }
   }
 
   @media (max-width: 520px) {
     .card       { padding: 1.8rem 1.4rem; border-radius: 18px; }
-    .social-row { flex-direction: column; }
     .signup-sub { margin-bottom: 1.6rem; }
+  }
+
+  @media (max-width: 400px) {
+    .social-btn { font-size: .72rem; padding: .7rem .4rem; }
   }
 </style>
 
@@ -187,6 +197,13 @@
 
   <div class="card">
 
+    <!-- Login / Sign Up tabs -->
+    <div class="auth-tabs">
+      <a href="/login" class="auth-tab">Log In</a>
+      <a href="/signup" class="auth-tab active">Sign Up</a>
+    </div>
+
+    <!-- Social login -->
     <div class="social-row">
       <a href="/auth/google"   class="social-btn"><i class="fa-brands fa-google"></i>   Google</a>
       <a href="/auth/facebook" class="social-btn"><i class="fa-brands fa-facebook"></i> Facebook</a>
@@ -200,21 +217,21 @@
 
     <form id="signupForm" action="/signup" method="POST" novalidate>
 
-      <!-- ── EMAIL ── -->
+      <!-- EMAIL -->
       <div class="field <%= (typeof errors !== 'undefined' && errors.email) ? 'has-error' : '' %>">
         <label class="label" for="email">Email Address</label>
         <div class="input-wrap">
           <i class="fa-solid fa-envelope input-icon"></i>
           <input class="input" type="email" id="email" name="email"
-            placeholder="Windwalker@example.com" autocomplete="email"
+            placeholder="you@example.com" autocomplete="email"
             value="<%= typeof formData !== 'undefined' ? formData.email || '' : '' %>" required>
         </div>
-        <% if (error) { %>
+        <% if (typeof error !== 'undefined' && error) { %>
           <p class="error-message"><%= error %></p>
         <% } %>
       </div>
 
-      <!-- ── USERNAME ── -->
+      <!-- USERNAME -->
       <div class="field">
         <label class="label" for="username">Username</label>
         <div class="input-wrap">
@@ -226,7 +243,7 @@
         <p class="js-error" id="usernameErr">3–20 characters: letters, numbers, underscores only.</p>
       </div>
 
-      <!-- ── PASSWORD ── -->
+      <!-- PASSWORD -->
       <div class="field">
         <label class="label" for="password">Password</label>
         <div class="input-wrap">
@@ -248,7 +265,7 @@
         </ul>
       </div>
 
-      <!-- ── CONFIRM PASSWORD ── -->
+      <!-- CONFIRM PASSWORD -->
       <div class="field">
         <label class="label" for="confirmPassword">Confirm Password</label>
         <div class="input-wrap">
@@ -281,108 +298,103 @@
     input.classList.remove('err', 'ok');
     if (state) input.classList.add(state);
   }
-  function showEl(el, show) {
-    el.classList.toggle('visible', show);
-  }
 
-  function makeToggle(btnId, inputId, iconId) {
-    var btn   = document.getElementById(btnId);
-    var input = document.getElementById(inputId);
-    var icon  = document.getElementById(iconId);
-    btn.addEventListener('click', function () {
-      var hidden = input.type === 'password';
-      input.type = hidden ? 'text' : 'password';
-      icon.className = hidden ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye';
-    });
-  }
-  makeToggle('passToggle',    'password',        'passIcon');
-  makeToggle('confirmToggle', 'confirmPassword', 'confirmIcon');
+  /* ── Password visibility toggles ── */
+  var passToggle   = document.getElementById('passToggle');
+  var passInput    = document.getElementById('password');
+  var passIcon     = document.getElementById('passIcon');
+  var confirmToggle = document.getElementById('confirmToggle');
+  var confirmInput = document.getElementById('confirmPassword');
+  var confirmIcon  = document.getElementById('confirmIcon');
 
-  var emailInput    = document.getElementById('email');
-  var usernameInput = document.getElementById('username');
-  var passInput     = document.getElementById('password');
-  var confirmInput  = document.getElementById('confirmPassword');
-  var submitBtn     = document.getElementById('submitBtn');
-  var usernameErr   = document.getElementById('usernameErr');
-  var strengthBar   = document.getElementById('strengthBar');
-  var strengthLbl   = document.getElementById('strengthLbl');
-  var passRules     = document.getElementById('passRules');
-  var confirmErr    = document.getElementById('confirmErr');
-  var confirmOk     = document.getElementById('confirmOk');
-
-  var ruleEls = {
-    len:     document.getElementById('rule-len'),
-    upper:   document.getElementById('rule-upper'),
-    num:     document.getElementById('rule-num'),
-    special: document.getElementById('rule-special'),
-  };
-
-  var strengthLabels = ['', 'Weak', 'Fair', 'Good', 'Strong'];
-  var state = { username: false, password: false, confirm: false };
-
-  function checkReady() {
-    var emailOk = emailInput.value.trim().indexOf('@') > 0;
-    submitBtn.disabled = !(emailOk && state.username && state.password && state.confirm);
-  }
-
-  usernameInput.addEventListener('input', function () {
-    var v = usernameInput.value;
-    var valid = /^[a-zA-Z0-9_]{3,20}$/.test(v);
-    state.username = valid;
-    setInputState(usernameInput, v ? (valid ? 'ok' : 'err') : '');
-    showEl(usernameErr, v.length > 0 && !valid);
-    checkReady();
+  passToggle.addEventListener('click', function () {
+    var hidden = passInput.type === 'password';
+    passInput.type = hidden ? 'text' : 'password';
+    passIcon.className = hidden ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye';
   });
+
+  confirmToggle.addEventListener('click', function () {
+    var hidden = confirmInput.type === 'password';
+    confirmInput.type = hidden ? 'text' : 'password';
+    confirmIcon.className = hidden ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye';
+  });
+
+  /* ── Password strength + rules ── */
+  var strengthBar = document.getElementById('strengthBar');
+  var strengthLbl = document.getElementById('strengthLbl');
+  var passRules   = document.getElementById('passRules');
+  var labels = ['', 'Weak', 'Fair', 'Good', 'Strong'];
+
+  function checkRules(val) {
+    return {
+      len:     val.length >= 8,
+      upper:   /[A-Z]/.test(val),
+      num:     /[0-9]/.test(val),
+      special: /[^A-Za-z0-9]/.test(val)
+    };
+  }
 
   passInput.addEventListener('input', function () {
-    var v = passInput.value;
-    var rules = {
-      len:     v.length >= 8,
-      upper:   /[A-Z]/.test(v),
-      num:     /[0-9]/.test(v),
-      special: /[^A-Za-z0-9]/.test(v),
-    };
-    var allOk = rules.len && rules.upper && rules.num && rules.special;
-    state.password = allOk;
+    var val   = passInput.value;
+    var rules = checkRules(val);
+    var score = Object.values(rules).filter(Boolean).length;
 
-    var s = Object.values(rules).filter(Boolean).length;
-    strengthBar.className = v.length ? 'strength-bar s' + s : 'strength-bar';
-    strengthLbl.textContent = v.length ? strengthLabels[s] : '';
+    strengthBar.className = 'strength-bar' + (val.length ? ' s' + score : '');
+    strengthLbl.textContent = val.length ? labels[score] : '';
 
-    passRules.style.display = v.length ? '' : 'none';
-    var icons = { len: 'fa-ruler', upper: 'fa-arrow-up-a-z', num: 'fa-hashtag', special: 'fa-star-of-life' };
-    Object.keys(rules).forEach(function (key) {
-      var ok = rules[key];
-      var li = ruleEls[key];
-      li.classList.toggle('ok', ok);
-      li.querySelector('i').className = ok ? 'fa-solid fa-circle-check' : 'fa-solid ' + icons[key];
-    });
+    if (val.length) {
+      passRules.style.display = '';
+      document.getElementById('rule-len').className    = rules.len     ? 'ok' : '';
+      document.getElementById('rule-upper').className  = rules.upper   ? 'ok' : '';
+      document.getElementById('rule-num').className    = rules.num     ? 'ok' : '';
+      document.getElementById('rule-special').className = rules.special ? 'ok' : '';
+    } else {
+      passRules.style.display = 'none';
+    }
 
-    setInputState(passInput, v ? (allOk ? 'ok' : 'err') : '');
+    setInputState(passInput, val.length ? (score >= 3 ? 'ok' : 'err') : null);
     validateConfirm();
-    checkReady();
   });
 
+  /* ── Confirm match ── */
+  function validateConfirm() {
+    var val     = confirmInput.value;
+    var errEl   = document.getElementById('confirmErr');
+    var okEl    = document.getElementById('confirmOk');
+    if (!val) { errEl.classList.remove('visible'); okEl.classList.remove('visible'); setInputState(confirmInput, null); return; }
+    var match = val === passInput.value;
+    errEl.classList.toggle('visible', !match);
+    okEl.classList.toggle('visible',  match);
+    setInputState(confirmInput, match ? 'ok' : 'err');
+  }
   confirmInput.addEventListener('input', validateConfirm);
 
-  function validateConfirm() {
-    var v     = confirmInput.value;
-    var pass  = passInput.value;
-    var match = v.length > 0 && v === pass;
-    var mismatch = v.length > 0 && v !== pass;
-    state.confirm = match;
-    setInputState(confirmInput, v ? (match ? 'ok' : 'err') : '');
-    showEl(confirmErr, mismatch);
-    showEl(confirmOk,  match);
-    checkReady();
-  }
+  /* ── Username validation ── */
+  var usernameInput = document.getElementById('username');
+  var usernameErr   = document.getElementById('usernameErr');
 
-  emailInput.addEventListener('input', checkReady);
+  usernameInput.addEventListener('input', function () {
+    var val   = usernameInput.value;
+    var valid = /^[A-Za-z0-9_]{3,20}$/.test(val);
+    usernameErr.classList.toggle('visible', val.length > 0 && !valid);
+    setInputState(usernameInput, val.length > 0 ? (valid ? 'ok' : 'err') : null);
+  });
 
-  document.getElementById('signupForm').addEventListener('submit', function (e) {
-    if (submitBtn.disabled) { e.preventDefault(); return; }
+  /* ── Form submit ── */
+  var form      = document.getElementById('signupForm');
+  var submitBtn = document.getElementById('submitBtn');
+
+  form.addEventListener('submit', function (e) {
+    var email    = document.getElementById('email').value.trim();
+    var username = usernameInput.value.trim();
+    var pass     = passInput.value;
+    var confirm  = confirmInput.value;
+    var rules    = checkRules(pass);
+    var ok       = email && /^[A-Za-z0-9_]{3,20}$/.test(username) &&
+                   Object.values(rules).every(Boolean) && pass === confirm;
+    if (!ok) { e.preventDefault(); return; }
     submitBtn.disabled = true;
-    submitBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Creating account…';
+    submitBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Creating account\u2026';
   });
 })();
 </script>
