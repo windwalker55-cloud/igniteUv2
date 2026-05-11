@@ -2,7 +2,7 @@
   /* ===== BANNER — IgniteU Theme ===== */
   .welcome-card {
     position: relative;
-    background: linear-gradient(160deg, rgba(94,234,212,.09), rgba(2,16,30,.7));
+    background: linear-gradient(160deg, rgba(94,234,212,.09), rgba(6,32,50,.7));
     border: 1px solid var(--line);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
@@ -22,35 +22,41 @@
     background: linear-gradient(90deg, transparent, var(--mint), transparent);
     opacity: .45;
   }
+
   .welcome-content { flex: 1; }
-  .welcome-content h2 { font: 700 1.25rem 'Inter', sans-serif; color: var(--text); margin-bottom: .2rem; letter-spacing: -.01em; }
+  .welcome-content h2 {
+    font: 700 1.1rem 'Inter', sans-serif;
+    color: var(--text); margin-bottom: .2rem; letter-spacing: -.01em;
+  }
   .welcome-content h2 .greeting { color: var(--mint); }
   .welcome-content h2 .username { color: #fff; }
-  .welcome-content p { font-size: .82rem; color: var(--muted); margin: 0; font-family: 'JetBrains Mono', monospace; }
+  .welcome-content p {
+    font-size: .78rem; color: var(--muted); margin: 0;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
   .banner-right { display: flex; align-items: center; gap: 1.1rem; flex-shrink: 0; }
   .datetime-section { text-align: right; }
   .date { font: 500 .72rem 'JetBrains Mono', monospace; color: var(--muted); letter-spacing: .5px; }
-  .time { font: 700 1.1rem 'Inter', sans-serif; color: var(--text); letter-spacing: -.01em; }
+  .time { font: 700 1rem 'Inter', sans-serif; color: var(--text); letter-spacing: -.01em; }
 
-  /* ===== Responsive ===== */
   @media (max-width: 768px) {
-    .welcome-card       { padding: 1.2rem 1.5rem; min-height: 100px; gap: 1rem; }
-    .welcome-content h2 { font-size: 1.35rem; }
-    .welcome-content p  { font-size: .95rem; }
-    .time               { font-size: 1.2rem; }
-    .date               { font-size: .82rem; }
+    .welcome-card       { padding: 1rem 1.2rem; min-height: 80px; }
+    .welcome-content h2 { font-size: 1rem; }
+    .welcome-content p  { font-size: .82rem; }
+    .time               { font-size: .95rem; }
+    .date               { font-size: .7rem; }
   }
   @media (max-width: 576px) {
-    .welcome-card       { padding: 1.1rem 1.2rem; min-height: 95px; gap: .8rem; }
-    .welcome-content h2 { font-size: 1.2rem; }
-    .welcome-content p  { font-size: .9rem; }
-    .time               { font-size: 1.1rem; }
-    .date               { font-size: .78rem; }
+    .welcome-card       { padding: .9rem 1rem; min-height: 75px; gap: .75rem; }
+    .welcome-content h2 { font-size: .95rem; }
+    .welcome-content p  { font-size: .78rem; }
+    .time               { font-size: .88rem; }
   }
   @media (max-width: 380px) {
-    .welcome-card       { padding: 1rem 1rem; }
-    .welcome-content h2 { font-size: 1.1rem; }
-    .welcome-content p  { font-size: .85rem; }
+    .welcome-card       { padding: .85rem .9rem; }
+    .welcome-content h2 { font-size: .88rem; }
+    .date               { display: none; }
   }
 </style>
 
