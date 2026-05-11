@@ -330,23 +330,74 @@
     .stats-panel .stat{border-bottom:1px solid var(--line);padding-bottom:1.5rem}
     .stats-panel .stat:nth-last-child(-n+2){border-bottom:none}
   }
+
   @media(max-width:640px){
-    .header{padding:1rem 1.2rem}
-    .header-title h1{font-size:1.35rem}
-    .header-title p{font-size:0.95rem}
-    .logo{width:44px;height:44px}
-    .section{padding:3.5rem 1.2rem}
-    .feature-grid{grid-template-columns:1fr}
-    .stats-panel{padding:1.5rem;gap:.5rem;grid-template-columns:repeat(2,1fr)}
-    .stats-panel .stat{padding:.8rem;border-right:none!important}
-    .stats-inline{gap:1.5rem}
-    .stats-inline .stat .num{font-size:1.6rem}
-    .cta-strip{padding:2.5rem 1.5rem}
-    .cta{flex-direction:column;width:100%}
-    .btn{width:100%;justify-content:center}
-    .globe-stage{max-width:320px}
-    .course{font-size:.6rem;padding:.25rem .5rem}
-    footer{flex-direction:column;text-align:center}
+    /* Header */
+    .header            { padding:.75rem 1rem; }
+    .header-title h1   { font-size:1rem; }
+    .header-title p    { font-size:.68rem; }
+    .logo              { width:34px; height:34px; }
+
+    /* Hero */
+    .hero              { padding:2rem 1rem 1.5rem; gap:1.5rem; }
+    .hero h1           { font-size:1.75rem; letter-spacing:-.02em; margin-bottom:1rem; }
+    .hero p.lead       { font-size:.9rem; line-height:1.65; margin-bottom:1.6rem; }
+    .badge             { font-size:.68rem; padding:.4rem .85rem; margin-bottom:1.2rem; }
+
+    /* Stats inline */
+    .stats-inline      { gap:1.2rem; margin-top:1.8rem; }
+    .stats-inline .stat .num { font-size:1.4rem; }
+    .stats-inline .stat .lbl { font-size:.6rem; letter-spacing:1.5px; }
+
+    /* Globe */
+    .globe-stage       { max-width:260px; }
+    .course            { font-size:.58rem; padding:.2rem .45rem; }
+
+    /* Buttons */
+    .btn               { font-size:.88rem; padding:.75rem 1.2rem; }
+    .cta               { flex-direction:column; width:100%; gap:.6rem; }
+
+    /* Sections */
+    .section           { padding:2.5rem 1rem; }
+    .section-head      { margin-bottom:1.8rem; }
+    .section-head .eyebrow { font-size:.65rem; }
+    .section-head h2   { font-size:1.5rem; }
+    .section-head p    { font-size:.88rem; }
+
+    /* Feature cards */
+    .feature-grid      { grid-template-columns:1fr; gap:1rem; }
+    .feature-card      { padding:1.4rem 1.2rem; border-radius:14px; }
+    .feature-icon      { width:42px; height:42px; font-size:1.1rem; margin-bottom:1rem; }
+    .feature-card h3   { font-size:1rem; }
+    .feature-card p    { font-size:.85rem; }
+    .feature-card .arrow { font-size:.78rem; }
+
+    /* Stats panel */
+    .stats-panel       { padding:1.2rem; gap:.4rem; grid-template-columns:repeat(2,1fr); }
+    .stats-panel .stat { padding:.7rem; border-right:none!important; }
+    .stats-panel .num  { font-size:1.5rem; }
+    .stats-panel .lbl  { font-size:.6rem; letter-spacing:1.5px; }
+
+    /* CTA strip */
+    .cta-strip         { padding:2rem 1rem; margin:2.5rem auto; border-radius:18px; }
+    .cta-strip h2      { font-size:1.4rem; }
+    .cta-strip p       { font-size:.88rem; }
+
+    /* Footer */
+    footer             { flex-direction:column; text-align:center; padding:1.4rem 1rem; font-size:.75rem; }
+    footer .links      { gap:1rem; justify-content:center; }
+  }
+
+  @media(max-width:400px){
+    .header            { padding:.65rem .85rem; }
+    .header-title h1   { font-size:.92rem; }
+    .hero h1           { font-size:1.5rem; }
+    .hero p.lead       { font-size:.85rem; }
+    .globe-stage       { max-width:220px; }
+    .section-head h2   { font-size:1.3rem; }
+    .feature-card h3   { font-size:.95rem; }
+    .stats-panel .num  { font-size:1.3rem; }
+    .cta-strip h2      { font-size:1.2rem; }
   }
 </style>
 </head>
